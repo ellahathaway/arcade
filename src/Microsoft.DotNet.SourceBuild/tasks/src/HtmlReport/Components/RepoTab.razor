@@ -1,0 +1,21 @@
+@using Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
+
+<button
+    class="@internalClassString"
+    onclick="@onClickString">@Repo.Name</button>
+
+@code {
+    [Parameter]
+    public required Repo Repo { get; set; }
+
+    [Parameter]
+    public bool Active { get; set; } = false;
+    private string classString = "repo-tabs";
+    private string internalClassString => classString + (Active ? " active" : "");
+    private string onClickString => $@"
+        document.querySelectorAll('.repo-content').forEach(content => content.classList.remove('active'));
+        document.querySelectorAll('.repo-tabs').forEach(link => link.classList.remove('active'));
+        document.getElementById('{Repo.Name}').classList.add('active');
+        this.classList.add('active');
+    ";
+}

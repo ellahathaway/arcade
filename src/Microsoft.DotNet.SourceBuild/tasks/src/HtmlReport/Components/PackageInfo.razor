@@ -1,0 +1,44 @@
+@using Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
+
+<div
+    @attributes="@GetPackageAttributes()">
+    <h5 @attributes="@GetPackageNameAttributes()">@Package.Name</h5>
+    <table class="file-table" style="display: none;">
+        @if (!Package.Files.Any())
+        {
+            <pre>No project files found for this package</pre>
+        }
+        else
+        {
+            @foreach (var file in Package.Files)
+            {
+                <FileView File="@file" />
+            }
+        }
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public required Package Package { get; set; }
+    private static readonly string classString = "package";
+    private static string onPackageNameClickString => $@"var fileTable = this.nextElementSibling; fileTable.style.display = fileTable.style.display === 'none' ? 'table' : 'none'; event.stopPropagation();";
+
+    private Dictionary<string, object> GetPackageAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        attributes["class"] = classString;
+        attributes["id"] = Package.Name;
+        return attributes;
+    }
+
+    private Dictionary<string, object> GetPackageNameAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        attributes["class"] = $"{classString} name";
+        attributes["onclick"] = onPackageNameClickString;
+        return attributes;
+    }
+}

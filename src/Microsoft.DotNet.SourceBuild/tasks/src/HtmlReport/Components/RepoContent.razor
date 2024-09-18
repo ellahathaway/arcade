@@ -1,0 +1,18 @@
+@using Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
+
+<div class="@internalClassString" id="@Repo.Name">
+    @foreach (var package in Repo.Packages)
+    {
+        <PackageInfo Package="@package" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public required Repo Repo { get; set; }
+
+    [Parameter]
+    public bool Active { get; set; } = false;
+    private string classString = "repo-content";
+    private string internalClassString => classString + (Active ? " active" : "");
+}

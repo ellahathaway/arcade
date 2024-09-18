@@ -1,0 +1,158 @@
+@using Microsoft.DotNet.SourceBuild.Tasks.HtmlReport.Components
+@using Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prebuilt Packages Overview</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1;
+        margin: 5px;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 15px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .repo-tabs {
+        overflow: hidden;
+        background: #f1f1f1;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .repo-tabs button {
+        background: #f1f1f1;
+        border: none;
+        outline: none;
+        padding: 10px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .repo-tabs button:hover {
+        background: #ddd;
+    }
+
+    .repo-tabs button.active {
+        background: #fff;
+        border-bottom: 2px solid #007bff;
+    }
+
+    .repo-content {
+        display: none;
+    }
+
+    .repo-content.active {
+        display: block;
+    }
+
+    .package {
+        color: #333;
+        padding: 1px;
+        border: 1px solid #ddd;
+        margin: 3px 0;
+        border-radius: 2px;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .package:hover {
+        background-color: #e9ecef;
+        border-color: #ccc;
+    }
+
+    .package.name {
+        margin: 5px;
+        padding: 5px 0;
+        line-height: 1.2;
+        border: none;
+        cursor: pointer;
+    }
+
+    .file-table {
+        margin-top: 8px;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .file-item td {
+        padding: 3px;
+        width: 100%;
+    }
+
+    .file-item td button {
+        background: #f1f1f1;
+        border: none;
+        outline: none;
+        padding: 2px 3px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: smaller;
+    }
+
+    .file-item td button:hover {
+        background: #ddd;
+        border: #007bff;
+    }
+
+    .file-item.direct {
+        background-color: #d4edda;/
+    }
+
+    .file-item.transitive {
+        background-color: #d1ecf1;
+    }
+
+    .file-item.project-row {
+        transition: background-color 0.3s;
+    }
+
+    .file-item:hover {
+        background-color: #919497;
+        cursor: pointer;
+    }
+
+    .file-item.details {
+        margin-top: 5px;
+        border: 1px solid #d1ecf1;
+        padding-top: 5px;
+        background-color: #fff;
+        cursor: default;
+        pointer-events: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prebuilt Packages Overview</h1>
+
+        <div class="repo-tabs">
+            @foreach (var repo in Repos)
+            {
+                <RepoTab Repo="@repo" Active=@IsActive(@repo) />
+            }
+        </div>
+
+        @foreach (var repo in Repos)
+        {
+            <RepoContent Repo="@repo" Active=@IsActive(@repo) />
+        }
+    </div>
+</body>
+</html>
+
+@code {
+    [Parameter]
+    public required List<Repo> Repos { get; set; }
+    private bool IsActive(Repo repo) => repo == Repos.First();
+}

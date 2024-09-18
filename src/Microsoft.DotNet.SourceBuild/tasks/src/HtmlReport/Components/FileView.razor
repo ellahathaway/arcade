@@ -1,0 +1,63 @@
+@using Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
+
+<tr
+    @attributes="@GetProjectAttributes()">
+    <td>@File.Path</td>
+    @if (!File.IsDirectDependency)
+    {
+        <td><button onclick="@onDependencyButtonClick">Dependency Graph</button></td>
+    }
+    <td>@File.DependencyType</td>
+</tr>
+
+@if (!File.IsDirectDependency)
+{
+    <tr @attributes="@GetDetailsAttributes()">
+        <td>
+            <strong>Details: </strong>
+            @if (string.IsNullOrEmpty(File.DependencyInfo))
+            {
+                <pre>Details not available</pre>
+            }
+            else
+            {
+                <pre>@File.DependencyInfo</pre>
+            }
+        </td>
+    </tr>
+}
+
+@code {
+    [Parameter]
+    public required FileInfo File { get; set; }
+    private static string onDependencyButtonClick => $"event.stopPropagation(); this.closest('tr').nextElementSibling.style.display = this.closest('tr').nextElementSibling.style.display === 'none' ? 'table-row' : 'none';";
+    private static readonly string classString = "file-item";
+
+    private Dictionary<string, object> GetProjectAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        attributes["class"] = $"{classString} {File.DependencyType.ToLower()}";
+        attributes["id"] = File.Path;
+        if (!string.IsNullOrEmpty(File.Link))
+        {
+            attributes["onclick"] = $"window.open('{File.Link}', '_blank');";
+            attributes["style"] = "cursor: pointer;";
+        }
+        else
+        {
+            attributes["onclick"] = "";
+            attributes["style"] = "cursor: default; pointer-events: none;";
+        }
+        return attributes;
+    }
+
+    private Dictionary<string, object> GetDetailsAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        attributes["class"] = $"{classString} details";
+        attributes["style"] = "display: none;";
+        return attributes;
+    }
+}
