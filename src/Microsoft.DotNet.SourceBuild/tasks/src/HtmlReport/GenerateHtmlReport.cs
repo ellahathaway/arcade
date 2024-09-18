@@ -85,6 +85,7 @@ namespace Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
         private async Task GenerateReport(string outputPath)
         {
             IServiceCollection services = new ServiceCollection();
+            services.AddRazorPages();
             services.AddLogging();
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
