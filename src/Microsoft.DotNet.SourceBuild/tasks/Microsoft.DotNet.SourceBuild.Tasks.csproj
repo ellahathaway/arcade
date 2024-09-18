@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFrameworks>$(NetToolCurrent)</TargetFrameworks>
@@ -17,6 +17,7 @@
     <PackageReference Include="NuGet.Versioning" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Condition="'$(TargetFrameworks)' != '$(NetFrameworkToolCurrent)'" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Condition="'$(TargetFrameworks)' != '$(NetFrameworkToolCurrent)'" />
   </ItemGroup>
 
 </Project>

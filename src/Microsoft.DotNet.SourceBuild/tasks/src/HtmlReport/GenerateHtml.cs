@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.Components;
@@ -12,85 +12,57 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Xml;
-using System.ComponentModel.DataAnnotations;
 
 #nullable enable
 
 namespace Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
 {
-    public class GenerateHtmlReport : Microsoft.Build.Utilities.Task
+    public class GenerateHtmlReport
     {
-        /// <summary>
-        /// The xml file containing the prebuilt usage data.
-        /// </summary>
-        [Required]
-        public string PrebuiltReportFile { get; set; } = string.Empty;
-
-        // <summary>
-        // The directory where the output html file will be written.
-        // </summary>
-        [Required]
-        public string OutputDirectory { get; set; } = string.Empty;
-
-        [Required]
-        /// <summary>
-        /// Boolean indicating whether the task is running in a pipeline.
-        /// </summary>
-        public bool IsPipelineRun { get; set; } = false;
-
-        [Required]
-        /// <summary>
-        /// Path to the dotnet executable.
-        /// </summary>
-        public string DotNetPath { get; set; } = string.Empty;
-
-        [Required]
-        /// <summary>
-        /// Path to the root of the repository running the task.
-        /// </summary>
-        public string RepositoryRoot { get; set; } = string.Empty;
-
+        public static string PrebuiltReportFile { get; set; } = string.Empty;
+        public static string OutputDirectory { get; set; } = string.Empty;
+        public static bool IsPipelineRun { get; set; } = false;
+        public static string DotNetPath { get; set; } = string.Empty;
+        public static string RepositoryRoot { get; set; } = string.Empty;
         private static readonly string repoPathRegex = @"^src\/(?<repo>[^\/]+)";
         private static readonly string outputName = "output.html";
 
-        public override bool Execute()
+        public static async Task Main()
         {
             string outputPath = Path.Combine(OutputDirectory, outputName);
 
             if (!File.Exists(PrebuiltReportFile))
             {
-                Log.LogError($"Prebuilt report file {PrebuiltReportFile} does not exist.");
-                return false;
+                return;
             }
 
             if (!Directory.Exists(OutputDirectory))
-            {
-                Log.LogError($"Output directory {OutputDirectory} does not exist.");
-                return false;
+            {;
+                return;
             }
 
             try
             {
-                GenerateReport(outputPath).Wait();
+                await GenerateReport(outputPath);
             }
             catch (Exception e)
             {
-                Log.LogError($"Error generating html report: {e.Message}");
-                return false;
+                Console.WriteLine($"Error generating report: {e.Message}");
+                return;
             }
-
-            return true;
         }
 
-        private async Task GenerateReport(string outputPath)
+        private static async Task GenerateReport(string outputPath)
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddRazorPages();
             services.AddLogging();
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 
+            
+
+            // Create an HtmlRenderer instance and render the component
             await using var htmlRenderer = new HtmlRenderer(serviceProvider, loggerFactory);
 
             var repos = ReadPrebuiltUsageData();
@@ -106,12 +78,13 @@ namespace Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
                 var output = await htmlRenderer.RenderComponentAsync<PrebuiltReport>(parameters);
 
                 return output.ToHtmlString();
-            });
+            }
+            );
 
             File.WriteAllText(outputPath, html);
         }
 
-        private List<Repo> ReadPrebuiltUsageData()
+        private static List<Repo> ReadPrebuiltUsageData()
         {
             XmlDocument prebuiltUsageData = new XmlDocument();
             prebuiltUsageData.Load(PrebuiltReportFile);
