@@ -15,9 +15,8 @@
     <PackageReference Include="NuGet.Frameworks" />
     <PackageReference Include="NuGet.Packaging" />
     <PackageReference Include="NuGet.Versioning" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Condition="'$(TargetFrameworks)' != '$(NetFrameworkToolCurrent)'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Condition="'$(TargetFrameworks)' != '$(NetFrameworkToolCurrent)'" />
   </ItemGroup>
 
 </Project>
