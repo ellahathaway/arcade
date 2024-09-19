@@ -130,7 +130,6 @@
     <Dependency Name="Microsoft.AspNetCore.Components.Web" Version="9.0.0-preview.6.24328.4">
       <Uri>https://github.com/dotnet/aspnetcore</Uri>
       <Sha>f5084525411d53b81d9950b68616117750b674d4</Sha>
-      <SourceBuild RepoName="aspnetcore" ManagedOnly="true" />
     </Dependency>
     <!-- Intermediate is necessary for source build. -->
     <Dependency Name="Microsoft.SourceBuild.Intermediate.aspnetcore" Version="9.0.0-preview.6.24328.4">
