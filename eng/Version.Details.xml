@@ -127,6 +127,10 @@
       <Uri>https://github.com/dotnet/sdk</Uri>
       <Sha>ef4c24166691977558e5312758df4313ab310dc0</Sha>
     </Dependency>
+    <Dependency Name="Microsoft.AspNetCore.Components" Version="9.0.0-preview.6.24328.4">
+      <Uri>https://github.com/dotnet/aspnetcore</Uri>
+      <Sha>f5084525411d53b81d9950b68616117750b674d4</Sha>
+    </Dependency>
     <Dependency Name="Microsoft.AspNetCore.Components.Web" Version="9.0.0-preview.6.24328.4">
       <Uri>https://github.com/dotnet/aspnetcore</Uri>
       <Sha>f5084525411d53b81d9950b68616117750b674d4</Sha>

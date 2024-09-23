@@ -25,6 +25,7 @@
     <PackageVersion Include="Microsoft.DotNet.Maestro.Client" Version="$(MicrosoftDotNetMaestroClientVersion)" />
     <!-- aspnetcore -->
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="$(MicrosoftAspNetCoreComponentsWebVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="$(MicrosoftAspNetCoreComponentsVersion)" />
     <!-- command-line-api -->
     <PackageVersion Include="System.CommandLine" Version="$(SystemCommandLineVersion)" />
     <!-- corefx -->

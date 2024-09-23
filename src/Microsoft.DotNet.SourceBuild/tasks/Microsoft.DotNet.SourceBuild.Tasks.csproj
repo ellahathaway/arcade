@@ -17,6 +17,7 @@
     <PackageReference Include="NuGet.Versioning" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" />
   </ItemGroup>
 
 </Project>
