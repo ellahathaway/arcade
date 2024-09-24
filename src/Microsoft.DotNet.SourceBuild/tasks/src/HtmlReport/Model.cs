@@ -16,7 +16,7 @@ namespace Microsoft.DotNet.SourceBuild.Tasks.HtmlReport
     {
         public static string AzdoOrg = "dnceng";
         public static string AzdoProject = "internal";
-        public static string AzdoCommit = "GC54d3486f56fce85549fbd972381e780d9e1cb8e0";
+        public static string AzdoCommit = "commitSha";
         public static string AzdoRepo = "dotnet-dotnet";
         public static string AzdoUrl = $"https://dev.azure.com/{AzdoOrg}/{AzdoProject}/_git/{AzdoRepo}?version={AzdoCommit}&path={{0}}";
     }
