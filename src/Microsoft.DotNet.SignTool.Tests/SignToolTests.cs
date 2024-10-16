@@ -418,7 +418,8 @@ namespace Microsoft.DotNet.SignTool.Tests
                 TestSign = true,
                 MSBuildPath = CreateTestResource("msbuild.fake"),
                 DotNetPath = CreateTestResource("dotnet.fake"),
-                SNBinaryPath = CreateTestResource("fake.sn.exe")
+                SNBinaryPath = CreateTestResource("fake.sn.exe"),
+                PkgToolPath = s_pkgToolPath,
             };
 
             task.Execute().Should().BeTrue();
@@ -440,6 +441,7 @@ namespace Microsoft.DotNet.SignTool.Tests
                 DotNetPath = CreateTestResource("dotnet.fake"),
                 DoStrongNameCheck = false,
                 SNBinaryPath = null,
+                PkgToolPath = s_pkgToolPath,
             };
 
             task.Execute().Should().BeTrue();
