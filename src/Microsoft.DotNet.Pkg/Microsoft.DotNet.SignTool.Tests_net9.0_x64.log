@@ -1,0 +1,481 @@
+xUnit.net Console Runner v2.9.2+82543a6df6 (64-bit .NET 9.0.0-rc.2.24473.5)
+[37m  Discovering: Microsoft.DotNet.SignTool.Tests
+[m[37m  Discovered:  Microsoft.DotNet.SignTool.Tests
+[m[37m  Starting:    Microsoft.DotNet.SignTool.Tests
+[m[33;1m    Microsoft.DotNet.SignTool.Tests.SignToolTests.SignMsiEngine [SKIP]
+[m[37m      This test requires Windows to run.
+[mInvestigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b000b8d0-8b63-4083-9360-3eded7dbb715/test.zip.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/PackageWithZip.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/PackageWithZip.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/PackageWithZip.nupkg.
+Found test.zip in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/PackageWithZip.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/ContainerSigning/2/test.zip.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/ContainerSigning/2/test.zip.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/ContainerSigning/2/test.zip.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/PackageWithZip.nupkg.
+Found package/services/metadata/core-properties/677a57a6b32847aa9175c29438149ac7.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/19756d7d-4d67-4e2d-ab09-ecf7c818a065/PackageWithZip.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/A/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f76492b3-9cd2-49a4-9e21-4d34dcdc8633/test.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found Team%20Tools/Dynamic Code Coverage/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found Team%20Tools/Dynamic Code Coverage/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/ContainerSigning/4/PackageWithRelationships.vsix.
+Found Team%20Tools/Dynamic Code Coverage/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Found Team%20Tools/Dynamic Code Coverage/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/747128fe-57fe-434a-9f20-5cf5cd05ba76/TestSpaces.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a78b34b0-be6f-420f-9935-2addaf4d2fe7/test.symbols.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dbe583d0-0078-4d36-a011-3cd5c680357d/NestedZip.zip.
+Found InnerZipFile.zip in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dbe583d0-0078-4d36-a011-3cd5c680357d/NestedZip.zip.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dbe583d0-0078-4d36-a011-3cd5c680357d/ContainerSigning/0/InnerZipFile.zip.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dbe583d0-0078-4d36-a011-3cd5c680357d/ContainerSigning/0/InnerZipFile.zip.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dbe583d0-0078-4d36-a011-3cd5c680357d/ContainerSigning/0/InnerZipFile.zip.
+Found Mid.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dbe583d0-0078-4d36-a011-3cd5c680357d/NestedZip.zip.
+Found MidNativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dbe583d0-0078-4d36-a011-3cd5c680357d/NestedZip.zip.
+[33;1m    Microsoft.DotNet.SignTool.Tests.SignToolTests.DoubleNestedContainer [SKIP]
+[m[37m      This test requires Windows to run.
+[mInvestigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2341ac03-65c6-4335-a68e-97ba6c030a40/test.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/1a93d224-f152-48c0-be7e-52433e700548/ContainerOne.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/test.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/18c766a9-db55-4332-bcff-12755fb3af8e/ContainerSigning/6/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerTwo.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.1.0.0.nupkg in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found package/services/metadata/core-properties/bd47f0200c42444bb91f63eb9ff99c5d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerTwo.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.1.0.0.nupkg in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Found package/services/metadata/core-properties/bd47f0200c42444bb91f63eb9ff99c5d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/31887308-18a3-4357-9bf6-123d339f7db6/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerTwo.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.1.0.0.nupkg in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found package/services/metadata/core-properties/bd47f0200c42444bb91f63eb9ff99c5d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerTwo.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found ContainerOne.1.0.0.nupkg in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/ContainerSigning/8/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Found package/services/metadata/core-properties/bd47f0200c42444bb91f63eb9ff99c5d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/a9fdb74b-96d3-40c0-bfd3-ef4c7e3d4d71/NestedContainer.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5e4f7b5c-bb26-42b9-aea3-5d5404b28841/PackageWithRelationships.vsix.
+[33;1m    Microsoft.DotNet.SignTool.Tests.SignToolTests.BadWixToolsetPath [SKIP]
+[m[37m      This test requires Windows to run.
+[mInvestigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/ac8902cc-d9e6-41c4-a88d-fe52fc67eca9/test.pkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+[31;1m    Microsoft.DotNet.SignTool.Tests.SignToolTests.SignPkgFile [FAIL]
+[m[37m      System.Collections.Generic.KeyNotFoundException : The given key 'Microsoft.DotNet.SignTool.SignedFileContentKey' was not present in the dictionary.
+[m[30;1m      Stack Trace:
+[mFound lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+[37m           at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs(249,0): at Microsoft.DotNet.SignTool.Configuration.TrackFile(PathWithHash file, PathWithHash parentContainer, String collisionPriorityId)
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs(165,0): at Microsoft.DotNet.SignTool.Configuration.GenerateListOfFiles()
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs(382,0): at Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateFileSignInfos(ITaskItem[] itemsToSign, Dictionary`2 strongNameSignInfo, Dictionary`2 fileSignInfo, Dictionary`2 extensionsSignInfo, String[] expected, String[] expectedCopyFiles, ITaskItem[] dualCertificates, String[] expectedErrors, String[] expectedWarnings)
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs(1088,0): at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignPkgFile()
+[m[37m           at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[m[37m           at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[m[33;1m    Microsoft.DotNet.SignTool.Tests.SignToolTests.RunWixToolRunsOrFailsProperly [SKIP]
+[m[37m      This test requires Windows to run.
+[mFound lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/828dce9a-1a39-4c00-a546-b7d7a751fc3c/ContainerOne.1.0.0.nupkg.
+[33;1m    Microsoft.DotNet.SignTool.Tests.SignToolTests.MsiWithWixpack [SKIP]
+[m[37m      This test requires Windows to run.
+[mInvestigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/d0b372e5-438a-465e-affa-96847d516d8f/test.tgz.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/b683f615-6c3f-4013-8060-c6ff3a192356/ContainerOne.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Found test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/e7475ff9-6342-416e-9619-a70ca9aa0850/test.tar.gz.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/f62e4faa-824b-4a19-9a42-8cfd94827841/NestedPkg.pkg.
+[31;1m    Microsoft.DotNet.SignTool.Tests.SignToolTests.SignNestedPkgFile [FAIL]
+[m[37m      System.Collections.Generic.KeyNotFoundException : The given key 'Microsoft.DotNet.SignTool.SignedFileContentKey' was not present in the dictionary.
+[m[30;1m      Stack Trace:
+[m[37m           at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs(249,0): at Microsoft.DotNet.SignTool.Configuration.TrackFile(PathWithHash file, PathWithHash parentContainer, String collisionPriorityId)
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs(165,0): at Microsoft.DotNet.SignTool.Configuration.GenerateListOfFiles()
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs(382,0): at Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateFileSignInfos(ITaskItem[] itemsToSign, Dictionary`2 strongNameSignInfo, Dictionary`2 fileSignInfo, Dictionary`2 extensionsSignInfo, String[] expected, String[] expectedCopyFiles, ITaskItem[] dualCertificates, String[] expectedErrors, String[] expectedWarnings)
+[m[37m        /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs(1135,0): at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignNestedPkgFile()
+[m[37m           at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[m[37m           at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[mInvestigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9c376e06-c686-4c5a-9f9a-654512e0f29b/Simple.vsix.
+Found Simple/[Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9c376e06-c686-4c5a-9f9a-654512e0f29b/Simple.vsix.
+Found Simple/catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9c376e06-c686-4c5a-9f9a-654512e0f29b/Simple.vsix.
+Found Simple/extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9c376e06-c686-4c5a-9f9a-654512e0f29b/Simple.vsix.
+Found Simple/lib/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9c376e06-c686-4c5a-9f9a-654512e0f29b/Simple.vsix.
+Found Simple/manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9c376e06-c686-4c5a-9f9a-654512e0f29b/Simple.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/22ee6971-eca7-460c-806c-8bb270df1d81/ContainerOne.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2a69b2e7-3a5c-42fb-8466-2921672cc010/Simple.vsix.
+Found Simple/[Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2a69b2e7-3a5c-42fb-8466-2921672cc010/Simple.vsix.
+Found Simple/catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2a69b2e7-3a5c-42fb-8466-2921672cc010/Simple.vsix.
+Found Simple/extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2a69b2e7-3a5c-42fb-8466-2921672cc010/Simple.vsix.
+Found Simple/lib/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2a69b2e7-3a5c-42fb-8466-2921672cc010/Simple.vsix.
+Found Simple/manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/2a69b2e7-3a5c-42fb-8466-2921672cc010/Simple.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9ff2681b-233d-4a08-8aaa-2b42dcb7d718/SameFiles1.zip.
+Found Simple1.exe in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9ff2681b-233d-4a08-8aaa-2b42dcb7d718/SameFiles1.zip.
+Found Simple2.exe in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9ff2681b-233d-4a08-8aaa-2b42dcb7d718/SameFiles1.zip.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9ff2681b-233d-4a08-8aaa-2b42dcb7d718/SameFiles2.zip.
+Found Simple1.exe in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/9ff2681b-233d-4a08-8aaa-2b42dcb7d718/SameFiles2.zip.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/ in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Found this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/SOS.NETCore.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/bdebded0-b2a5-4050-9317-a4608c0c8019/test.symbols.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found lib/native/NativeLibrary.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ContainerOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found lib/netcoreapp2.1/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Found package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/3f80695d-864d-4d41-884d-9d097e22e474/ContainerOne.1.0.0.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Found extension.vsixmanifest in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Found lib/net461/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Found lib/netstandard2.0/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Found catalog.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Found PackageWithRelationships.vsix in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/test.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/ContainerSigning/14/PackageWithRelationships.vsix.
+Found manifest.json in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/ContainerSigning/14/PackageWithRelationships.vsix.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/ContainerSigning/14/PackageWithRelationships.vsix.
+Found Contents/Common7/IDE/PrivateAssemblies/ProjectOne.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/ContainerSigning/14/PackageWithRelationships.vsix.
+Found _rels/manifest.json.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/ContainerSigning/14/PackageWithRelationships.vsix.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/ContainerSigning/14/PackageWithRelationships.vsix.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.nupkg.
+Found Simple.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.nupkg.
+Found package/services/metadata/core-properties/10ac9eed6c194d8d9037a880198ac20d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.symbols.nupkg.
+Found _rels/.rels in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.symbols.nupkg.
+Found ContainerOne.nuspec in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.symbols.nupkg.
+Found Simple.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.symbols.nupkg.
+Found [Content_Types].xml in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.symbols.nupkg.
+Found package/services/metadata/core-properties/10ac9eed6c194d8d9037a880198ac20d.psmdcp in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/5054b3a8-ed0a-4eb1-ba29-06498430c121/Simple.symbols.nupkg.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/64122e5e-0e40-42cb-922a-5832d2781744/test.mpack.
+Found addin.info in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/64122e5e-0e40-42cb-922a-5832d2781744/test.mpack.
+Found VisualStudio.Mac.Banana.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/64122e5e-0e40-42cb-922a-5832d2781744/test.mpack.
+Investigating /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/64122e5e-0e40-42cb-922a-5832d2781744/test.mpack.
+Found addin.info in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/64122e5e-0e40-42cb-922a-5832d2781744/test.mpack.
+Found VisualStudio.Mac.Banana.dll in /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/64122e5e-0e40-42cb-922a-5832d2781744/test.mpack.
+[37m  Finished:    Microsoft.DotNet.SignTool.Tests
+[m[37m=== TEST EXECUTION SUMMARY ===
+[m[37m   Microsoft.DotNet.SignTool.Tests  Total: 160, Errors: 0, Failed: 2, Skipped: 5, Time: 1.103s
+[m[m=== COMMAND LINE ===
+"/Users/dotnet-dev/ellahathaway/arcade/.dotnet/dotnet" exec --depsfile "/Users/dotnet-dev/ellahathaway/arcade/artifacts/bin/Microsoft.DotNet.SignTool.Tests/Debug/net9.0/Microsoft.DotNet.SignTool.Tests.deps.json" --runtimeconfig "/Users/dotnet-dev/ellahathaway/arcade/artifacts/bin/Microsoft.DotNet.SignTool.Tests/Debug/net9.0/Microsoft.DotNet.SignTool.Tests.runtimeconfig.json"  "/Users/dotnet-dev/.nuget/packages/xunit.runner.console/2.9.2/tools/netcoreapp2.0/xunit.console.dll" "/Users/dotnet-dev/ellahathaway/arcade/artifacts/bin/Microsoft.DotNet.SignTool.Tests/Debug/net9.0/Microsoft.DotNet.SignTool.Tests.dll" -noautoreporters -xml "/Users/dotnet-dev/ellahathaway/arcade/artifacts/TestResults/Debug/Microsoft.DotNet.SignTool.Tests_net9.0_x64.xml" -html "/Users/dotnet-dev/ellahathaway/arcade/artifacts/TestResults/Debug/Microsoft.DotNet.SignTool.Tests_net9.0_x64.html"  > "/Users/dotnet-dev/ellahathaway/arcade/artifacts/log/Debug/Microsoft.DotNet.SignTool.Tests_net9.0_x64.log" 2>&1
