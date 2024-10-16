@@ -1,0 +1,1103 @@
+﻿<?xml version="1.0" encoding="utf-8"?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
+  <head>
+    <title>xUnit.net Test Results</title>
+    <style type="text/css">
+          body { font-family: Calibri, Verdana, Arial, sans-serif; background-color: White; color: Black; }
+          h2,h3,h4,h5 { margin: 0; padding: 0; }
+          h3 { font-weight: normal; }
+          h4 { margin: 0.5em 0; }
+          h5 { font-weight: normal; font-style: italic; margin-bottom: 0.75em; }
+          h6 { font-size: 0.9em; font-weight: bold; margin: 0.5em 0 0 0.75em; padding: 0; }
+          pre,table { font-family: Consolas; font-size: 0.8em; margin: 0 0 0 1em; padding: 0; }
+          table { padding-bottom: 0.25em; }
+          th { padding: 0 0.5em; border-right: 1px solid #bbb; text-align: left; }
+          td { padding-left: 0.5em; }
+          .divided { border-top: solid 1px #f0f5fa; padding-top: 0.5em; }
+          .row, .altrow { padding: 0.1em 0.3em; }
+          .row { background-color: #f0f5fa; }
+          .altrow { background-color: #e1ebf4; }
+          .success, .failure, .skipped { font-family: Arial Unicode MS; font-weight: normal; float: left; width: 1em; display: block; }
+          .success { color: #0c0; }
+          .failure { color: #c00; }
+          .skipped { color: #cc0; }
+          .timing { float: right; }
+          .indent { margin: 0.25em 0 0.5em 2em; }
+          .clickable { cursor: pointer; }
+          .testcount { font-size: 85%; }
+        </style>
+    <script language="javascript">
+          function ToggleClass(id) {
+            var elem = document.getElementById(id);
+            if (elem.style.display == "none") {
+              elem.style.display = "block";
+            }
+            else {
+              elem.style.display = "none";
+            }
+          }
+        </script>
+  </head>
+  <body>
+    <h3 class="divided">
+      <b>Assemblies Run</b>
+    </h3>
+    <div>Microsoft.DotNet.SignTool.Tests.dll</div>
+    <h3 class="divided">
+      <b>Summary</b>
+    </h3>
+    <div>
+          Tests run: <a href="#all"><b>160</b></a> —
+          
+            Failures: <a href="#failures"><b>4</b></a>,
+          
+            Skipped: <a href="#skipped"><b>5</b></a>,
+          
+          Run time: <b>1.136s</b>,
+          Finished: <b>10/16/2024 15:00:46</b></div>
+    <br />
+    <h2>
+      <a id="failures" />Failed tests
+          </h2>
+    <div class="row">
+      <span class="timing">0.0023079s
+        </span>
+      <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.EmptySigningListForTask<br clear="all" /><pre>Expected task.Execute() to be true, but found False.</pre><pre>   at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.BooleanAssertions.BeTrue(String because, Object[] becauseArgs)
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.EmptySigningListForTask() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 424
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre></div>
+    <div class="altrow">
+      <span class="timing">0.0023709s
+        </span>
+      <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignNestedPkgFile<br clear="all" /><pre>System.Collections.Generic.KeyNotFoundException : The given key 'Microsoft.DotNet.SignTool.SignedFileContentKey' was not present in the dictionary.</pre><pre>   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at Microsoft.DotNet.SignTool.Configuration.TrackFile(PathWithHash file, PathWithHash parentContainer, String collisionPriorityId) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 249
+   at Microsoft.DotNet.SignTool.Configuration.GenerateListOfFiles() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 165
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateFileSignInfos(ITaskItem[] itemsToSign, Dictionary`2 strongNameSignInfo, Dictionary`2 fileSignInfo, Dictionary`2 extensionsSignInfo, String[] expected, String[] expectedCopyFiles, ITaskItem[] dualCertificates, String[] expectedErrors, String[] expectedWarnings) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 382
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignNestedPkgFile() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 1133
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre></div>
+    <div class="row">
+      <span class="timing">0.0025999s
+        </span>
+      <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignPkgFile<br clear="all" /><pre>System.Collections.Generic.KeyNotFoundException : The given key 'Microsoft.DotNet.SignTool.SignedFileContentKey' was not present in the dictionary.</pre><pre>   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at Microsoft.DotNet.SignTool.Configuration.TrackFile(PathWithHash file, PathWithHash parentContainer, String collisionPriorityId) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 249
+   at Microsoft.DotNet.SignTool.Configuration.GenerateListOfFiles() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 165
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateFileSignInfos(ITaskItem[] itemsToSign, Dictionary`2 strongNameSignInfo, Dictionary`2 fileSignInfo, Dictionary`2 extensionsSignInfo, String[] expected, String[] expectedCopyFiles, ITaskItem[] dualCertificates, String[] expectedErrors, String[] expectedWarnings) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 382
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignPkgFile() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 1086
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre></div>
+    <div class="altrow">
+      <span class="timing">0.0379992s
+        </span>
+      <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignWhenSnExeIsNotRequired<br clear="all" /><pre>Expected task.Execute() to be true, but found False.</pre><pre>   at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.BooleanAssertions.BeTrue(String because, Object[] becauseArgs)
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignWhenSnExeIsNotRequired() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 445
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre><h6>Output:</h6><pre>warning SIGN003: An empty list of files to sign was passed as parameter.
+warning : TempDir ('TempDir' is not rooted, this can cause unexpected behavior in signtool.  Please provide a fully qualified 'TempDir' path.
+error : PkgToolPath ('') does not exist &amp; is required for signing pkg files on MacOS.
+SignToolTask starting.
+DryRun: False
+Signing mode: Test
+MicroBuild signing logs will be in (Signing*.binlog): LogDir
+MicroBuild signing configuration will be in (Round*.proj): TempDir
+SignToolTask execution finished.
+</pre></div>
+    <br />
+    <h2>
+      <a id="skipped" />Skipped tests
+          </h2>
+    <div class="row">
+      <span class="timing">Skipped</span>
+      <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.BadWixToolsetPath<br clear="all" /></div>
+    <div class="altrow">
+      <span class="timing">Skipped</span>
+      <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.DoubleNestedContainer<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+    <div class="row">
+      <span class="timing">Skipped</span>
+      <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MsiWithWixpack<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+    <div class="altrow">
+      <span class="timing">Skipped</span>
+      <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.RunWixToolRunsOrFailsProperly<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+    <div class="row">
+      <span class="timing">Skipped</span>
+      <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignMsiEngine<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+    <br />
+    <h2>
+      <a id="all" />All tests
+        </h2>
+    <h5>Click test class name to expand/collapse test details</h5>
+    <h3>
+      <span class="timing">1.069s
+            </span>
+      <span class="clickable" onclick="ToggleClass('classID0EY')" ondblclick="ToggleClass('classID0EY')">
+        <span class="failure">✘</span>
+               Microsoft.DotNet.SignTool.Tests.SignToolTests
+               <span class="testcount">
+                (160 tests)
+              </span></span>
+      <br clear="all" />
+    </h3>
+    <div class="indent" id="classID0EY">
+      <div class="row">
+        <span class="timing">Skipped</span>
+        <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.BadWixToolsetPath<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0028162s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.CheckFileExtensionSignInfo<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0023695s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.CheckPowershellSigning<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0235053s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.CrossGenerated<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0100736s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.CrossGeneratedLibraryWithoutPKT<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0021721s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.CustomTargetFrameworkAttribute<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0010812s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.DefaultCertificateForAssemblyWithoutStrongName<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">Skipped</span>
+        <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.DoubleNestedContainer<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+      <div class="row">
+        <span class="timing">0.0011591s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.EmptyPKT<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0112387s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.EmptySigningList<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0023079s
+        </span>
+        <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.EmptySigningListForTask<br clear="all" /><pre>Expected task.Execute() to be true, but found False.</pre><pre>   at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.BooleanAssertions.BeTrue(String because, Object[] becauseArgs)
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.EmptySigningListForTask() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 424
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre></div>
+      <div class="altrow">
+        <span class="timing">0.0026967s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.FilesAreUniqueByName<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002928s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".appx\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003292s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".appxbundle\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0010552s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".cab\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0036928s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".cat\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002627s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".cdxml\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0010466s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".dll\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0009115s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".doc\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0004812s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".docm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003399s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".dotm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003284s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".dsft\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003231s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".efi\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002739s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".esd\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0023353s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".exe\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003617s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".jar\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002967s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".js\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002694s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".mof\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.000823s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".mp\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0004273s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".mpb\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0008445s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".mpp\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0090118s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".msi\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0010385s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".msm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003159s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".msp\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0017222s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".msu\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0004084s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".mui\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.000943s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".ocx\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003655s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".olb\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002883s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".otf\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0004863s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".potm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0005946s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".ppsm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002988s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".ppt\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0011645s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".pptm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0006048s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".ps1\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002953s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".ps1xml\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002659s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".psc1\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003834s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".psd1\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0009461s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".psf\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003617s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".psm1\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002725s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".py\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002738s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".pyd\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003872s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".rll\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003241s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".sft\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.000299s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".ttf\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003606s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".vbs\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0006847s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".vdx\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002978s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".vsi\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0025592s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".vsix\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002818s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".wfs\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.00029s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".winmd\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002641s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".wsf\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003385s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xap\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.000926s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xla\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0009655s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xlam\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0004541s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xls\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0006391s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xlsb\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0005923s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xlsm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0007691s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xltm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0009172s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateName(extension: \".xsn\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0004409s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".appx\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003455s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".appxbundle\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003436s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".cab\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003214s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".cat\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0004059s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".cdxml\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0009092s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".dll\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.00034s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".doc\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003005s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".docm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0007822s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".dotm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003639s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".dsft\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003218s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".efi\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003667s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".esd\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0015487s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".exe\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0011695s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".jar\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002799s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".js\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0009617s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".mof\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0005403s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".mp\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.000292s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".mpb\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003281s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".mpp\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.000523s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".msi\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.000361s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".msm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002944s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".msp\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002895s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".msu\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003079s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".mui\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0004894s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".ocx\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0009389s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".olb\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0013939s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".otf\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003917s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".potm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.00036s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".ppsm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003388s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".ppt\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003398s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".pptm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0004247s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".ps1\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003078s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".ps1xml\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003162s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".psc1\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003725s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".psd1\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002845s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".psf\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003511s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".psm1\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003154s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".py\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003504s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".pyd\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0008886s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".rll\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0007785s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".sft\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0009977s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".ttf\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003771s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".vbs\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.000365s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".vdx\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003308s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".vsi\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0054709s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".vsix\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003734s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".wfs\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0046141s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".winmd\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003812s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".wsf\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003446s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xap\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003192s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xla\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002877s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xlam\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003301s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xls\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0002875s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xlsb\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0003513s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xlsm\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0003102s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xltm\")<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0002991s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MissingCertificateNameButExtensionIsIgnored(extension: \".xsn\")<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0058873s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MPackFile<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">Skipped</span>
+        <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.MsiWithWixpack<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+      <div class="row">
+        <span class="timing">0.0534926s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.NestedContainer<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0387041s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.NestedContainerWithCollisions<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0212363s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.NestedZipFile<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0042264s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.OnlyAuthenticodeSignByPKT<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0144749s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.OnlyContainer<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0245801s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.OnlyContainerAndOverridingByFileName<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.041078s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.OnlyContainerAndOverridingByPKT<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.00735s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.PackageWithZipFile<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">Skipped</span>
+        <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.RunWixToolRunsOrFailsProperly<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+      <div class="altrow">
+        <span class="timing">0.0115056s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.RunWixToolThrowsErrorIfNoWixToolsProvided<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0006386s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.RunWixToolThrowsErrorIfWixToolsProvidedButDirDoesNotExist<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0274911s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignedSymbolsNupkg<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">Skipped</span>
+        <span class="skipped">❢</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignMsiEngine<br clear="all" /><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>Category</th><td>SkipWhenLiveUnitTesting</td></tr></table></div>
+      <div class="altrow">
+        <span class="timing">0.0023709s
+        </span>
+        <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignNestedPkgFile<br clear="all" /><pre>System.Collections.Generic.KeyNotFoundException : The given key 'Microsoft.DotNet.SignTool.SignedFileContentKey' was not present in the dictionary.</pre><pre>   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at Microsoft.DotNet.SignTool.Configuration.TrackFile(PathWithHash file, PathWithHash parentContainer, String collisionPriorityId) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 249
+   at Microsoft.DotNet.SignTool.Configuration.GenerateListOfFiles() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 165
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateFileSignInfos(ITaskItem[] itemsToSign, Dictionary`2 strongNameSignInfo, Dictionary`2 fileSignInfo, Dictionary`2 extensionsSignInfo, String[] expected, String[] expectedCopyFiles, ITaskItem[] dualCertificates, String[] expectedErrors, String[] expectedWarnings) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 382
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignNestedPkgFile() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 1133
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre></div>
+      <div class="row">
+        <span class="timing">0.0025999s
+        </span>
+        <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignPkgFile<br clear="all" /><pre>System.Collections.Generic.KeyNotFoundException : The given key 'Microsoft.DotNet.SignTool.SignedFileContentKey' was not present in the dictionary.</pre><pre>   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at Microsoft.DotNet.SignTool.Configuration.TrackFile(PathWithHash file, PathWithHash parentContainer, String collisionPriorityId) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 249
+   at Microsoft.DotNet.SignTool.Configuration.GenerateListOfFiles() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool/src/Configuration.cs:line 165
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateFileSignInfos(ITaskItem[] itemsToSign, Dictionary`2 strongNameSignInfo, Dictionary`2 fileSignInfo, Dictionary`2 extensionsSignInfo, String[] expected, String[] expectedCopyFiles, ITaskItem[] dualCertificates, String[] expectedErrors, String[] expectedWarnings) in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 382
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignPkgFile() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 1086
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre></div>
+      <div class="altrow">
+        <span class="timing">0.0340405s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignTarGzFile<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0784396s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignTgzFile<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0379992s
+        </span>
+        <span class="failure">✘</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignWhenSnExeIsNotRequired<br clear="all" /><pre>Expected task.Execute() to be true, but found False.</pre><pre>   at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)
+   at FluentAssertions.Execution.TestFrameworkProvider.Throw(String message)
+   at FluentAssertions.Execution.DefaultAssertionStrategy.HandleFailure(String message)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(Func`1 failReasonFunc)
+   at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+   at FluentAssertions.Primitives.BooleanAssertions.BeTrue(String because, Object[] becauseArgs)
+   at Microsoft.DotNet.SignTool.Tests.SignToolTests.SignWhenSnExeIsNotRequired() in /Users/dotnet-dev/ellahathaway/arcade/src/Microsoft.DotNet.SignTool.Tests/SignToolTests.cs:line 445
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</pre><h6>Output:</h6><pre>warning SIGN003: An empty list of files to sign was passed as parameter.
+warning : TempDir ('TempDir' is not rooted, this can cause unexpected behavior in signtool.  Please provide a fully qualified 'TempDir' path.
+error : PkgToolPath ('') does not exist &amp; is required for signing pkg files on MacOS.
+SignToolTask starting.
+DryRun: False
+Signing mode: Test
+MicroBuild signing logs will be in (Signing*.binlog): LogDir
+MicroBuild signing configuration will be in (Round*.proj): TempDir
+SignToolTask execution finished.
+</pre></div>
+      <div class="row">
+        <span class="timing">0.1153978s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SignZipFile<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0116241s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SkipSigning<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0138135s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SpecificFileSignInfos<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0218335s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.SymbolsNupkg<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0013805s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.ThirdPartyLibraryMicrosoftCertificate<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.1880783s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateAppendingCertificate<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0236579s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateParseFileExtensionEntriesForDifferentCollisionPriorityIdSucceeds<br clear="all" /><h6>Output:</h6><pre>warning SIGN003: An empty list of files to sign was passed as parameter.
+SignToolTask starting.
+DryRun: True
+Signing mode: Real
+MicroBuild signing logs will be in (Signing*.binlog): LogDir
+MicroBuild signing configuration will be in (Round*.proj): TempDir
+Build artifacts signed and validated.
+SignToolTask execution finished.
+</pre></div>
+      <div class="altrow">
+        <span class="timing">0.0068358s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateParseFileExtensionEntriesForSameCollisionPriorityIdFails<br clear="all" /><h6>Output:</h6><pre>warning SIGN003: An empty list of files to sign was passed as parameter.
+SignToolTask starting.
+DryRun: True
+Signing mode: Real
+MicroBuild signing logs will be in (Signing*.binlog): LogDir
+MicroBuild signing configuration will be in (Round*.proj): TempDir
+error : Multiple certificates for extension '.js' defined for CollisionPriorityId '123'.  There should be one certificate per extension per collision priority id.
+SignToolTask execution finished.
+</pre></div>
+      <div class="row">
+        <span class="timing">0.0210586s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.ValidateSignToolTaskParsing<br clear="all" /><h6>Output:</h6><pre>SignToolTask starting.
+DryRun: True
+Signing mode: Real
+MicroBuild signing logs will be in (Signing*.binlog): LogDir
+MicroBuild signing configuration will be in (Round*.proj): TempDir
+Tracking file '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' isNested=False
+Container /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg does not have a signature marker.
+Extracting file '.rels' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/0/_rels/.rels'.
+Tracking file 'TempDir/ContainerSigning/0/_rels/.rels' isNested=True
+Ignoring non-signable file: TempDir/ContainerSigning/0/_rels/.rels
+Caching file .rels 061348E521CC84F911663149F179896CD4D1F4931165F12FD09FF64A841AB137
+Extracting file 'ContainerOne.nuspec' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/1/ContainerOne.nuspec'.
+Tracking file 'TempDir/ContainerSigning/1/ContainerOne.nuspec' isNested=True
+Ignoring non-signable file: TempDir/ContainerSigning/1/ContainerOne.nuspec
+Caching file ContainerOne.nuspec 3A2D80C973A7411FA97840300E83225375C9B2162E46A68DC3AA64C0EB6A5193
+Extracting file 'NativeLibrary.dll' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/2/lib/native/NativeLibrary.dll'.
+Tracking file 'TempDir/ContainerSigning/2/lib/native/NativeLibrary.dll' isNested=True
+SIGN004: Signing 3rd party library 'TempDir/ContainerSigning/2/lib/native/NativeLibrary.dll' with Microsoft certificate 'Microsoft400'. The library is considered 3rd party library due to its copyright: ''.
+Caching file NativeLibrary.dll 3D4466713FF60CA2747166CD22B097B67DAFC7F3487B7F7725945502D66D0B65
+Extracting file 'ProjectOne.dll' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/3/lib/net461/ProjectOne.dll'.
+Tracking file 'TempDir/ContainerSigning/3/lib/net461/ProjectOne.dll' isNested=True
+Caching file ProjectOne.dll B306A318B3A11BF342995F6A1FC5AADF5DB4DD49F4EFF7E013D31208DD58EBDC
+Extracting file 'ContainerOne.dll' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/4/lib/netcoreapp2.0/ContainerOne.dll'.
+Tracking file 'TempDir/ContainerSigning/4/lib/netcoreapp2.0/ContainerOne.dll' isNested=True
+Caching file ContainerOne.dll 9F8CCEE4CECF286C80916F13EAB8DF1FC6C9BED5F81E3AFF26747C008D265E5C
+Extracting file 'ProjectOne.dll' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/5/lib/netcoreapp2.0/ProjectOne.dll'.
+Tracking file 'TempDir/ContainerSigning/5/lib/netcoreapp2.0/ProjectOne.dll' isNested=True
+Caching file ProjectOne.dll 8492D8CE69F362AAB589989D6B9687C53B732E73493492D06A5650A86B6D4D20
+Extracting file 'ProjectOne.dll' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/6/lib/netcoreapp2.1/ProjectOne.dll'.
+Tracking file 'TempDir/ContainerSigning/6/lib/netcoreapp2.1/ProjectOne.dll' isNested=True
+Caching file ProjectOne.dll CC1D99EE8C2F627E77D019E94B06EBB6D87A4D19E65DDAEF62B6137E49167BAF
+Extracting file 'ProjectOne.dll' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/7/lib/netstandard2.0/ProjectOne.dll'.
+Tracking file 'TempDir/ContainerSigning/7/lib/netstandard2.0/ProjectOne.dll' isNested=True
+warning SIGN004: Signing 3rd party library 'TempDir/ContainerSigning/7/lib/netstandard2.0/ProjectOne.dll' with Microsoft certificate 'OverrideCertificateName'. The library is considered 3rd party library due to its copyright: ''.
+Caching file ProjectOne.dll 47F202CA51AD708535A01E96B95027042F8448333D86FA7D5F8D66B67644ACEC
+Extracting file '[Content_Types].xml' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/8/[Content_Types].xml'.
+Tracking file 'TempDir/ContainerSigning/8/[Content_Types].xml' isNested=True
+Ignoring non-signable file: TempDir/ContainerSigning/8/[Content_Types].xml
+Caching file [Content_Types].xml A5996B3A6EF9347901C74177578657D6D189531C61BC6BBE78A00D2C77AF6F3A
+Extracting file 'd3b56d8a40be4dd7888cb2fdc244221d.psmdcp' from '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg' to 'TempDir/ContainerSigning/9/package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp'.
+Tracking file 'TempDir/ContainerSigning/9/package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp' isNested=True
+Ignoring non-signable file: TempDir/ContainerSigning/9/package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp
+Caching file d3b56d8a40be4dd7888cb2fdc244221d.psmdcp E27644D29C2D0F97F7C4232334C6E32F190282B2BF7DACF2D2E36DF65D1E9111
+Caching file ContainerOne.1.0.0.nupkg 19C85C55CB56D9A2533A53A9654D4FDF4B4AEF60A7760DB872CE895EB9B48825
+Tracking file '/var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/SignedLibrary.dll' isNested=False
+Caching file SignedLibrary.dll 80BA507C7C33C6073153D3B22BFD32A12C5B50E0E71C9F28DDAC4127409E0C57
+Removing public sign: 'ProjectOne.dll'
+Removing public sign: 'ContainerOne.dll'
+Removing public sign: 'ProjectOne.dll'
+Removing public sign: 'ProjectOne.dll'
+Removing public sign: 'ProjectOne.dll'
+Round 0: Signing 7 files.
+File 'NativeLibrary.dll' Certificate='Microsoft400' Collision Id='123'
+File 'ProjectOne.dll' TargetFramework='.NETFramework,Version=v4.6.1' Certificate='3PartySHA2' StrongName='ArcadeStrongTest' Collision Id='123'
+File 'ContainerOne.dll' TargetFramework='.NETCoreApp,Version=v2.0' Certificate='3PartySHA2' StrongName='ArcadeStrongTest' Collision Id='123'
+File 'ProjectOne.dll' TargetFramework='.NETCoreApp,Version=v2.0' Certificate='3PartySHA2' StrongName='ArcadeStrongTest' Collision Id='123'
+File 'ProjectOne.dll' TargetFramework='.NETCoreApp,Version=v2.1' Certificate='3PartySHA2' StrongName='ArcadeStrongTest' Collision Id='123'
+File 'ProjectOne.dll' TargetFramework='.NETStandard,Version=v2.0' Certificate='OverrideCertificateName' StrongName='ArcadeStrongTest' Collision Id='123'
+File 'SignedLibrary.dll' TargetFramework='.NETCoreApp,Version=v2.0' Certificate='DualSignCertificate' Collision Id='123'
+Repacking 1 containers.
+Repacking 1 containers in parallel.
+Repacking container: 'ContainerOne.1.0.0.nupkg'
+Didn't find signed part for nested file: /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; _rels/.rels
+Didn't find signed part for nested file: /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; ContainerOne.nuspec
+Copying signed stream from TempDir/ContainerSigning/2/lib/native/NativeLibrary.dll to /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; lib/native/NativeLibrary.dll.
+Copying signed stream from TempDir/ContainerSigning/3/lib/net461/ProjectOne.dll to /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; lib/net461/ProjectOne.dll.
+Copying signed stream from TempDir/ContainerSigning/4/lib/netcoreapp2.0/ContainerOne.dll to /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; lib/netcoreapp2.0/ContainerOne.dll.
+Copying signed stream from TempDir/ContainerSigning/5/lib/netcoreapp2.0/ProjectOne.dll to /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; lib/netcoreapp2.0/ProjectOne.dll.
+Copying signed stream from TempDir/ContainerSigning/6/lib/netcoreapp2.1/ProjectOne.dll to /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; lib/netcoreapp2.1/ProjectOne.dll.
+Copying signed stream from TempDir/ContainerSigning/7/lib/netstandard2.0/ProjectOne.dll to /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; lib/netstandard2.0/ProjectOne.dll.
+Didn't find signed part for nested file: /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; [Content_Types].xml
+Didn't find signed part for nested file: /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg -&gt; package/services/metadata/core-properties/d3b56d8a40be4dd7888cb2fdc244221d.psmdcp
+Round 1: Signing 1 files.
+File 'ContainerOne.1.0.0.nupkg' Certificate='NuGet' Collision Id='123'
+Assembly TempDir/ContainerSigning/2/lib/native/NativeLibrary.dll is signed properly
+Assembly TempDir/ContainerSigning/3/lib/net461/ProjectOne.dll is signed properly
+Assembly TempDir/ContainerSigning/4/lib/netcoreapp2.0/ContainerOne.dll is signed properly
+Assembly TempDir/ContainerSigning/5/lib/netcoreapp2.0/ProjectOne.dll is signed properly
+Assembly TempDir/ContainerSigning/6/lib/netcoreapp2.1/ProjectOne.dll is signed properly
+Assembly TempDir/ContainerSigning/7/lib/netstandard2.0/ProjectOne.dll is signed properly
+Assembly TempDir/ContainerSigning/2/lib/native/NativeLibrary.dll is signed properly
+Assembly TempDir/ContainerSigning/3/lib/net461/ProjectOne.dll is signed properly
+Assembly TempDir/ContainerSigning/4/lib/netcoreapp2.0/ContainerOne.dll is signed properly
+Assembly TempDir/ContainerSigning/5/lib/netcoreapp2.0/ProjectOne.dll is signed properly
+Assembly TempDir/ContainerSigning/6/lib/netcoreapp2.1/ProjectOne.dll is signed properly
+Assembly TempDir/ContainerSigning/7/lib/netstandard2.0/ProjectOne.dll is signed properly
+Container /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/ContainerOne.1.0.0.nupkg has a signature marker.
+Assembly /var/folders/b6/c5k74_3s1jnb5ttsbfjpccx00000gq/T/dd2e79ab-de9c-4d53-9738-f10c9a91840a/SignedLibrary.dll is signed properly
+Build artifacts signed and validated.
+SignToolTask execution finished.
+</pre></div>
+      <div class="altrow">
+        <span class="timing">0.0311417s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.VsixPackage_DuplicateVsixAfter<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0303508s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.VsixPackage_DuplicateVsixBefore<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0242304s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.VsixPackage_DuplicateVsixBeforeAndAfter<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">0.0243909s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.VsixPackage_WithSpaces<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">0.0075283s
+        </span>
+        <span class="success">✔</span>
+       Microsoft.DotNet.SignTool.Tests.SignToolTests.VsixPackageWithRelationships<br clear="all" /></div>
+    </div>
+  </body>
+</html>
