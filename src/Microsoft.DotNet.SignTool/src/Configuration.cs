@@ -678,9 +678,13 @@ namespace Microsoft.DotNet.SignTool
             try
             {
                 var nestedParts = new Dictionary<string, ZipPart>();
+                _log.LogMessage($"Investigating {archivePath}.");
+                Console.WriteLine($"Investigating {archivePath}.");
                 
                 foreach (var (relativePath, contentStream, contentSize) in ZipData.ReadEntries(archivePath, _pathToContainerUnpackingDirectory, _tarToolPath, _pkgToolPath))
                 {
+                    _log.LogMessage($"Found {relativePath} in {archivePath}.");
+                    Console.WriteLine($"Found {relativePath} in {archivePath}.");
                     if (contentStream == null)
                     {
                         continue;
