@@ -11,6 +11,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 #if NET472
 using System.IO.Packaging;
@@ -51,7 +52,7 @@ namespace Microsoft.DotNet.SignTool
             return null;
         }
 
-        public static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadEntries(string archivePath, string tempDir, string tarToolPath, bool ignoreContent = false)
+        public static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadEntries(string archivePath, string tempDir, string tarToolPath, string pkgToolPath, bool ignoreContent = false)
         {
             if (FileSignInfo.IsTarGZip(archivePath))
             {
@@ -63,6 +64,10 @@ namespace Microsoft.DotNet.SignTool
                     .Select(entry => (entry.Name, entry.DataStream, entry.Length));
 #endif
             }
+            else if (FileSignInfo.IsPkg(archivePath))
+            {
+                return ReadPkgEntries(archivePath, tempDir, pkgToolPath, ignoreContent);
+            }
 
             return ReadZipEntries(archivePath);
         }
@@ -70,7 +75,7 @@ namespace Microsoft.DotNet.SignTool
         /// <summary>
         /// Repack the zip container with the signed files.
         /// </summary>
-        public void Repack(TaskLoggingHelper log, string tempDir, string wixToolsPath, string tarToolPath)
+        public void Repack(TaskLoggingHelper log, string tempDir, string wixToolsPath, string tarToolPath, string pkgToolPath)
         {
 #if NET472
             if (FileSignInfo.IsVsix())
@@ -86,6 +91,14 @@ namespace Microsoft.DotNet.SignTool
             else if (FileSignInfo.IsWixContainer())
             {
                 RepackWixPack(log, tempDir, wixToolsPath);
+            }
+            else if (FileSignInfo.IsPkg())
+            {
+                if (pkgToolPath == null)
+                {
+                    log.LogError("Pkg tool path is not set. It must be set on MacOS.");
+                }
+                RepackPkg(log, tempDir, pkgToolPath);
             }
             else 
             {
@@ -242,6 +255,66 @@ namespace Microsoft.DotNet.SignTool
                 // Delete the intermediates
                 Directory.Delete(workingDir, true);
                 Directory.Delete(outputDir, true);
+            }
+        }
+
+        private static bool RunPkgProcess(string srcPath, string dstPath, string action, string pkgToolPath)
+        {
+            if (action != "unpack" && action != "repack")
+            {
+                throw new ArgumentException($"Invalid action '{action}' for pkg tool.");
+            }
+            var process = Process.Start(new ProcessStartInfo()
+            {
+                FileName = "dotnet",
+                Arguments = $@"exec ""{pkgToolPath}"" ""{srcPath}"" ""{dstPath}"" {action}",
+                UseShellExecute = false
+            });
+
+            process.WaitForExit();
+            return process.ExitCode == 0;
+        }
+
+        private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgEntries(string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
+        {
+            // Pkg tool creates the directory, so we don't need to.
+            // Pkg tool extracts the pkg file to the directory/pkgName directory.
+            if (!RunPkgProcess(archivePath, tempDir, pkgToolPath, "unpack"))
+            {
+                yield break;
+            }
+            string pkgDir = Path.Combine(tempDir, Path.GetFileNameWithoutExtension(archivePath));
+            foreach (var path in Directory.EnumerateFiles(pkgDir, "*.*", SearchOption.AllDirectories))
+            {
+                var relativePath = path.Substring(pkgDir.Length + 1).Replace(Path.DirectorySeparatorChar, '/');
+                using var stream = ignoreContent ? null : (Stream)File.Open(path, FileMode.Open);
+                yield return (relativePath, stream, stream?.Length ?? 0);
+            }
+        }
+
+        private void RepackPkg(TaskLoggingHelper log, string tempDir, string pkgToolPath)
+        {
+            string sourceDir = Path.Combine(tempDir, Path.GetFileNameWithoutExtension(FileSignInfo.FullPath));
+            string outputPkg = FileSignInfo.FullPath;
+            foreach (var path in Directory.EnumerateFiles(sourceDir, "*.*", SearchOption.AllDirectories))
+            {
+                var relativePath = path.Substring(sourceDir.Length + 1).Replace(Path.DirectorySeparatorChar, '/');
+
+                var signedPart = FindNestedPart(relativePath);
+                if (!signedPart.HasValue)
+                {
+                    log.LogMessage(MessageImportance.Low, $"Didn't find signed part for nested file: {FileSignInfo.FullPath} -> {relativePath}");
+                    continue;
+                }
+
+                log.LogMessage(MessageImportance.Low, $"Copying signed stream from {signedPart.Value.FileSignInfo.FullPath} to {FileSignInfo.FullPath} -> {relativePath}.");
+                File.Copy(signedPart.Value.FileSignInfo.FullPath, path, overwrite: true);
+            }
+
+            if (!RunPkgProcess(sourceDir, FileSignInfo.FullPath, pkgToolPath, "repack"))
+            {
+                log.LogMessage(MessageImportance.Low, $"Failed to pack pkg archive: dotnet {pkgToolPath} {FileSignInfo.FullPath}");
+                return;
             }
         }
 
