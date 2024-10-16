@@ -357,7 +357,9 @@ namespace Microsoft.DotNet.SignTool.Tests
             {
                 var actualXml = AssertEx.NormalizeWhitespace(actual);
                 var expectedXml = AssertEx.NormalizeWhitespace(expectedXmlElementsPerSigningRound[i]);
-                actualXml.Should().Be(expectedXml);
+                // output actual xml in error message
+                actualXml.Should().Be(expectedXml, $"Actual XML: {actualXml}");
+                // actualXml.Should().Be(expectedXml);
                 i++;
             }
 
@@ -1090,6 +1092,24 @@ $@"
                 "File 'NestedPkg.pkg' Certificate=''",
                 "File 'test.pkg' Certificate=''",
             });
+
+            ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
+            {
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "0", "test/NativeLibrary.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "1", "test/SOS.NETCore.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "2", "test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "3", "test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                "
+            });
         }
 
         [MacOSOnlyFact]
@@ -1117,6 +1137,24 @@ $@"
                 "File 'Mid.SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
                 "File 'MidNativeLibrary.dll' Certificate='Microsoft400'",
                 "File 'NestedPkg.pkg' Certificate=''",
+            });
+
+            ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
+            {
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "0", "test/NativeLibrary.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "1", "test/SOS.NETCore.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "2", "test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "3", "test/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.SOS.NETCore.dll"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                </FilesToSign>
+                "
             });
         }
 
