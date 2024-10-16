@@ -232,17 +232,6 @@ namespace Microsoft.DotNet.SignTool
                     return;
                 }
 
-                var strongNameLocally = StrongNameSignInfo != null
-                    && StrongNameSignInfo
-                        .Where(ti => !string.IsNullOrEmpty(ti.ItemSpec) && ti.ItemSpec.EndsWith(".snk", StringComparison.OrdinalIgnoreCase))
-                        .Any();
-
-                if (!isValidSNPath && strongNameLocally)
-                {
-                    Log.LogError($"An incorrect full path to 'sn.exe' was specified: {SNBinaryPath}");
-                    return;
-                }
-
                 if(PkgToolPath == null && RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
                     Log.LogError($"PkgToolPath ('{PkgToolPath}') does not exist & is required for signing pkg files on MacOS.");
