@@ -277,8 +277,8 @@ namespace Microsoft.DotNet.SignTool
 
         private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgEntries(TaskLoggingHelper log, string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
         {
-            Console.WriteLine($"Extracting {archivePath}.");
-            log.LogMessage(MessageImportance.Low, $"Extracting {archivePath} using {pkgToolPath} to {tempDir}.");
+            Console.WriteLine($"Extracting {archivePath} using {pkgToolPath} to {tempDir}.");
+            // log.LogMessage(MessageImportance.Low, $"Extracting {archivePath} using {pkgToolPath} to {tempDir}.");
             // Pkg tool creates the directory, so we don't need to.
             // Pkg tool extracts the pkg file to the directory/pkgName directory.
             if (!RunPkgProcess(archivePath, tempDir, pkgToolPath, "unpack"))
@@ -288,12 +288,13 @@ namespace Microsoft.DotNet.SignTool
             string pkgDir = Path.Combine(tempDir, Path.GetFileNameWithoutExtension(archivePath));
             foreach (var path in Directory.EnumerateFiles(pkgDir, "*.*", SearchOption.AllDirectories))
             {
+                Console.WriteLine($"Unpacked {path}.");
                 var relativePath = path.Substring(pkgDir.Length + 1).Replace(Path.DirectorySeparatorChar, '/');
                 using var stream = ignoreContent ? null : (Stream)File.Open(path, FileMode.Open);
                 yield return (relativePath, stream, stream?.Length ?? 0);
             }
 
-            log.LogMessage(MessageImportance.Low, $"Finished unpacking {archivePath} to {tempDir}.");
+            Console.WriteLine($"Finished extracting {archivePath}.");
         }
 
         private void RepackPkg(TaskLoggingHelper log, string tempDir, string pkgToolPath)
