@@ -237,7 +237,6 @@ namespace Microsoft.DotNet.Pkg
             private string Version;
             private string? Scripts;
             private string? Payload;
-            private string? PayloadDir;
 
             internal UnpackedBundle(string localExtractionPath, string identifier, string version, string rootPkgName, bool repacking = false, bool isNested = true)
             {
@@ -264,17 +263,15 @@ namespace Microsoft.DotNet.Pkg
                 Scripts = Pkg.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
                 Payload = Pkg.FindInPath("Payload", LocalExtractionPath, isDirectory: repacking, searchOption: SearchOption.TopDirectoryOnly);
 
-                if (!string.IsNullOrEmpty(Payload) && !repacking && !isNested)
+                if (!string.IsNullOrEmpty(Payload) && !repacking)
                 {
-                    // We replace the payload file with the payload directory when we unpack it
-                    PayloadDir = Payload;
                     UnpackPayloadFile(Path.GetFullPath(Payload));
                 }
 
                 // pkgutil --expand unpacks nested bundles.
                 // Since SignTool iterates over all files in a directory,
                 // we need to repack nested bundles when unpacking
-                PkgBuild();
+                PkgBuild(isNested);
 
                 if (!repacking && isNested)
                 {
@@ -284,16 +281,26 @@ namespace Microsoft.DotNet.Pkg
                 }
             }
 
-            private void PkgBuild()
+            private void PkgBuild(bool isNested)
             {
                 string info = GenerateInfoPlist();
-                string args = string.Empty;
-                args = $"--root {LocalExtractionPath} --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
+                string args = $"--root {LocalExtractionPath}";
+                if (!string.IsNullOrEmpty(Payload))
+                {
+                    args = $"--root {Payload}";
+                }
+                args = $" --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
                 if (!string.IsNullOrEmpty(Scripts))
                 {
                     args += $" --scripts {Scripts}";
                 }
-                args += $" {LocalExtractionPath}.pkg";
+
+                string outputPath = $"{LocalExtractionPath}.pkg";
+                if (File.Exists(outputPath))
+                {
+                    File.Delete(outputPath);
+                }
+                args += $" {outputPath}";
 
                 ExecuteHelper.Run("pkgbuild", args);
 
