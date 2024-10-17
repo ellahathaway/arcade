@@ -57,7 +57,7 @@
 
   <Target Name="_CopyPkgTool" AfterTargets="ResolveProjectReferences" Condition="$([MSBuild]::IsOSPlatform('osx'))">
     <PropertyGroup>
-      <_TarToolPattern>@(_PkgToolPath->'%(RootDir)%(Directory)')**\*.*</_TarToolPattern>
+      <_PkgToolPattern>@(_PkgToolPath->'%(RootDir)%(Directory)')**\*.*</_PkgToolPattern>
     </PropertyGroup>
     <ItemGroup>
       <_PkgToolFiles Include="$(_PkgToolPattern)"/>
