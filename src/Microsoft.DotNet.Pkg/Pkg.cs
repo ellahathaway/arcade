@@ -104,7 +104,6 @@ namespace Microsoft.DotNet.Pkg
         private string? Distribution = null;
         private string? Scripts = null;
         private List<UnpackedBundle> Bundles = new List<UnpackedBundle>();
-        internal static string BundlesRepackPath = string.Empty;
 
         internal UnpackedPkg(bool repacking)
         {
@@ -113,17 +112,12 @@ namespace Microsoft.DotNet.Pkg
                 NameWithoutExtension = Path.GetFileName(Pkg.InputPath);
                 NameWithExtension = NameWithoutExtension + ".pkg";
                 LocalExtractionPath = Pkg.InputPath;
-                BundlesRepackPath = Path.Combine(Pkg.OutputPath, NameWithoutExtension);
-                if (!Directory.Exists(BundlesRepackPath))
-                {
-                    Directory.CreateDirectory(BundlesRepackPath);
-                }
             }
             else
             {
                 NameWithExtension = Path.GetFileName(Pkg.InputPath);
                 NameWithoutExtension = Path.GetFileNameWithoutExtension(NameWithExtension);
-                LocalExtractionPath = Path.Combine(Pkg.OutputPath, NameWithoutExtension);
+                LocalExtractionPath = Pkg.OutputPath;
             }
 
             if (!repacking)
@@ -167,7 +161,6 @@ namespace Microsoft.DotNet.Pkg
             if (repacking)
             {
                 RepackPkg();
-                Directory.Delete(BundlesRepackPath, true);
             }
         }
 
@@ -189,8 +182,7 @@ namespace Microsoft.DotNet.Pkg
                 {
                     // This is a single bundle package
                     // We already repacked the bundle, so we just need to move it to the desired output path
-                    string outputPackagePath = Path.Combine(Pkg.OutputPath, NameWithExtension);
-                    File.Move(Path.Combine(BundlesRepackPath, NameWithExtension), outputPackagePath);
+                    File.Move($"{LocalExtractionPath}.pkg", Pkg.OutputPath);
                 }
                 
                 if (Bundles.Count > 1)
@@ -205,7 +197,7 @@ namespace Microsoft.DotNet.Pkg
                 args += $"--distribution {Distribution}";
                 if (Bundles.Any())
                 {
-                    args += $" --package-path {BundlesRepackPath}";
+                    args += $" --package-path {LocalExtractionPath}";
                 }
                 if (!string.IsNullOrEmpty(Resources))
                 {
@@ -264,38 +256,44 @@ namespace Microsoft.DotNet.Pkg
                 if (!repacking && isNested)
                 {
                     // The nested bundles get unpacked into a directory with a .pkg extension,
-                    // so we remove this extension when unpacking the bundle
+                    // so we remove this extension when unpacking the bundle.
+                    // Otherwise, there will be problems when repacking the bundle due to the naming conflict
                     Directory.Move(localExtractionPath, LocalExtractionPath);
                 }
 
                 Scripts = Pkg.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
                 Payload = Pkg.FindInPath("Payload", LocalExtractionPath, isDirectory: repacking, searchOption: SearchOption.TopDirectoryOnly);
 
-                if (!string.IsNullOrEmpty(Payload))
+                if (!string.IsNullOrEmpty(Payload) && !repacking && !isNested)
                 {
-                    PayloadDir = Payload; // We replace the payload file with the payload directory when we unpack it
-                    if(!repacking)
-                    {
-                        UnpackPayloadFile(Path.GetFullPath(Payload));
-                    }
+                    // We replace the payload file with the payload directory when we unpack it
+                    PayloadDir = Payload;
+                    UnpackPayloadFile(Path.GetFullPath(Payload));
+                }
 
-                    if (repacking)
-                    {
-                        PkgBuild();
-                    }
+                // pkgutil --expand unpacks nested bundles.
+                // Since SignTool iterates over all files in a directory,
+                // we need to repack nested bundles when unpacking
+                PkgBuild();
+
+                if (!repacking && isNested)
+                {
+                    // We don't need the unpacked nested bundle
+                    // anymore because we have repacked it
+                    Directory.Delete(LocalExtractionPath, true);
                 }
             }
 
             private void PkgBuild()
             {
                 string info = GenerateInfoPlist();
-                string args = $"--root {PayloadDir} --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
+                string args = string.Empty;
+                args = $"--root {LocalExtractionPath} --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
                 if (!string.IsNullOrEmpty(Scripts))
                 {
                     args += $" --scripts {Scripts}";
                 }
-                string outputPackagePath = Path.Combine(UnpackedPkg.BundlesRepackPath, NameWithExtension);
-                args += $" {outputPackagePath}";
+                args += $" {LocalExtractionPath}.pkg";
 
                 ExecuteHelper.Run("pkgbuild", args);
 
