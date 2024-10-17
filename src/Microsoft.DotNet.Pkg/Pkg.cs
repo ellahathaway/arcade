@@ -289,7 +289,7 @@ namespace Microsoft.DotNet.Pkg
                 {
                     args = $"--root {Payload}";
                 }
-                args = $" --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
+                args += $" --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
                 if (!string.IsNullOrEmpty(Scripts))
                 {
                     args += $" --scripts {Scripts}";
