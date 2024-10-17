@@ -257,19 +257,19 @@ namespace Microsoft.DotNet.Pkg
                     Directory.Move(localExtractionPath, LocalExtractionPath);
                 }
 
-                Scripts = Pkg.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
-                Payload = Pkg.FindInPath("Payload", LocalExtractionPath, isDirectory: repacking, searchOption: SearchOption.TopDirectoryOnly);
-
-                if (!string.IsNullOrEmpty(Payload) && !repacking)
-                {
-                    UnpackPayloadFile(Path.GetFullPath(Payload));
-                }
-
                 // When using pkgutil --expand, nested bundles are unpacked
                 // so we need to repack these nested bundles during the unpacking process.
                 // Otherwise, if the bundle is not nested, we need to repack it during the repacking process.
                 if ((isNested && !repacking) || (!isNested && repacking))
                 {
+                    Scripts = Pkg.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
+                    Payload = Pkg.FindInPath("Payload", LocalExtractionPath, isDirectory: repacking, searchOption: SearchOption.TopDirectoryOnly);
+
+                    if (!string.IsNullOrEmpty(Payload))
+                    {
+                        UnpackPayloadFile(Path.GetFullPath(Payload));
+                    }
+
                     PkgBuild(isNested);
                 }
 
