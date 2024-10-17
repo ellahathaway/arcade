@@ -128,6 +128,7 @@ namespace Microsoft.DotNet.Pkg
             Resources = Pkg.FindInPath("Resources", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
             Distribution = Pkg.FindInPath("Distribution", LocalExtractionPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
             Scripts = Pkg.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
+            string? packageInfo = Pkg.FindInPath("PackageInfo", LocalExtractionPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly)
 
             if (!string.IsNullOrEmpty(Distribution))
             {
@@ -144,23 +145,23 @@ namespace Microsoft.DotNet.Pkg
                     string bundleVersion = element.Attribute("version")?.Value ?? throw new Exception($"No version found in bundle file {NameWithExtension}");
                     Bundles.Add(new UnpackedBundle(bundleExtractionPath, GetBundleId(element), bundleVersion, NameWithExtension, repacking));
                 }
-            }
-            else
-            {
-                string? packageInfo = Pkg.FindInPath("PackageInfo", LocalExtractionPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
-                if (!string.IsNullOrEmpty(packageInfo))
+
+                if (repacking)
                 {
-                    // This is a single bundle package
-                    XElement pkgInfo = XElement.Load(packageInfo);
-                    Identifier = GetBundleId(pkgInfo);
-                    string version = pkgInfo.Attribute("version")?.Value ?? throw new Exception("No version found in PackageInfo file");
-                    Bundles.Add(new UnpackedBundle(LocalExtractionPath, NameWithoutExtension, version, NameWithExtension, repacking, isNested: false));
+                    RepackPkg();
                 }
             }
-
-            if (repacking)
+            else if (!string.IsNullOrEmpty(packageInfo))
             {
-                RepackPkg();
+                // This is a single bundle package
+                XElement pkgInfo = XElement.Load(packageInfo);
+                Identifier = GetBundleId(pkgInfo);
+                string version = pkgInfo.Attribute("version")?.Value ?? throw new Exception("No version found in PackageInfo file");
+                Bundles.Add(new UnpackedBundle(LocalExtractionPath, NameWithoutExtension, version, NameWithExtension, repacking, isNested: false));
+            }
+            else if (repacking)
+            {
+                throw new Exception("Cannot repack: no Distribution or PackageInfo file found in unpacked package");
             }
         }
 
@@ -176,46 +177,32 @@ namespace Microsoft.DotNet.Pkg
 
         private void RepackPkg()
         {
-            if (string.IsNullOrEmpty(Distribution))
+            string args = string.Empty;
+            args += $"--distribution {Distribution}";
+            if (Bundles.Any())
             {
-                if (Bundles.Count == 1)
-                {
-                    // This is a single bundle package
-                    // We already repacked the bundle, so we just need to move it to the desired output path
-                    File.Move($"{LocalExtractionPath}.pkg", Pkg.OutputPath);
-                }
-                
-                if (Bundles.Count > 1)
-                {
-                    // This is a multi-bundle package and should contain a Distribution file
-                    throw new Exception("No Distribution file found in multi-bundle package");
-                }
+                args += $" --package-path {LocalExtractionPath}";
             }
-            else
+            if (!string.IsNullOrEmpty(Resources))
             {
-                string args = string.Empty;
-                args += $"--distribution {Distribution}";
-                if (Bundles.Any())
-                {
-                    args += $" --package-path {LocalExtractionPath}";
-                }
-                if (!string.IsNullOrEmpty(Resources))
-                {
-                    args += $" --resources {Resources}";
-                }
-                if (!string.IsNullOrEmpty(Scripts))
-                {
-                    args += $" --scripts {Scripts}";
-                }
-                if (args.Length == 0)
-                {
-                    args += $" --root {LocalExtractionPath}";
-                }
-                string outputPackagePath = Path.Combine(Pkg.OutputPath, NameWithExtension);
-                args += $" {outputPackagePath}";
+                args += $" --resources {Resources}";
+            }
+            if (!string.IsNullOrEmpty(Scripts))
+            {
+                args += $" --scripts {Scripts}";
+            }
+            if (args.Length == 0)
+            {
+                args += $" --root {LocalExtractionPath}";
+            }
 
-                ExecuteHelper.Run("productbuild", args);
+            if (File.Exists(Pkg.OutputPath))
+            {
+                File.Delete(Pkg.OutputPath);
             }
+            args += $" {Pkg.OutputPath}";
+
+            ExecuteHelper.Run("productbuild", args);
         }
 
         private static string GetBundleId(XElement element)
@@ -245,7 +232,6 @@ namespace Microsoft.DotNet.Pkg
                 LocalExtractionPath = isNested ? Path.Combine(Path.GetDirectoryName(localExtractionPath) ?? string.Empty, NameWithoutExtension) : localExtractionPath;
                 Identifier = identifier;
                 Version = version;
-
 
                 if (!Pkg.IsPkg(NameWithExtension))
                 {
@@ -296,9 +282,13 @@ namespace Microsoft.DotNet.Pkg
                 }
 
                 string outputPath = $"{LocalExtractionPath}.pkg";
-                if (File.Exists(outputPath))
+                if (!isNested)
                 {
-                    File.Delete(outputPath);
+                    outputPath = Pkg.OutputPath;
+                    if (File.Exists(outputPath))
+                    {
+                        File.Delete(outputPath);
+                    }
                 }
                 args += $" {outputPath}";
 
