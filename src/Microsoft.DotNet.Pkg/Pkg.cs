@@ -306,6 +306,8 @@ namespace Microsoft.DotNet.Pkg
                 }
                 args += $" {outputPath}";
 
+                Console.WriteLine($"Runnign pkgbuild with args: {args}");
+
                 ExecuteHelper.Run("pkgbuild", args);
 
                 File.Delete(info);
