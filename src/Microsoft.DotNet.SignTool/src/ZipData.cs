@@ -283,6 +283,7 @@ namespace Microsoft.DotNet.SignTool
             // Pkg tool extracts the pkg file to the directory/pkgName directory.
             if (!RunPkgProcess(archivePath, tempDir, pkgToolPath, "unpack"))
             {
+                Console.WriteLine($"Failed to unpack pkg archive: dotnet {pkgToolPath} {archivePath}");
                 yield break;
             }
             string pkgDir = Path.Combine(tempDir, Path.GetFileNameWithoutExtension(archivePath));
