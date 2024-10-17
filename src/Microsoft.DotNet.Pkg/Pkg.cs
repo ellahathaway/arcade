@@ -28,28 +28,39 @@ namespace Microsoft.DotNet.Pkg
 
         private static void ProcessPkg(string inputPath, string outputPath, bool repacking)
         {
-            if (string.IsNullOrEmpty(inputPath) || string.IsNullOrEmpty(outputPath))
+            InputPath = inputPath;
+            OutputPath = outputPath;
+
+            if (string.IsNullOrEmpty(InputPath) || string.IsNullOrEmpty(OutputPath))
             {
                 throw new Exception("Input and output paths must be provided");
             }
 
-            if (!repacking && !IsPkg(inputPath) && !File.Exists(inputPath))
+            string pkgPath = repacking ? OutputPath : InputPath;
+            string directoryPath = repacking ? InputPath : OutputPath;
+
+            if (!IsPkg(pkgPath) && !File.Exists(pkgPath))
             {
-                throw new Exception("Input paths must be a .pkg file");
+                string path = repacking ? "Output" : "Input";
+                throw new Exception($"{path} must be a .pkg file");
+            }
+
+            if (Directory.Exists(directoryPath) && !repacking)
+            {
+                throw new Exception("Output directory has content. Please provide an empty or non-existent directory.");
             }
             
-            if (repacking && !Directory.Exists(inputPath))
+            if (!Directory.Exists(directoryPath))
             {
-                throw new Exception("Input path must be a directory");
+                if (repacking)
+                {
+                    throw new Exception("Input path must be a directory");
+                }
+                else
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
             }
-
-            if (!Directory.Exists(outputPath))
-            {
-                Directory.CreateDirectory(outputPath);
-            }
-
-            InputPath = inputPath;
-            OutputPath = outputPath;
 
             UnpackedPkg unpackedPkg = new UnpackedPkg(repacking);
 
@@ -257,7 +268,10 @@ namespace Microsoft.DotNet.Pkg
                 // pkgutil --expand unpacks nested bundles.
                 // Since SignTool iterates over all files in a directory,
                 // we need to repack nested bundles when unpacking
-                PkgBuild(isNested);
+                if (repacking || isNested)
+                {
+                    PkgBuild(isNested);
+                }
 
                 if (!repacking && isNested)
                 {
