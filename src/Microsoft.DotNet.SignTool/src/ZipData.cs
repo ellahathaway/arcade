@@ -52,7 +52,7 @@ namespace Microsoft.DotNet.SignTool
             return null;
         }
 
-        public static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadEntries(string archivePath, string tempDir, string tarToolPath, string pkgToolPath, bool ignoreContent = false)
+        public static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadEntries(TaskLoggingHelper log, string archivePath, string tempDir, string tarToolPath, string pkgToolPath, bool ignoreContent = false)
         {
             if (FileSignInfo.IsTarGZip(archivePath))
             {
@@ -66,7 +66,7 @@ namespace Microsoft.DotNet.SignTool
             }
             else if (FileSignInfo.IsPkg(archivePath))
             {
-                return ReadPkgEntries(archivePath, tempDir, pkgToolPath, ignoreContent);
+                return ReadPkgEntries(log, archivePath, tempDir, pkgToolPath, ignoreContent);
             }
 
             return ReadZipEntries(archivePath);
@@ -275,8 +275,10 @@ namespace Microsoft.DotNet.SignTool
             return process.ExitCode == 0;
         }
 
-        private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgEntries(string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
+        private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgEntries(TaskLoggingHelper log, string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
         {
+            Console.WriteLine($"Extracting {archivePath}.");
+            log.LogMessage(MessageImportance.Low, $"Extracting {archivePath} using {pkgToolPath} to {tempDir}.");
             // Pkg tool creates the directory, so we don't need to.
             // Pkg tool extracts the pkg file to the directory/pkgName directory.
             if (!RunPkgProcess(archivePath, tempDir, pkgToolPath, "unpack"))
@@ -290,6 +292,8 @@ namespace Microsoft.DotNet.SignTool
                 using var stream = ignoreContent ? null : (Stream)File.Open(path, FileMode.Open);
                 yield return (relativePath, stream, stream?.Length ?? 0);
             }
+
+            log.LogMessage(MessageImportance.Low, $"Finished unpacking {archivePath} to {tempDir}.");
         }
 
         private void RepackPkg(TaskLoggingHelper log, string tempDir, string pkgToolPath)
