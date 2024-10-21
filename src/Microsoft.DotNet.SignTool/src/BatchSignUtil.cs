@@ -127,9 +127,11 @@ namespace Microsoft.DotNet.SignTool
                 if (filesToSign.Length == 0) return true;
 
                 _log.LogMessage(MessageImportance.High, $"Round {round}: Signing {filesToSign.Length} files.");
+                Console.WriteLine($"Round {round}: Signing {filesToSign.Length} files.");
 
                 foreach (var file in filesToSign)
                 {
+                    Console.WriteLine($"File to sign: {file}");
                     string collisionIdInfo = string.Empty;
                     if(_hashToCollisionIdMap != null)
                     {
@@ -278,12 +280,12 @@ namespace Microsoft.DotNet.SignTool
                 if (file.IsZipContainer())
                 {
                     _log.LogMessage($"Repacking container: '{file.FileName}'");
-                    _batchData.ZipDataMap[file.FileContentKey].Repack(_log, _signTool.TempDir, _signTool.WixToolsPath, _signTool.TarToolPath);
+                    _batchData.ZipDataMap[file.FileContentKey].Repack(_log, _signTool.TempDir, _signTool.WixToolsPath, _signTool.TarToolPath, _signTool.PkgToolPath);
                 }
                 else if (file.IsWixContainer())
                 {
                     _log.LogMessage($"Packing wix container: '{file.FileName}'");
-                    _batchData.ZipDataMap[file.FileContentKey].Repack(_log, _signTool.TempDir, _signTool.WixToolsPath, _signTool.TarToolPath);
+                    _batchData.ZipDataMap[file.FileContentKey].Repack(_log, _signTool.TempDir, _signTool.WixToolsPath, _signTool.TarToolPath, _signTool.PkgToolPath);
                 }
                 else
                 {
@@ -562,7 +564,8 @@ namespace Microsoft.DotNet.SignTool
                 var zipData = _batchData.ZipDataMap[file.FileContentKey];
                 bool signedContainer = false;
 
-                foreach (var (relativeName, _, _) in ZipData.ReadEntries(file.FullPath, _signTool.TempDir, _signTool.TarToolPath, ignoreContent: true))
+                Console.WriteLine("Batch extraction: " + file.FullPath);
+                foreach (var (relativeName, _, _) in ZipData.ReadEntries(_log, file.FullPath, _signTool.TempDir, _signTool.TarToolPath, _signTool.PkgToolPath, ignoreContent: true))
                 {
                     if (!SkipZipContainerSignatureMarkerCheck)
                     {

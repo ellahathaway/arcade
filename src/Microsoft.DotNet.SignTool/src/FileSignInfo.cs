@@ -5,6 +5,7 @@ using System;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Microsoft.DotNet.SignTool
 {
@@ -21,6 +22,9 @@ namespace Microsoft.DotNet.SignTool
         // optional file information that allows to disambiguate among multiple files with the same name:
         internal readonly string TargetFramework;
 
+        internal static bool IsMacOS() =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
         internal static bool IsPEFile(string path)
             => Path.GetExtension(path) == ".exe" || Path.GetExtension(path) == ".dll";
 
@@ -32,6 +36,9 @@ namespace Microsoft.DotNet.SignTool
 
         internal static bool IsNupkg(string path)
             => Path.GetExtension(path).Equals(".nupkg", StringComparison.OrdinalIgnoreCase);
+
+        internal static bool IsPkg(string path)
+            => Path.GetExtension(path).Equals(".pkg", StringComparison.OrdinalIgnoreCase);
 
         internal static bool IsSymbolsNupkg(string path)
             => path.EndsWith(".symbols.nupkg", StringComparison.OrdinalIgnoreCase);
@@ -56,8 +63,10 @@ namespace Microsoft.DotNet.SignTool
         internal static bool IsPackage(string path)
             => IsVsix(path) || IsNupkg(path);
 
+        // We only consider a .pkg file to be an unpackable container on macOS
+        // because that's the only platform where we have the tooling to unpack it.
         internal static bool IsZipContainer(string path)
-            => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path);
+            => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path) || (IsPkg(path) && IsMacOS());
 
         internal bool IsPEFile() => IsPEFile(FileName);
 
@@ -68,6 +77,8 @@ namespace Microsoft.DotNet.SignTool
         internal bool IsVsix() => IsVsix(FileName);
 
         internal bool IsNupkg() => IsNupkg(FileName) && !IsSymbolsNupkg();
+
+        internal bool IsPkg() => IsPkg(FileName);
 
         internal bool IsSymbolsNupkg() => IsSymbolsNupkg(FileName);
 
