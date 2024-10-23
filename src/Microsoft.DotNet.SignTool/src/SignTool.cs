@@ -85,11 +85,14 @@ namespace Microsoft.DotNet.SignTool
                         // Zip the files
                         foreach (FileSignInfo item in osxFileGroup)
                         {
-                            string zipFilePath = GetZipFilePath(osxFilesZippingDir, item.FileName);
-                            using (var zip = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
+                            // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
+                            Process.Start(new ProcessStartInfo()
                             {
-                                zip.CreateEntryFromFile(item.FullPath, item.FileName);
-                            }
+                                FileName = "ditto",
+                                Arguments = $"-V -ck --sequesterRsrc \"{item.FullPath}\" \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\"",
+                                UseShellExecute = false,
+                                WorkingDirectory = TempDir,
+                            }).WaitForExit();
                         }
 
                         var osxProjContent = GenerateBuildFileContent(osxFileGroup, osxFilesZippingDir, isOSX: true);
@@ -101,11 +104,14 @@ namespace Microsoft.DotNet.SignTool
                         // Unzip the files and copy them back to their original locations
                         foreach (var item in osxFileGroup)
                         {
-                            string zipFilePath = GetZipFilePath(osxFilesZippingDir, item.FileName);
-                            using (var zip = ZipFile.OpenRead(zipFilePath))
+                            // ditto -V -xk "/tmp/tempfiletosign.zip" "/<filepath>"
+                            Process.Start(new ProcessStartInfo()
                             {
-                                zip.Entries.First().ExtractToFile(item.FullPath, overwrite: true);
-                            }
+                                FileName = "ditto",
+                                Arguments = $"-V -xk \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\" \"{item.FullPath}\"",
+                                UseShellExecute = false,
+                                WorkingDirectory = TempDir,
+                            }).WaitForExit();
                         }
 
                         Directory.Delete(osxFilesZippingDir, recursive: true);
