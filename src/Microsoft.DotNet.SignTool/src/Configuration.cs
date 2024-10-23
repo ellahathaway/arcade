@@ -678,7 +678,6 @@ namespace Microsoft.DotNet.SignTool
             try
             {
                 var nestedParts = new Dictionary<string, ZipPart>();
-                Console.WriteLine("Configuration extraction: " + archivePath);
                 foreach (var (relativePath, contentStream, contentSize) in ZipData.ReadEntries(_log, archivePath, _pathToContainerUnpackingDirectory, _tarToolPath, _pkgToolPath))
                 {
                     if (contentStream == null)
@@ -708,7 +707,6 @@ namespace Microsoft.DotNet.SignTool
                     {
                         string extractPathRoot = _useHashInExtractionPath ? fileUniqueKey.StringHash : _filesByContentKey.Count().ToString();
                         string tempPath = Path.Combine(_pathToContainerUnpackingDirectory, extractPathRoot, relativePath);
-                        _log.LogMessage($"Extracting file '{fileName}' from '{archivePath}' to '{tempPath}'.");
 
                         Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
 

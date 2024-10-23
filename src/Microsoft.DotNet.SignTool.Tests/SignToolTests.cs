@@ -38,7 +38,7 @@ namespace Microsoft.DotNet.SignTool.Tests
             {".zip",  new List<SignInfo>{ SignInfo.Ignore } },
             {".tgz",  new List<SignInfo>{ SignInfo.Ignore } },
             {".tar.gz",  new List<SignInfo>{ SignInfo.Ignore } },
-            {".pkg",  new List<SignInfo>{ SignInfo.Ignore } },
+            {".pkg",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
             {".nupkg",  new List<SignInfo>{ new SignInfo("NuGet") } },
             {".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };
@@ -65,7 +65,7 @@ namespace Microsoft.DotNet.SignTool.Tests
             { ".zip", new List<SignInfo>{ SignInfo.Ignore } },
             { ".tgz", new List<SignInfo>{ SignInfo.Ignore } },
             { ".tar.gz", new List<SignInfo>{ SignInfo.Ignore } },
-            { ".pkg", new List<SignInfo>{ SignInfo.Ignore } },
+            { ".pkg", new List<SignInfo>{ new SignInfo("Microsoft400", collisionPriorityId:  "123") } },
             { ".nupkg", new List<SignInfo>{ new SignInfo("NuGet", collisionPriorityId: "123") } },
             { ".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };
@@ -122,7 +122,7 @@ namespace Microsoft.DotNet.SignTool.Tests
                 { SignToolConstants.CollisionPriorityId, "123" }
             }),
             new TaskItem(".pkg", new Dictionary<string, string> {
-                { "CertificateName", "None" },
+                { "CertificateName", "Microsoft400" },
                 { SignToolConstants.CollisionPriorityId, "123" }
             }),
             new TaskItem(".nupkg", new Dictionary<string, string> {
@@ -351,6 +351,13 @@ namespace Microsoft.DotNet.SignTool.Tests
             // The list of files that would be signed was captured inside the FakeBuildEngine,
             // here we check if that matches what we expected
             var actualXmlElementsPerSigningRound = buildEngine.FilesToSign.Select(round => string.Join(Environment.NewLine, round));
+            
+            // Print the xml elements
+            foreach (var actual in actualXmlElementsPerSigningRound)
+            {
+                _output.WriteLine($"Actual XML: {actual}");
+            }
+            
             actualXmlElementsPerSigningRound.Count().Should().Be(expectedXmlElementsPerSigningRound.Length);
             int i = 0;
             foreach (var actual in actualXmlElementsPerSigningRound)
@@ -361,6 +368,23 @@ namespace Microsoft.DotNet.SignTool.Tests
                 actualXml.Should().Be(expectedXml, $"Actual XML: {actualXml}");
                 // actualXml.Should().Be(expectedXml);
                 i++;
+            }
+
+            // Print the logged errors and warnings
+            if (task.Log.HasLoggedErrors)
+            {
+                foreach (var message in buildEngine.LogErrorEvents)
+                {
+                    _output.WriteLine($"Error: {message.Message}");
+                }
+                foreach (var message in buildEngine.LogWarningEvents)
+                {
+                    _output.WriteLine($"Warning: {message.Message}");
+                }
+                foreach (var message in buildEngine.LogMessageEvents)
+                {
+                    _output.WriteLine($"Message: {message.Message}");
+                }
             }
 
             task.Log.HasLoggedErrors.Should().BeFalse();
@@ -1091,10 +1115,12 @@ $@"
                 "File 'SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
                 "File 'Nested.NativeLibrary.dll' Certificate='Microsoft400'",
                 "File 'Nested.SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
-                "File 'NestedPkg.pkg' Certificate=''",
-                "File 'test.pkg' Certificate=''",
+                "File 'NestedPkg.pkg' Certificate='Microsoft400'",
+                "File 'test.pkg' Certificate='Microsoft400'",
             });
 
+            // OSX files need to be zipped first before being signed
+            // This is why the .pkgs are listed as .zip files below
             ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
                 $@"
@@ -1110,7 +1136,17 @@ $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "6", "Payload/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll"))}"">
                 <Authenticode>Microsoft400</Authenticode>
                 </FilesToSign>
-                "
+                ",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "NestedPkg.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "test.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>",
             });
         }
 
@@ -1138,9 +1174,11 @@ $@"
                 "File 'SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
                 "File 'Nested.SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
                 "File 'Nested.NativeLibrary.dll' Certificate='Microsoft400'",
-                "File 'NestedPkg.pkg' Certificate=''",
+                "File 'NestedPkg.pkg' Certificate='Microsoft400'",
             });
 
+            // OSX files need to be zipped first before being signed
+            // This is why the .pkgs are listed as .zip files below
             ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
                 $@"
@@ -1156,7 +1194,12 @@ $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "5", "Payload/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll"))}"">
                 <Authenticode>Microsoft400</Authenticode>
                 </FilesToSign>
-                "
+                ",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "NestedPkg.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>"
             });
         }
 

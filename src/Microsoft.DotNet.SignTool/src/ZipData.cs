@@ -256,12 +256,19 @@ namespace Microsoft.DotNet.SignTool
             }
         }
 
-        private static bool RunPkgProcess(string srcPath, string dstPath, string action, string pkgToolPath)
+        internal static bool RunPkgProcess(string srcPath, string dstPath, string action, string pkgToolPath)
         {
-            if (action != "unpack" && action != "repack")
+            if (action != "unpack" && action != "repack" && action != "verify")
             {
                 throw new ArgumentException($"Invalid action '{action}' for pkg tool.");
             }
+
+            if (action == "verify")
+            {
+                // The verify action doesn't take a destination path.
+                dstPath = "no_dst_path";
+            }
+
             var process = Process.Start(new ProcessStartInfo()
             {
                 FileName = "dotnet",
@@ -276,7 +283,6 @@ namespace Microsoft.DotNet.SignTool
         private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgEntries(TaskLoggingHelper log, string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
         {
             var extractDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
-            Console.WriteLine($"Extracting {archivePath}:");
             try
             {
                 if (!RunPkgProcess(archivePath, extractDir, "unpack", pkgToolPath))
@@ -286,7 +292,6 @@ namespace Microsoft.DotNet.SignTool
 
                 foreach (var path in Directory.EnumerateFiles(extractDir, "*.*", SearchOption.AllDirectories))
                 {
-                    Console.WriteLine($"    {path}");
                     var relativePath = path.Substring(extractDir.Length + 1).Replace(Path.DirectorySeparatorChar, '/');
                     using var stream = ignoreContent ? null : (Stream)File.Open(path, FileMode.Open);
                     yield return (relativePath, stream, stream?.Length ?? 0);

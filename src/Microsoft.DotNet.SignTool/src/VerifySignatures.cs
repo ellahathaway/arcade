@@ -66,13 +66,17 @@ namespace Microsoft.DotNet.SignTool
             return filePath.StartsWith("package/services/digital-signature/", StringComparison.OrdinalIgnoreCase);
         }
 
+        internal static bool VerifySignedPkg(string fullPath, string pkgToolPath)
+        {
+            return ZipData.RunPkgProcess(fullPath, null, "verify", pkgToolPath);
+        }
+
         internal static bool IsSignedContainer(TaskLoggingHelper log, string fullPath, string tempDir, string tarToolPath, string pkgToolPath)
         {
             if (FileSignInfo.IsZipContainer(fullPath))
             {
                 bool signedContainer = false;
 
-                Console.WriteLine("Verify extraction: " + fullPath);
                 foreach (var (relativePath, _, _) in ZipData.ReadEntries(log, fullPath, tempDir, tarToolPath, pkgToolPath, ignoreContent: false))
                 {
                     if (FileSignInfo.IsNupkg(fullPath) && VerifySignedNupkgByFileMarker(relativePath))
@@ -85,6 +89,11 @@ namespace Microsoft.DotNet.SignTool
                         break;
                     }
                     else if (FileSignInfo.IsVsix(fullPath) && VerifySignedVSIXByFileMarker(relativePath))
+                    {
+                        signedContainer = true;
+                        break;
+                    }
+                    else if (FileSignInfo.IsPkg(fullPath) && VerifySignedPkg(relativePath, pkgToolPath))
                     {
                         signedContainer = true;
                         break;

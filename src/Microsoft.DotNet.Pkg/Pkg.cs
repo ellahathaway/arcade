@@ -26,6 +26,26 @@ namespace Microsoft.DotNet.Pkg
         public static void Repack(string inputPath, string outputPath)
             => ProcessPkg(inputPath, outputPath, repacking: true);
 
+        public static void VerifySignature(string inputPath)
+        {
+            if (string.IsNullOrEmpty(inputPath))
+            {
+                throw new Exception("Input path must be provided");
+            }
+
+            if (!IsPkg(inputPath))
+            {
+                throw new Exception("Input path must be a .pkg file");
+            }
+
+            string full_path = Path.GetFullPath(inputPath);
+            string output = ExecuteHelper.Run("pkgutil", $"--check-signature {full_path}");
+            if (output.Contains("Status: no signature"))
+            {
+                throw new Exception("No signature found in package");
+            }
+        }
+
         private static void ProcessPkg(string inputPath, string outputPath, bool repacking)
         {
             InputPath = inputPath;

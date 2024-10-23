@@ -143,6 +143,11 @@ namespace Microsoft.DotNet.SignTool
         {
             return VerifySignatures.VerifySignedVSIXByFileMarker(filePath);
         }
+
+        public override bool VerifySignedPkgFile(string fullPath, string pkgToolPath)
+        {
+            return VerifySignatures.VerifySignedPkg(fullPath, pkgToolPath);
+        }
         
         public override bool LocalStrongNameSign(IBuildEngine buildEngine, int round, IEnumerable<FileSignInfo> files)
         {

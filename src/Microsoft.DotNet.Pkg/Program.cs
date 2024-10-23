@@ -17,7 +17,7 @@ if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 
 if (args.Length != 3)
 {
-    Console.Error.WriteLine("Usage: <src path> <dst path> <unpack|repack>");
+    Console.Error.WriteLine("Usage: <src path> <dst path> <unpack|repack|verify>");
     return 1;
 }
 
@@ -34,6 +34,10 @@ try
     else if(op == "repack")
     {
         Pkg.Repack(srcPath, dstPath);
+    }
+    else if(op == "verify")
+    {
+        Pkg.VerifySignature(srcPath);
     }
     else
     {

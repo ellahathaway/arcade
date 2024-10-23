@@ -61,12 +61,12 @@ namespace Microsoft.DotNet.SignTool
             || Path.GetExtension(path).Equals(".psm1", StringComparison.OrdinalIgnoreCase);
 
         internal static bool IsPackage(string path)
-            => IsVsix(path) || IsNupkg(path);
+            => IsVsix(path) || IsNupkg(path) || IsPkg(path);
 
         // We only consider a .pkg file to be an unpackable container on macOS
         // because that's the only platform where we have the tooling to unpack it.
         internal static bool IsZipContainer(string path)
-            => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path) || (IsPkg(path) && IsMacOS());
+            => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path);
 
         internal bool IsPEFile() => IsPEFile(FileName);
 
