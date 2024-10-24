@@ -54,8 +54,8 @@ namespace Microsoft.DotNet.SignTool
         private bool AuthenticodeSign(IBuildEngine buildEngine, int round, IEnumerable<FileSignInfo> filesToSign)
         {
             var signingDir = Path.Combine(_args.TempDir, "Signing");
-            var nonOSXFilesToSign = filesToSign.Where(fsi => !SignToolConstants.SignableOSXExtensions.Contains(GetExtension(fsi.FileName)));
-            var osxFilesToSign = filesToSign.Where(fsi => SignToolConstants.SignableOSXExtensions.Contains(GetExtension(fsi.FileName)));
+            var nonOSXFilesToSign = filesToSign.Where(fsi => !SignToolConstants.SignableOSXExtensions.Contains(GetExtension(fsi)));
+            var osxFilesToSign = filesToSign.Where(fsi => SignToolConstants.SignableOSXExtensions.Contains(GetExtension(fsi)));
 
             var nonOSXSigningStatus = true;
             var osxSigningStatus = true;
@@ -68,6 +68,7 @@ namespace Microsoft.DotNet.SignTool
                 foreach (var file in nonOSXFilesToSign)
                 {
                     Console.WriteLine($"  {file.FullPath}");
+                    Console.WriteLine($"  {GetExtension(file)}");
                 }
                 var nonOSXBuildFilePath = Path.Combine(signingDir, $"Round{round}.proj");
                 var nonOSXProjContent = GenerateBuildFileContent(nonOSXFilesToSign);
@@ -137,11 +138,10 @@ namespace Microsoft.DotNet.SignTool
                                 else
                                 {
                                     // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
-                                    string destinationPath = item.IsAppBundle() ? item.FullPath : Path.GetDirectoryName(item.FullPath);
                                     var process = Process.Start(new ProcessStartInfo()
                                     {
                                         FileName = "ditto",
-                                        Arguments = $"-V -xk \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\" \"{destinationPath}\"",
+                                        Arguments = $"-V -xk \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\" \"{Path.GetDirectoryName(item.FullPath)}\"",
                                         UseShellExecute = false,
                                         WorkingDirectory = TempDir,
                                     });
@@ -228,8 +228,8 @@ namespace Microsoft.DotNet.SignTool
         }
 
         // Packaged app bundles have a two-part extension, so we need to handle them differently.
-        private static string GetExtension(string fileName) =>
-            FileSignInfo.IsAppBundle(fileName) ? "app.zip" : Path.GetExtension(fileName);
+        private static string GetExtension(FileSignInfo file) =>
+            file.IsAppBundle() ? ".app.zip" : Path.GetExtension(file.FileName);
 
         private static string GetZipFilePath(string zipFileDir, string fileName) =>
             Path.Combine(zipFileDir, Path.GetFileNameWithoutExtension(fileName) + ".zip");
