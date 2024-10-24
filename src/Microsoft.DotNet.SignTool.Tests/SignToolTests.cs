@@ -1226,7 +1226,7 @@ $@"
             ValidateFileSignInfos(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
                 "File 'libexample.dylib' Certificate='DylibCertificate'",
-                "File 'test.app' Certificate='Microsoft400'",
+                "File 'test.app.zip' Certificate='Microsoft400'",
                 "File 'WithApp.pkg' Certificate='Microsoft400'",
             });
 
@@ -1241,7 +1241,7 @@ $@"
                 </FilesToSign>
                 ",
                 $@"
-                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "test.zip"))}"">
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "test.app.zip"))}"">
                 <Authenticode>Microsoft400</Authenticode>
                 <Zip>true</Zip>
                 </FilesToSign>
