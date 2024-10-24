@@ -63,7 +63,7 @@ namespace Microsoft.DotNet.SignTool
             => Path.GetExtension(path).Equals(".app", StringComparison.OrdinalIgnoreCase);
 
         internal static bool IsPackage(string path)
-            => IsVsix(path) || IsNupkg(path) || IsPkg(path);
+            => IsVsix(path) || IsNupkg(path) || IsPkg(path) || IsApp(path);
 
         internal static bool IsZipContainer(string path)
             => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path);
