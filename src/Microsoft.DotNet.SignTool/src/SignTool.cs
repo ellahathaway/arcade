@@ -54,8 +54,8 @@ namespace Microsoft.DotNet.SignTool
         private bool AuthenticodeSign(IBuildEngine buildEngine, int round, IEnumerable<FileSignInfo> filesToSign)
         {
             var signingDir = Path.Combine(_args.TempDir, "Signing");
-            var nonOSXFilesToSign = filesToSign.Where(fsi => !SignToolConstants.SignableOSXExtensions.Contains(Path.GetExtension(fsi.FileName)));
-            var osxFilesToSign = filesToSign.Where(fsi => SignToolConstants.SignableOSXExtensions.Contains(Path.GetExtension(fsi.FileName)));
+            var nonOSXFilesToSign = filesToSign.Where(fsi => !SignToolConstants.SignableOSXExtensions.Contains(GetExtension(fsi.FileName)));
+            var osxFilesToSign = filesToSign.Where(fsi => SignToolConstants.SignableOSXExtensions.Contains(GetExtension(fsi.FileName)));
 
             var nonOSXSigningStatus = true;
             var osxSigningStatus = true;
@@ -221,6 +221,10 @@ namespace Microsoft.DotNet.SignTool
 
             return builder.ToString();
         }
+
+        // Packaged app bundles have a two-part extension, so we need to handle them differently.
+        private static string GetExtension(string fileName) =>
+            FileSignInfo.IsAppBundle(fileName) ? "app.zip" : Path.GetExtension(fileName);
 
         private static string GetZipFilePath(string zipFileDir, string fileName) =>
             Path.Combine(zipFileDir, Path.GetFileNameWithoutExtension(fileName) + ".zip");
