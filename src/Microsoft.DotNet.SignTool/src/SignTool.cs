@@ -64,6 +64,11 @@ namespace Microsoft.DotNet.SignTool
 
             if (nonOSXFilesToSign.Any())
             {
+                Console.WriteLine("Signing non-OSX files:");
+                foreach (var file in nonOSXFilesToSign)
+                {
+                    Console.WriteLine($"  {file.FullPath}");
+                }
                 var nonOSXBuildFilePath = Path.Combine(signingDir, $"Round{round}.proj");
                 var nonOSXProjContent = GenerateBuildFileContent(nonOSXFilesToSign);
 
