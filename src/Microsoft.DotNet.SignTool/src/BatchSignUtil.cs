@@ -519,6 +519,18 @@ namespace Microsoft.DotNet.SignTool
                         log.LogError($"Pkg {fileName} cannot be strong name signed.");
                     }
                 }
+                else if (fileName.IsAppBundle())
+                {
+                    if (isInvalidEmptyCertificate)
+                    {
+                        log.LogError($"AppBundle {fileName} should have a certificate name.");
+                    }
+
+                    if (fileName.SignInfo.StrongName != null)
+                    {
+                        log.LogError($"AppBundle {fileName} cannot be strong name signed.");
+                    }
+                }
                 else if (fileName.IsZip())
                 {
                     if (fileName.SignInfo.Certificate != null)
