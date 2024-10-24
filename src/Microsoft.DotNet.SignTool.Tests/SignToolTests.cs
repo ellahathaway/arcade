@@ -39,6 +39,7 @@ namespace Microsoft.DotNet.SignTool.Tests
             {".tgz",  new List<SignInfo>{ SignInfo.Ignore } },
             {".tar.gz",  new List<SignInfo>{ SignInfo.Ignore } },
             {".pkg",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
+            {".app",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
             {".nupkg",  new List<SignInfo>{ new SignInfo("NuGet") } },
             {".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };
@@ -66,6 +67,7 @@ namespace Microsoft.DotNet.SignTool.Tests
             { ".tgz", new List<SignInfo>{ SignInfo.Ignore } },
             { ".tar.gz", new List<SignInfo>{ SignInfo.Ignore } },
             { ".pkg", new List<SignInfo>{ new SignInfo("Microsoft400", collisionPriorityId:  "123") } },
+            {".app",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
             { ".nupkg", new List<SignInfo>{ new SignInfo("NuGet", collisionPriorityId: "123") } },
             { ".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };
@@ -1197,6 +1199,48 @@ $@"
                 ",
                 $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "NestedPkg.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>"
+            });
+        }
+
+        [MacOSOnlyFact]
+        public void SignPkgFileWithApp()
+        {
+            // List of files to be considered for signing
+            var itemsToSign = new ITaskItem[]
+            {
+                new TaskItem( GetResourcePath("WithApp.pkg"))
+            };
+
+            // Default signing information
+            var strongNameSignInfo = new Dictionary<string, List<SignInfo>>()
+            {
+                { "581d91ccdfc4ea9c", new List<SignInfo>{ new SignInfo("ArcadeCertTest", "ArcadeStrongTest") } }
+            };
+
+            // Overriding information
+            var fileSignInfo = new Dictionary<ExplicitCertificateKey, string>();
+
+            ValidateFileSignInfos(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
+            {
+                "File 'test.app' Certificate='Microsoft400'",
+                "File 'WithApp.pkg' Certificate='Microsoft400'",
+            });
+
+            // OSX files need to be zipped first before being signed
+            // This is why the .pkgs are listed as .zip files below
+            ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
+            {
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "test.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>
+                ",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "WithApp.zip"))}"">
                 <Authenticode>Microsoft400</Authenticode>
                 <Zip>true</Zip>
                 </FilesToSign>"
