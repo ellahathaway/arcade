@@ -57,16 +57,16 @@ namespace Microsoft.DotNet.SignTool
             || Path.GetExtension(path).Equals(".psd1", StringComparison.OrdinalIgnoreCase)
             || Path.GetExtension(path).Equals(".psm1", StringComparison.OrdinalIgnoreCase);
 
-        // Apps are technically directories
-        // However, they are still signable so we treat them as files
-        internal static bool IsApp(string path)
-            => Path.GetExtension(path).Equals(".app", StringComparison.OrdinalIgnoreCase);
+        // Apps are bundled into zips by the unpack & repack pkg tool
+        internal static bool IsAppBundle(string path)
+            => Path.GetExtension(path).Equals(".zip", StringComparison.OrdinalIgnoreCase)
+            && Path.GetFileNameWithoutExtension(path).EndsWith(".app", StringComparison.OrdinalIgnoreCase);
 
         internal static bool IsPackage(string path)
-            => IsVsix(path) || IsNupkg(path) || IsPkg(path) || IsApp(path);
+            => IsVsix(path) || IsNupkg(path) || IsPkg(path);
 
         internal static bool IsZipContainer(string path)
-            => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path);
+            => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path) || IsAppBundle(path);
 
         internal bool IsPEFile() => IsPEFile(FileName);
 
@@ -108,7 +108,7 @@ namespace Microsoft.DotNet.SignTool
 
         internal bool IsPowerShellScript() => IsPowerShellScript(FileName);
 
-        internal bool IsApp() => IsApp(FileName);
+        internal bool IsAppBundle() => IsAppBundle(FileName);
 
         internal bool HasSignableParts { get; }
 

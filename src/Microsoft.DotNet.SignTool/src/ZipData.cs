@@ -290,13 +290,6 @@ namespace Microsoft.DotNet.SignTool
                     yield break;
                 }
 
-                // We should still sign .apps - These are technically directories, but we treat them as files.
-                foreach (var path in Directory.EnumerateDirectories(extractDir, "*.app", SearchOption.AllDirectories))
-                {
-                    var relativePath = path.Substring(extractDir.Length + 1).Replace(Path.DirectorySeparatorChar, '/');
-                    yield return (relativePath, null, 0);
-                }
-
                 foreach (var path in Directory.EnumerateFiles(extractDir, "*.*", SearchOption.AllDirectories))
                 {
                     var relativePath = path.Substring(extractDir.Length + 1).Replace(Path.DirectorySeparatorChar, '/');

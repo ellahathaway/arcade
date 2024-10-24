@@ -112,6 +112,11 @@ namespace Microsoft.DotNet.SignTool
                         signedContainer = true;
                         break;
                     }
+                    else if (FileSignInfo.IsAppBundle(fullPath) && VerifySignedAppBundle(relativePath))
+                    {
+                        signedContainer = true;
+                        break;
+                    }
                 }
 
                 if (!signedContainer)

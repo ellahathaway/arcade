@@ -569,13 +569,6 @@ namespace Microsoft.DotNet.SignTool
                     _log.LogError($"Powershell file {file.FullPath} does not have a signature mark.");
                 }
             }
-            else if (file.IsApp())
-            {
-                if (!_signTool.VerifySignedAppBundle(file.FullPath))
-                {
-                    _log.LogError($"App file {file.FullPath} does not have a signature mark.");
-                }
-            }
             else if (file.IsZipContainer())
             {
                 var zipData = _batchData.ZipDataMap[file.FileContentKey];
@@ -594,6 +587,10 @@ namespace Microsoft.DotNet.SignTool
                             signedContainer = true;
                         }
                         else if (file.IsPkg() && _signTool.VerifySignedPkgFile(relativeName, _signTool.PkgToolPath))
+                        {
+                            signedContainer = true;
+                        }
+                        else if (file.IsAppBundle() && _signTool.VerifySignedAppBundle(relativeName))
                         {
                             signedContainer = true;
                         }

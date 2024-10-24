@@ -88,20 +88,29 @@ namespace Microsoft.DotNet.SignTool
                             // Zip the files
                             foreach (FileSignInfo item in osxFileGroup)
                             {
-                                // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
-                                var process = Process.Start(new ProcessStartInfo()
+                                if (item.IsAppBundle())
                                 {
-                                    FileName = "ditto",
-                                    Arguments = $"-V -ck --sequesterRsrc \"{item.FullPath}\" \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\"",
-                                    UseShellExecute = false,
-                                    WorkingDirectory = TempDir,
-                                });
+                                    // This is already a zip file, no need to zip it again.
+                                    // Just copy it to the zipping directory.
+                                    File.Copy(item.FullPath, GetZipFilePath(osxFilesZippingDir, item.FileName));
+                                }
+                                else
+                                {
+                                    // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
+                                    var process = Process.Start(new ProcessStartInfo()
+                                    {
+                                        FileName = "ditto",
+                                        Arguments = $"-V -ck --sequesterRsrc \"{item.FullPath}\" \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\"",
+                                        UseShellExecute = false,
+                                        WorkingDirectory = TempDir,
+                                    });
 
-                                process.WaitForExit();
-                                if (process.ExitCode != 0)
-                                {
-                                    _log.LogError($"Failed to zip file {item.FullPath}");
-                                    return false;
+                                    process.WaitForExit();
+                                    if (process.ExitCode != 0)
+                                    {
+                                        _log.LogError($"Failed to zip file {item.FullPath}");
+                                        return false;
+                                    }
                                 }
                             }
 
@@ -111,27 +120,33 @@ namespace Microsoft.DotNet.SignTool
 
                             osxSigningStatus = RunMSBuild(buildEngine, osxBuildFilePath, Path.Combine(_args.LogDir, $"Signing{round}-OSX.binlog"));
 
-                            // Unzip the files and copy them back to their original locations
+                            // Unzip the files
                             foreach (var item in osxFileGroup)
                             {
-                                // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
-                                // Ditto requires that the item gets unzipped to the directory where the item is located.
-                                // If the item is an app, then the item itself is the directory.
-                                // Otherwise, the item is a file and we need to unzip it to the directory where the file is located.
-                                string destinationPath = item.IsApp() ? item.FullPath : Path.GetDirectoryName(item.FullPath);
-                                var process = Process.Start(new ProcessStartInfo()
+                                if (item.IsAppBundle())
                                 {
-                                    FileName = "ditto",
-                                    Arguments = $"-V -xk \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\" \"{destinationPath}\"",
-                                    UseShellExecute = false,
-                                    WorkingDirectory = TempDir,
-                                });
+                                    // This is already a zip file, no need to unzip it.
+                                    // Just copy it to the destination directory.
+                                    File.Copy(GetZipFilePath(osxFilesZippingDir, item.FileName), item.FullPath, overwrite: true);
+                                }
+                                else
+                                {
+                                    // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
+                                    string destinationPath = item.IsAppBundle() ? item.FullPath : Path.GetDirectoryName(item.FullPath);
+                                    var process = Process.Start(new ProcessStartInfo()
+                                    {
+                                        FileName = "ditto",
+                                        Arguments = $"-V -xk \"{GetZipFilePath(osxFilesZippingDir, item.FileName)}\" \"{destinationPath}\"",
+                                        UseShellExecute = false,
+                                        WorkingDirectory = TempDir,
+                                    });
 
-                                process.WaitForExit();
-                                if (process.ExitCode != 0)
-                                {
-                                    _log.LogError($"Failed to unzip file {item.FullPath}");
-                                    return false;
+                                    process.WaitForExit();
+                                    if (process.ExitCode != 0)
+                                    {
+                                        _log.LogError($"Failed to unzip file {item.FullPath}");
+                                        return false;
+                                    }
                                 }
                             }
                         }

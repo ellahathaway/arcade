@@ -86,11 +86,6 @@ namespace Microsoft.DotNet.Pkg
 
         }
 
-        internal static List<string> GetNestedApplications(string? srcDir) =>
-            srcDir == null
-                ? new List<string>()
-                : GetDirectories(srcDir, "*.app").ToList();
-
         internal static bool IsPkg(string path) =>
             Path.GetExtension(path).Equals(".pkg");
 
@@ -256,6 +251,8 @@ namespace Microsoft.DotNet.Pkg
             private string? Scripts;
             private string? Payload;
 
+            private List<string> NestedApps = new List<string>();
+
             internal UnpackedBundle(string localExtractionPath, string identifier, string version, string rootPkgName, bool repacking = false, bool isNested = true)
             {
                 NameWithExtension = isNested ? Path.GetFileName(localExtractionPath) : rootPkgName;
@@ -290,10 +287,15 @@ namespace Microsoft.DotNet.Pkg
                     if (!string.IsNullOrEmpty(Payload) && !repacking)
                     {
                         UnpackPayloadFile(Path.GetFullPath(Payload));
+
+                        NestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app", SearchOption.AllDirectories).ToList();
+                        ZipApps();
                     }
 
                     if (repacking || isNested)
                     {
+                        NestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app.zip", SearchOption.AllDirectories).ToList();
+                        UnzipApps();
                         PkgBuild(isNested);
                     }
                 }
@@ -303,6 +305,30 @@ namespace Microsoft.DotNet.Pkg
                     // We don't need the unpacked nested bundle
                     // anymore because we have repacked it
                     Directory.Delete(LocalExtractionPath, true);
+                }
+            }
+
+            private void ZipApps()
+            {
+                // We replace the .app directories with .zip files
+                foreach (string app in NestedApps)
+                {
+                    string zipPath = $"{app}.zip";
+                    string args = $"-c -k --sequesterRsrc {app} {zipPath}";
+                    ExecuteHelper.Run("ditto", args);
+                    Directory.Delete(app, true);
+                }
+            }
+
+            private void UnzipApps()
+            {
+                // We replace the .app directories with .zip files
+                foreach (string zippedApp in NestedApps)
+                {
+                    string unzipPath = $"{Path.GetDirectoryName(zippedApp)}/{Path.GetFileNameWithoutExtension(zippedApp)}";
+                    string args = $"-V -xk {zippedApp} {unzipPath}";
+                    ExecuteHelper.Run("ditto", args);
+                    File.Delete(zippedApp);
                 }
             }
 

@@ -31,9 +31,7 @@ namespace Microsoft.DotNet.Pkg.Tests
         {
             Path.Combine("Bom"),
             Path.Combine("PackageInfo"),
-            Path.Combine("Payload", "test.app", "Contents", "Info.plist"),
-            Path.Combine("Payload", "test.app", "Contents", "MacOS", "main"),
-            Path.Combine("Payload", "test.app", "Contents", "Resources", "libexample.dylib")
+            Path.Combine("Payload", "test.app.zip")
         };
 
         private static string[] simpleInstallerFiles = new[]
