@@ -354,10 +354,17 @@ namespace Microsoft.DotNet.SignTool.Tests
             // here we check if that matches what we expected
             var actualXmlElementsPerSigningRound = buildEngine.FilesToSign.Select(round => string.Join(Environment.NewLine, round));
             
-            // Print the xml elements
-            foreach (var actual in actualXmlElementsPerSigningRound)
+            foreach (var message in buildEngine.LogErrorEvents)
             {
-                _output.WriteLine($"Actual XML: {actual}");
+                _output.WriteLine($"Error: {message.Message}");
+            }
+            foreach (var message in buildEngine.LogWarningEvents)
+            {
+                _output.WriteLine($"Warning: {message.Message}");
+            }
+            foreach (var message in buildEngine.LogMessageEvents)
+            {
+                _output.WriteLine($"Message: {message.Message}");
             }
             
             actualXmlElementsPerSigningRound.Count().Should().Be(expectedXmlElementsPerSigningRound.Length);
@@ -366,27 +373,8 @@ namespace Microsoft.DotNet.SignTool.Tests
             {
                 var actualXml = AssertEx.NormalizeWhitespace(actual);
                 var expectedXml = AssertEx.NormalizeWhitespace(expectedXmlElementsPerSigningRound[i]);
-                // output actual xml in error message
-                actualXml.Should().Be(expectedXml, $"Actual XML: {actualXml}");
-                // actualXml.Should().Be(expectedXml);
+                actualXml.Should().Be(expectedXml);
                 i++;
-            }
-
-            // Print the logged errors and warnings
-            if (task.Log.HasLoggedErrors)
-            {
-                foreach (var message in buildEngine.LogErrorEvents)
-                {
-                    _output.WriteLine($"Error: {message.Message}");
-                }
-                foreach (var message in buildEngine.LogWarningEvents)
-                {
-                    _output.WriteLine($"Warning: {message.Message}");
-                }
-                foreach (var message in buildEngine.LogMessageEvents)
-                {
-                    _output.WriteLine($"Message: {message.Message}");
-                }
             }
 
             task.Log.HasLoggedErrors.Should().BeFalse();
