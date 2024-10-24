@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(NetToolCurrent);$(NetFrameworkToolCurrent)</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" />
+    <PackageReference Include="Microsoft.Build.Framework" />
+  </ItemGroup>
+
+<ItemGroup>
+    <Content Include="Resources\**"
+             CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Microsoft.Arcade.Test.Common\Microsoft.Arcade.Test.Common.csproj" />
+    <ProjectReference Include="..\Microsoft.DotNet.XUnitExtensions\src\Microsoft.DotNet.XUnitExtensions.csproj" />
+
+    <ProjectReference Condition="$([MSBuild]::IsOSPlatform('osx'))"
+                  Include="..\Microsoft.DotNet.Pkg\Microsoft.DotNet.Pkg.csproj"
+                  ReferenceOutputAssembly="false"
+                  SetTargetFramework="TargetFramework=$(NetToolCurrent)"
+                  SkipGetTargetFrameworkProperties="true"
+                  Private="false"
+                  OutputItemType="_PkgToolPath" />
+  </ItemGroup>
+
+  <Target Name="_CopyPkgTool" AfterTargets="ResolveProjectReferences" Condition="$([MSBuild]::IsOSPlatform('osx'))">
+    <PropertyGroup>
+      <_PkgToolPattern>@(_PkgToolPath->'%(RootDir)%(Directory)')**\*.*</_PkgToolPattern>
+    </PropertyGroup>
+    <ItemGroup>
+      <_PkgToolFiles Include="$(_PkgToolPattern)"/>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="@(_PkgToolFiles)" CopyToOutputDirectory="PreserveNewest" Link="tools\pkg\%(RecursiveDir)%(Filename)%(Extension)"/>
+    </ItemGroup>
+  </Target>
+
+</Project>

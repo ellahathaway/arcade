@@ -114,7 +114,7 @@ namespace Microsoft.DotNet.Pkg
             }
             catch (Exception e)
             {
-                throw new Exception($"Error finding file '{name}' in '{path}: {e.Message}");
+                throw new Exception($"Error finding file '{name}' in '{path}': {e.Message}");
             }
         }
 
@@ -140,8 +140,8 @@ namespace Microsoft.DotNet.Pkg
         {
             if (repacking)
             {
-                NameWithoutExtension = Path.GetFileName(Pkg.InputPath);
-                NameWithExtension = NameWithoutExtension + ".pkg";
+                NameWithExtension = Path.GetFileName(Pkg.OutputPath);
+                NameWithoutExtension = Path.GetFileNameWithoutExtension(NameWithExtension);;
                 LocalExtractionPath = Pkg.InputPath;
             }
             else
@@ -188,7 +188,7 @@ namespace Microsoft.DotNet.Pkg
                 XElement pkgInfo = XElement.Load(packageInfo);
                 Identifier = GetBundleId(pkgInfo);
                 string version = pkgInfo.Attribute("version")?.Value ?? throw new Exception("No version found in PackageInfo file");
-                Bundles.Add(new UnpackedBundle(LocalExtractionPath, NameWithoutExtension, version, NameWithExtension, repacking, isNested: false));
+                Bundles.Add(new UnpackedBundle(LocalExtractionPath, Identifier, version, NameWithExtension, repacking, isNested: false));
             }
             else if (repacking)
             {
@@ -309,12 +309,8 @@ namespace Microsoft.DotNet.Pkg
             private void PkgBuild(bool isNested)
             {
                 string info = GenerateInfoPlist();
-                string args = $"--root {LocalExtractionPath}";
-                if (!string.IsNullOrEmpty(Payload))
-                {
-                    args = $"--root {Payload}";
-                }
-                args += $" --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
+                string root = string.IsNullOrEmpty(Payload) ? $"{LocalExtractionPath}" : $"{Payload}";
+                string args = $"--root {root} --component-plist {info} --identifier {Identifier} --version {Version} --keychain login.keychain --install-location /usr/local/share/dotnet";
                 if (!string.IsNullOrEmpty(Scripts))
                 {
                     args += $" --scripts {Scripts}";
@@ -338,8 +334,9 @@ namespace Microsoft.DotNet.Pkg
 
             private string GenerateInfoPlist()
             {
+                string root = string.IsNullOrEmpty(Payload) ? $"{LocalExtractionPath}" : $"{Payload}";
                 string info = Path.Combine(Pkg.WorkingDirectory, "Info.plist");
-                ExecuteHelper.Run("pkgbuild", $"--analyze --root {LocalExtractionPath} {info}");
+                ExecuteHelper.Run("pkgbuild", $"--analyze --root {root} {info}");
                 return info;
             }
 

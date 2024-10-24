@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Microsoft.Build.Utilities;
+using System.Diagnostics;
 
 namespace Microsoft.DotNet.SignTool
 {
@@ -69,6 +70,19 @@ namespace Microsoft.DotNet.SignTool
         internal static bool VerifySignedPkg(string fullPath, string pkgToolPath)
         {
             return ZipData.RunPkgProcess(fullPath, null, "verify", pkgToolPath);
+        }
+
+        internal static bool VerifySignedAppBundle(string fullPath)
+        {
+            var process = Process.Start(new ProcessStartInfo()
+            {
+                FileName = "codesign",
+                Arguments = $"--verify --deep --strict --verbose=2 \"{fullPath}\"",
+                UseShellExecute = false
+            });
+
+            process.WaitForExit();
+            return process.ExitCode == 0;
         }
 
         internal static bool IsSignedContainer(TaskLoggingHelper log, string fullPath, string tempDir, string tarToolPath, string pkgToolPath)

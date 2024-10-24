@@ -22,9 +22,6 @@ namespace Microsoft.DotNet.SignTool
         // optional file information that allows to disambiguate among multiple files with the same name:
         internal readonly string TargetFramework;
 
-        internal static bool IsMacOS() =>
-            RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-
         internal static bool IsPEFile(string path)
             => Path.GetExtension(path) == ".exe" || Path.GetExtension(path) == ".dll";
 
@@ -60,11 +57,14 @@ namespace Microsoft.DotNet.SignTool
             || Path.GetExtension(path).Equals(".psd1", StringComparison.OrdinalIgnoreCase)
             || Path.GetExtension(path).Equals(".psm1", StringComparison.OrdinalIgnoreCase);
 
+        // Apps are technically directories
+        // However, they are still signable so we treat them as files
+        internal static bool IsApp(string path)
+            => Path.GetExtension(path).Equals(".app", StringComparison.OrdinalIgnoreCase);
+
         internal static bool IsPackage(string path)
             => IsVsix(path) || IsNupkg(path) || IsPkg(path);
 
-        // We only consider a .pkg file to be an unpackable container on macOS
-        // because that's the only platform where we have the tooling to unpack it.
         internal static bool IsZipContainer(string path)
             => IsPackage(path) || IsMPack(path) || IsZip(path) || IsTarGZip(path);
 
@@ -107,6 +107,8 @@ namespace Microsoft.DotNet.SignTool
         internal bool IsPackage() => IsPackage(FileName);
 
         internal bool IsPowerShellScript() => IsPowerShellScript(FileName);
+
+        internal bool IsApp() => IsApp(FileName);
 
         internal bool HasSignableParts { get; }
 

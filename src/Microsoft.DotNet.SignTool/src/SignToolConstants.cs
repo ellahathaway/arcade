@@ -117,7 +117,8 @@ namespace Microsoft.DotNet.SignTool
         /// </summary>
         public static readonly HashSet<string> SignableOSXExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
-            ".pkg"
+            ".pkg",
+            ".app"
         };
 
         /// <summary>
