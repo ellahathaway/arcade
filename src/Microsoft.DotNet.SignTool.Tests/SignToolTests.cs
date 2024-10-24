@@ -1225,7 +1225,6 @@ $@"
                 $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "3", "Contents/Resources/libexample.dylib"))}"">
                 <Authenticode>DylibCertificate</Authenticode>
-                <Zip>true</Zip>
                 </FilesToSign>
                 ",
                 $@"
