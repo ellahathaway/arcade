@@ -39,7 +39,7 @@ namespace Microsoft.DotNet.SignTool.Tests
             {".tgz",  new List<SignInfo>{ SignInfo.Ignore } },
             {".tar.gz",  new List<SignInfo>{ SignInfo.Ignore } },
             {".pkg",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
-            {".app",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
+            {".app.zip",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
             {".nupkg",  new List<SignInfo>{ new SignInfo("NuGet") } },
             {".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };
@@ -67,7 +67,7 @@ namespace Microsoft.DotNet.SignTool.Tests
             { ".tgz", new List<SignInfo>{ SignInfo.Ignore } },
             { ".tar.gz", new List<SignInfo>{ SignInfo.Ignore } },
             { ".pkg", new List<SignInfo>{ new SignInfo("Microsoft400", collisionPriorityId:  "123") } },
-            {".app",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
+            { ".app.zip",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
             { ".nupkg", new List<SignInfo>{ new SignInfo("NuGet", collisionPriorityId: "123") } },
             { ".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };

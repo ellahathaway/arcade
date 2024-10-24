@@ -59,7 +59,7 @@
     <FileExtensionSignInfo Include=".tgz" CertificateName="None" />
     <FileExtensionSignInfo Include=".tar.gz" CertificateName="None" />
     <FileExtensionSignInfo Include=".pkg" CertificateName="Microsoft400" />
-    <FileExtensionSignInfo Include=".app" CertificateName="Microsoft400" />
+    <FileExtensionSignInfo Include=".app.zip" CertificateName="Microsoft400" />
   </ItemGroup>
 
   <!-- The name of the .NET specific certificate, which is a general replacement for Microsoft400
