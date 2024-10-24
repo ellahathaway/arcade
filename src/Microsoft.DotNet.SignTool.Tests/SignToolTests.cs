@@ -1225,6 +1225,7 @@ $@"
 
             ValidateFileSignInfos(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
+                "File 'libexample.dylib' Certificate='DylibCertificate'",
                 "File 'test.app' Certificate='Microsoft400'",
                 "File 'WithApp.pkg' Certificate='Microsoft400'",
             });
@@ -1233,6 +1234,12 @@ $@"
             // This is why the .pkgs are listed as .zip files below
             ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "2", "Payload/test.app/Contents/Resources/libexample.dylib"))}"">
+                <Authenticode>DylibCertificate</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>
+                ",
                 $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "test.zip"))}"">
                 <Authenticode>Microsoft400</Authenticode>
