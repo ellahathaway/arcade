@@ -1223,7 +1223,7 @@ $@"
             ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
                 $@"
-                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "2", "Payload/test.app/Contents/Resources/libexample.dylib"))}"">
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "3", "Contents/Resources/libexample.dylib"))}"">
                 <Authenticode>DylibCertificate</Authenticode>
                 <Zip>true</Zip>
                 </FilesToSign>
