@@ -321,27 +321,36 @@ namespace Microsoft.DotNet.Pkg
                     Scripts = Pkg.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
                     Payload = Pkg.FindInPath("Payload", LocalExtractionPath, isDirectory: repacking, searchOption: SearchOption.TopDirectoryOnly);
 
-                    if (!string.IsNullOrEmpty(Payload) && !repacking)
+                    if (!string.IsNullOrEmpty(Payload))
                     {
-                        UnpackPayloadFile(Path.GetFullPath(Payload));
-
-                        IEnumerable<string> nestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app", SearchOption.AllDirectories);
-                        foreach (string app in nestedApps)
+                        if (!repacking)
                         {
-                            string appZip = $"{app}.zip";
-                            Pkg.ProcessAppBundle(repacking: true, inputPath: app, outputPath: appZip);
-                            File.Delete(app);
+                            UnpackPayloadFile(Path.GetFullPath(Payload));
                         }
+                        if (!isNested)
+                        {
+                            IEnumerable<string> nestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app", SearchOption.AllDirectories);
+                            foreach (string app in nestedApps)
+                            {
+                                string appZip = $"{app}.zip";
+                                Pkg.ProcessAppBundle(repacking: true, inputPath: app, outputPath: appZip);
+                                File.Delete(app);
+                            }   
+                        }
+
                     }
 
                     if (repacking || isNested)
                     {
-                        IEnumerable<string> zippedNestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app.zip", SearchOption.AllDirectories);
-                        foreach (string appZip in zippedNestedApps)
+                        if (!isNested)
                         {
-                            string app = Path.Combine(Path.GetDirectoryName(appZip) ?? string.Empty, Path.GetFileNameWithoutExtension(appZip));
-                            Pkg.ProcessAppBundle(repacking: false, inputPath: appZip, outputPath: app);
-                            File.Delete(appZip);
+                            IEnumerable<string> zippedNestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app.zip", SearchOption.AllDirectories);
+                            foreach (string appZip in zippedNestedApps)
+                            {
+                                string app = Path.Combine(Path.GetDirectoryName(appZip) ?? string.Empty, Path.GetFileNameWithoutExtension(appZip));
+                                Pkg.ProcessAppBundle(repacking: false, inputPath: appZip, outputPath: app);
+                                File.Delete(appZip);
+                            }
                         }
                         PkgBuild(isNested);
                     }
