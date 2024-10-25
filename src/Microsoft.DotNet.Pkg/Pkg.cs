@@ -86,12 +86,11 @@ namespace Microsoft.DotNet.Pkg
                 }
             }
 
-            if (IsPkg(InputPath))
+            if (IsPkg(InputPath) || IsPkg(OutputPath))
             {
-                Console.WriteLine("Processing .pkg file");
                 UnpackedPkg unpackedPkg = new UnpackedPkg(repacking);
             }
-            else if (IsAppBundle(InputPath))
+            else if (IsAppBundle(InputPath) || IsAppBundle(OutputPath))
             {
                 ProcessAppBundle(repacking);
             }
