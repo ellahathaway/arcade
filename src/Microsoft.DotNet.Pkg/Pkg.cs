@@ -334,7 +334,7 @@ namespace Microsoft.DotNet.Pkg
                             {
                                 string appZip = $"{app}.zip";
                                 Pkg.ProcessAppBundle(repacking: true, inputPath: app, outputPath: appZip);
-                                File.Delete(app);
+                                Directory.Delete(app);
                             }   
                         }
 
