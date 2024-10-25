@@ -354,19 +354,6 @@ namespace Microsoft.DotNet.SignTool.Tests
             // here we check if that matches what we expected
             var actualXmlElementsPerSigningRound = buildEngine.FilesToSign.Select(round => string.Join(Environment.NewLine, round));
             
-            foreach (var message in buildEngine.LogErrorEvents)
-            {
-                _output.WriteLine($"Error: {message.Message}");
-            }
-            foreach (var message in buildEngine.LogWarningEvents)
-            {
-                _output.WriteLine($"Warning: {message.Message}");
-            }
-            foreach (var message in buildEngine.LogMessageEvents)
-            {
-                _output.WriteLine($"Message: {message.Message}");
-            }
-            
             actualXmlElementsPerSigningRound.Count().Should().Be(expectedXmlElementsPerSigningRound.Length);
             int i = 0;
             foreach (var actual in actualXmlElementsPerSigningRound)
@@ -1211,6 +1198,7 @@ $@"
             // Overriding information
             var fileSignInfo = new Dictionary<ExplicitCertificateKey, string>();
 
+            // When .apps are unpacked from .pkgs, they get zipped so they can be signed
             ValidateFileSignInfos(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
                 "File 'libexample.dylib' Certificate='DylibCertificate'",
@@ -1219,11 +1207,11 @@ $@"
             });
 
             // OSX files need to be zipped first before being signed
-            // This is why the .pkgs are listed as .zip files below
+            // This is why the .pkgs and .apps are listed as .zip files below
             ValidateGeneratedProject(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
                 $@"
-                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "3", "Contents/Resources/libexample.dylib"))}"">
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "4", "Contents/Resources/libexample.dylib"))}"">
                 <Authenticode>DylibCertificate</Authenticode>
                 </FilesToSign>
                 ",
