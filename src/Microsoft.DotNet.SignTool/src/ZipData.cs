@@ -68,7 +68,7 @@ namespace Microsoft.DotNet.SignTool
             }
             else if (FileSignInfo.IsPkg(archivePath) || FileSignInfo.IsAppBundle(archivePath))
             {
-                return ReadPkgEntries(log, archivePath, tempDir, pkgToolPath, ignoreContent);
+                return ReadPkgOrAppBundleEntries(log, archivePath, tempDir, pkgToolPath, ignoreContent);
             }
 
             return ReadZipEntries(archivePath);
@@ -96,7 +96,7 @@ namespace Microsoft.DotNet.SignTool
             }
             else if (FileSignInfo.IsPkg() || FileSignInfo.IsAppBundle())
             {
-                RepackPkg(log, tempDir, pkgToolPath);
+                RepackPkgOrAppBundles(log, tempDir, pkgToolPath);
             }
             else 
             {
@@ -280,9 +280,13 @@ namespace Microsoft.DotNet.SignTool
             return process.ExitCode == 0;
         }
 
-        private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgEntries(TaskLoggingHelper log, string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
+        private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgOrAppBundleEntries(TaskLoggingHelper log, string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
         {
-            var extractDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+            string extractDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+            if (FileSignInfo.IsAppBundle(archivePath))
+            {
+                extractDir += ".app";
+            }
             try
             {
                 if (!RunPkgProcess(archivePath, extractDir, "unpack", pkgToolPath))
@@ -303,9 +307,13 @@ namespace Microsoft.DotNet.SignTool
             }
         }
 
-        private void RepackPkg(TaskLoggingHelper log, string tempDir, string pkgToolPath)
+        private void RepackPkgOrAppBundles(TaskLoggingHelper log, string tempDir, string pkgToolPath)
         {
-            var extractDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+            string extractDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+            if (FileSignInfo.IsAppBundle(tempDir))
+            {
+                extractDir += ".app";
+            }
             try
             {
                 if (!RunPkgProcess(srcPath: FileSignInfo.FullPath, dstPath: extractDir, "unpack", pkgToolPath))
