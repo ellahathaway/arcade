@@ -395,6 +395,19 @@ namespace Microsoft.DotNet.SignTool.Tests
             var task = new SignToolTask { BuildEngine = engine };
             var signingInput = new Configuration(_tmpDir, itemsToSign, strongNameSignInfo, fileSignInfo, extensionsSignInfo, dualCertificates, tarToolPath: s_tarToolPath, pkgToolPath: s_pkgToolPath, task.Log).GenerateListOfFiles();
 
+            foreach (var message in engine.LogErrorEvents)
+            {
+                _output.WriteLine($"Error: {message.Message}");
+            }
+            foreach (var message in engine.LogWarningEvents)
+            {
+                _output.WriteLine($"Warning: {message.Message}");
+            }
+            foreach (var message in engine.LogMessageEvents)
+            {
+                _output.WriteLine($"Message: {message.Message}");
+            }
+
             signingInput.FilesToSign.Select(f => f.ToString()).Should().BeEquivalentTo(expected);
             signingInput.FilesToCopy.Select(f => $"{f.Key} -> {f.Value}").Should().BeEquivalentTo(expectedCopyFiles ?? Array.Empty<string>());
             engine.LogErrorEvents.Select(w => w.Message).Should().BeEquivalentTo(expectedErrors ?? Array.Empty<string>());
