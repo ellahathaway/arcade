@@ -289,10 +289,6 @@ namespace Microsoft.DotNet.SignTool
         private static IEnumerable<(string relativePath, Stream content, long contentSize)> ReadPkgOrAppBundleEntries(TaskLoggingHelper log, string archivePath, string tempDir, string pkgToolPath, bool ignoreContent)
         {
             string extractDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
-            if (FileSignInfo.IsAppBundle(archivePath))
-            {
-                extractDir += ".app";
-            }
             try
             {
                 if (!RunPkgProcess(archivePath, extractDir, "unpack", pkgToolPath))
@@ -317,10 +313,6 @@ namespace Microsoft.DotNet.SignTool
         private void RepackPkgOrAppBundles(TaskLoggingHelper log, string tempDir, string pkgToolPath)
         {
             string extractDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
-            if (FileSignInfo.IsAppBundle(tempDir))
-            {
-                extractDir += ".app";
-            }
             try
             {
                 if (!RunPkgProcess(srcPath: FileSignInfo.FullPath, dstPath: extractDir, "unpack", pkgToolPath))

@@ -75,9 +75,9 @@ namespace Microsoft.DotNet.Pkg
                     throw new Exception("Input path must be a valid file");
                 }
 
-                if (!IsPkg(InputPath) && !IsUnzippedAppBundle(InputPath))
+                if (!IsPkg(InputPath) && !IsZippedAppBundle(InputPath))
                 {
-                    throw new Exception("Input path must be a .pkg or .app file");
+                    throw new Exception("Input path must be a .pkg or .app.zip file");
                 }
 
                 if (!Directory.Exists(OutputPath))
