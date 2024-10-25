@@ -267,6 +267,7 @@ namespace Microsoft.DotNet.Pkg
             }
             args += $" {Pkg.OutputPath}";
 
+            Console.WriteLine(args);
             ExecuteHelper.Run("productbuild", args);
         }
 
