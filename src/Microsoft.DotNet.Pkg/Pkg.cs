@@ -21,10 +21,10 @@ namespace Microsoft.DotNet.Pkg
         internal static string OutputPath = string.Empty;
 
         public static void Unpack(string inputPath, string outputPath)
-            => ProcessPkg(inputPath, outputPath, repacking: false);
+            => Process(inputPath, outputPath, repacking: false);
         
         public static void Repack(string inputPath, string outputPath)
-            => ProcessPkg(inputPath, outputPath, repacking: true);
+            => Process(inputPath, outputPath, repacking: true);
 
         public static void VerifySignature(string inputPath)
         {
@@ -46,7 +46,7 @@ namespace Microsoft.DotNet.Pkg
             }
         }
 
-        private static void ProcessPkg(string inputPath, string outputPath, bool repacking)
+        private static void Process(string inputPath, string outputPath, bool repacking)
         {
             InputPath = inputPath;
             OutputPath = outputPath;
@@ -56,38 +56,80 @@ namespace Microsoft.DotNet.Pkg
                 throw new Exception("Input and output paths must be provided");
             }
 
-            string pkgPath = repacking ? OutputPath : InputPath;
-            string directoryPath = repacking ? InputPath : OutputPath;
-
-            if (!IsPkg(pkgPath) && !File.Exists(pkgPath))
+            if (repacking)
             {
-                string path = repacking ? "Output" : "Input";
-                throw new Exception($"{path} must be a .pkg file");
-            }
-
-            if (Directory.Exists(directoryPath) && !repacking)
-            {
-                throw new Exception("Output directory has content. Please provide an empty or non-existent directory.");
-            }
-            
-            if (!Directory.Exists(directoryPath))
-            {
-                if (repacking)
+                if (!Directory.Exists(InputPath))
                 {
-                    throw new Exception("Input path must be a directory");
+                    throw new Exception("Input path must be a valid directory");
                 }
-                else
+
+                if (!IsPkg(OutputPath) && !IsZippedAppBundle(OutputPath))
                 {
-                    Directory.CreateDirectory(directoryPath);
+                    throw new Exception("Output path must be a .pkg or .app.zip file");
                 }
             }
+            if (!repacking)
+            {
+                if (!File.Exists(InputPath))
+                {
+                    throw new Exception("Input path must be a valid file");
+                }
 
-            UnpackedPkg unpackedPkg = new UnpackedPkg(repacking);
+                if (!IsPkg(InputPath) && !IsUnzippedAppBundle(InputPath))
+                {
+                    throw new Exception("Input path must be a .pkg or .app file");
+                }
 
+                if (!Directory.Exists(OutputPath))
+                {
+                    Directory.CreateDirectory(OutputPath);
+                }
+            }
+
+            if (IsPkg(InputPath))
+            {
+                UnpackedPkg unpackedPkg = new UnpackedPkg(repacking);
+            }
+            else if (IsAppBundle(InputPath))
+            {
+                ProcessAppBundle(repacking);
+            }
         }
 
         internal static bool IsPkg(string path) =>
             Path.GetExtension(path).Equals(".pkg");
+
+        internal static bool IsAppBundle(string path) =>
+            IsZippedAppBundle(path) || IsUnzippedAppBundle(path);
+        internal static bool IsZippedAppBundle(string path) =>
+            Path.GetExtension(path).Equals(".zip") && Path.GetFileNameWithoutExtension(path).EndsWith(".app");
+
+        internal static bool IsUnzippedAppBundle(string path) =>
+            Path.GetExtension(path).Equals(".app");
+
+        internal static void ProcessAppBundle(bool repacking, string inputPath = "", string outputPath = "")
+        {
+            if (string.IsNullOrEmpty(inputPath))
+            {
+                inputPath = InputPath;
+            }
+            if (string.IsNullOrEmpty(outputPath))
+            {
+                outputPath = OutputPath;
+            }
+            if (!repacking)
+            {
+                // Unzip the .app.zip file to get the .app directory
+                string args = $"-V -xk {inputPath} {outputPath}";
+                ExecuteHelper.Run("ditto", args);
+            }
+            else
+            {
+                // Zip the .app directory to get the .app.zip file
+                string args = $"-c -k --sequesterRsrc {inputPath} {outputPath}";
+                ExecuteHelper.Run("ditto", args);
+            }
+        }
 
         internal static string? FindInPath(string name, string path, bool isDirectory, SearchOption searchOption = SearchOption.AllDirectories)
         {
@@ -123,7 +165,6 @@ namespace Microsoft.DotNet.Pkg
     internal class UnpackedPkg
     {
         private string NameWithExtension;
-        private string NameWithoutExtension;
         private string LocalExtractionPath;
         private string? Identifier = null;
         private string? Resources = null;
@@ -136,13 +177,11 @@ namespace Microsoft.DotNet.Pkg
             if (repacking)
             {
                 NameWithExtension = Path.GetFileName(Pkg.OutputPath);
-                NameWithoutExtension = Path.GetFileNameWithoutExtension(NameWithExtension);;
                 LocalExtractionPath = Pkg.InputPath;
             }
             else
             {
                 NameWithExtension = Path.GetFileName(Pkg.InputPath);
-                NameWithoutExtension = Path.GetFileNameWithoutExtension(NameWithExtension);
                 LocalExtractionPath = Pkg.OutputPath;
             }
 
@@ -251,8 +290,6 @@ namespace Microsoft.DotNet.Pkg
             private string? Scripts;
             private string? Payload;
 
-            private List<string> NestedApps = new List<string>();
-
             internal UnpackedBundle(string localExtractionPath, string identifier, string version, string rootPkgName, bool repacking = false, bool isNested = true)
             {
                 NameWithExtension = isNested ? Path.GetFileName(localExtractionPath) : rootPkgName;
@@ -288,14 +325,24 @@ namespace Microsoft.DotNet.Pkg
                     {
                         UnpackPayloadFile(Path.GetFullPath(Payload));
 
-                        NestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app", SearchOption.AllDirectories).ToList();
-                        ZipApps();
+                        IEnumerable<string> nestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app", SearchOption.AllDirectories);
+                        foreach (string app in nestedApps)
+                        {
+                            string appZip = $"{app}.zip";
+                            Pkg.ProcessAppBundle(repacking: true, inputPath: app, outputPath: appZip);
+                            File.Delete(app);
+                        }
                     }
 
                     if (repacking || isNested)
                     {
-                        NestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app.zip", SearchOption.AllDirectories).ToList();
-                        UnzipApps();
+                        IEnumerable<string> zippedNestedApps = Pkg.GetDirectories(LocalExtractionPath, "*.app.zip", SearchOption.AllDirectories);
+                        foreach (string appZip in zippedNestedApps)
+                        {
+                            string app = Path.Combine(Path.GetDirectoryName(appZip) ?? string.Empty, Path.GetFileNameWithoutExtension(appZip));
+                            Pkg.ProcessAppBundle(repacking: false, inputPath: appZip, outputPath: app);
+                            File.Delete(appZip);
+                        }
                         PkgBuild(isNested);
                     }
                 }
@@ -305,30 +352,6 @@ namespace Microsoft.DotNet.Pkg
                     // We don't need the unpacked nested bundle
                     // anymore because we have repacked it
                     Directory.Delete(LocalExtractionPath, true);
-                }
-            }
-
-            private void ZipApps()
-            {
-                // We replace the .app directories with .zip files
-                foreach (string app in NestedApps)
-                {
-                    string zipPath = $"{app}.zip";
-                    string args = $"-c -k --sequesterRsrc {app} {zipPath}";
-                    ExecuteHelper.Run("ditto", args);
-                    Directory.Delete(app, true);
-                }
-            }
-
-            private void UnzipApps()
-            {
-                // We replace the .app directories with .zip files
-                foreach (string zippedApp in NestedApps)
-                {
-                    string unzipPath = $"{Path.GetDirectoryName(zippedApp)}/{Path.GetFileNameWithoutExtension(zippedApp)}";
-                    string args = $"-V -xk {zippedApp} {unzipPath}";
-                    ExecuteHelper.Run("ditto", args);
-                    File.Delete(zippedApp);
                 }
             }
 

@@ -66,7 +66,7 @@ namespace Microsoft.DotNet.SignTool
                     .Select(entry => (entry.Name, entry.DataStream, entry.Length));
 #endif
             }
-            else if (FileSignInfo.IsPkg(archivePath))
+            else if (FileSignInfo.IsPkg(archivePath) || FileSignInfo.IsAppBundle(archivePath))
             {
                 return ReadPkgEntries(log, archivePath, tempDir, pkgToolPath, ignoreContent);
             }
@@ -94,7 +94,7 @@ namespace Microsoft.DotNet.SignTool
             {
                 RepackWixPack(log, tempDir, wixToolsPath);
             }
-            else if (FileSignInfo.IsPkg())
+            else if (FileSignInfo.IsPkg() || FileSignInfo.IsAppBundle())
             {
                 RepackPkg(log, tempDir, pkgToolPath);
             }
@@ -310,7 +310,7 @@ namespace Microsoft.DotNet.SignTool
             {
                 if (!RunPkgProcess(srcPath: FileSignInfo.FullPath, dstPath: extractDir, "unpack", pkgToolPath))
                 {
-                    log.LogMessage(MessageImportance.Low, $"Failed to unpack pkg archive: dotnet {pkgToolPath} {FileSignInfo.FullPath}");
+                    log.LogMessage(MessageImportance.Low, $"Failed to unpack archive: dotnet {pkgToolPath} {FileSignInfo.FullPath}");
                     return;
                 }
 
@@ -331,7 +331,7 @@ namespace Microsoft.DotNet.SignTool
 
                 if (!RunPkgProcess(srcPath: extractDir, dstPath: FileSignInfo.FullPath, "repack", pkgToolPath))
                 {
-                    log.LogMessage(MessageImportance.Low, $"Failed to pack pkg archive: dotnet {pkgToolPath} {FileSignInfo.FullPath}");
+                    log.LogMessage(MessageImportance.Low, $"Failed to pack archive: dotnet {pkgToolPath} {FileSignInfo.FullPath}");
                     return;
                 }
             }
