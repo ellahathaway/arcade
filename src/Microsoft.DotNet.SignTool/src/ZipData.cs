@@ -273,10 +273,16 @@ namespace Microsoft.DotNet.SignTool
             {
                 FileName = "dotnet",
                 Arguments = $@"exec ""{pkgToolPath}"" ""{srcPath}"" ""{dstPath}"" {action}",
-                UseShellExecute = false
+                UseShellExecute = false,
+                RedirectStandardError = true,
             });
 
             process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                Console.WriteLine(process.StandardError.ReadToEnd());
+            }
             return process.ExitCode == 0;
         }
 
@@ -291,7 +297,7 @@ namespace Microsoft.DotNet.SignTool
             {
                 if (!RunPkgProcess(archivePath, extractDir, "unpack", pkgToolPath))
                 {
-                    Console.WriteLine($"Failed to unpack archive: dotnet {pkgToolPath} {archivePath}");
+                    Console.WriteLine($"Failed to unpack archive: dotnet {pkgToolPath} {archivePath} {extractDir}");
                     yield break;
                 }
 
