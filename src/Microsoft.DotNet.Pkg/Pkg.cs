@@ -88,6 +88,7 @@ namespace Microsoft.DotNet.Pkg
 
             if (IsPkg(InputPath))
             {
+                Console.WriteLine("Processing .pkg file");
                 UnpackedPkg unpackedPkg = new UnpackedPkg(repacking);
             }
             else if (IsAppBundle(InputPath))
@@ -267,7 +268,6 @@ namespace Microsoft.DotNet.Pkg
             }
             args += $" {Pkg.OutputPath}";
 
-            Console.WriteLine(args);
             ExecuteHelper.Run("productbuild", args);
         }
 
