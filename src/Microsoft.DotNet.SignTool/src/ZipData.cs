@@ -291,6 +291,7 @@ namespace Microsoft.DotNet.SignTool
             {
                 if (!RunPkgProcess(archivePath, extractDir, "unpack", pkgToolPath))
                 {
+                    Console.WriteLine($"Failed to unpack archive: dotnet {pkgToolPath} {archivePath}");
                     yield break;
                 }
 
