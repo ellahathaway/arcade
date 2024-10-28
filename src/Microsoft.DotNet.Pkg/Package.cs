@@ -61,7 +61,7 @@ namespace Microsoft.DotNet.Pkg
                 Identifier = GetId(pkgBundles[0]);
                 foreach (var pkgBundle in pkgBundles)
                 {
-                    ProcessBundle(pkgBundle, isNested: true, repacking);
+                    ProcessBundle(pkgBundle, isNested: true, repacking: repacking);
                 }
                 
                 if (repacking)
@@ -73,7 +73,7 @@ namespace Microsoft.DotNet.Pkg
             {
                 // This is a single bundle package
                 XElement pkgBundle = XElement.Load(packageInfo);
-                ProcessBundle(pkgBundle, isNested: false, repacking);
+                ProcessBundle(pkgBundle, isNested: false, repacking: repacking);
             }
             else if (repacking)
             {
@@ -127,6 +127,8 @@ namespace Microsoft.DotNet.Pkg
             string version = bundleInfo.Attribute("version")?.Value ?? throw new Exception($"No version found in bundle file {NameWithExtension}");
             string id = GetId(bundleInfo);
             PackageBundle bundle = new PackageBundle(extractionPath, id, version, NameWithExtension, isNested);
+
+            Console.WriteLine($"Processing bundle {bundle.Id}...");
 
             if (!repacking)
             {
