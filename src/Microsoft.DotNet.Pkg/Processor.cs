@@ -20,7 +20,13 @@ namespace Microsoft.DotNet.Pkg
         internal static string InputPath = string.Empty;
         internal static string OutputPath = string.Empty;
 
-        public static void Unpack(string inputPath, string outputPath)
+        public static void Initialize(string inputPath, string outputPath = "")
+        {
+            InputPath = inputPath;
+            OutputPath = outputPath;
+        }
+
+        public static void Unpack()
         {
             if (!File.Exists(InputPath))
             {
@@ -47,7 +53,7 @@ namespace Microsoft.DotNet.Pkg
             }
         }
         
-        public static void Repack(string inputPath, string outputPath)
+        public static void Repack()
         {
             if (!Directory.Exists(InputPath))
             {
@@ -69,19 +75,19 @@ namespace Microsoft.DotNet.Pkg
             }
         }
 
-        public static void VerifySignature(string inputPath)
+        public static void VerifySignature()
         {
-            if (string.IsNullOrEmpty(inputPath))
+            if (string.IsNullOrEmpty(InputPath))
             {
                 throw new Exception("Input path must be provided");
             }
 
-            if (!IsPkg(inputPath))
+            if (!IsPkg(InputPath))
             {
                 throw new Exception("Input path must be a .pkg file");
             }
 
-            string full_path = Path.GetFullPath(inputPath);
+            string full_path = Path.GetFullPath(InputPath);
             string output = ExecuteHelper.Run("pkgutil", $"--check-signature {full_path}");
             if (output.Contains("Status: no signature"))
             {

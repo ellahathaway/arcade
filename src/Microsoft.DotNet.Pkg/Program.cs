@@ -27,17 +27,19 @@ string op = args[2];
 
 try
 {
+    Processor.Initialize(srcPath, dstPath);
+
     if (op == "unpack")
     {
-        Processor.Unpack(srcPath, dstPath);
+        Processor.Unpack();
     }
     else if(op == "repack")
     {
-        Processor.Repack(srcPath, dstPath);
+        Processor.Repack();
     }
     else if(op == "verify")
     {
-        Processor.VerifySignature(srcPath);
+        Processor.VerifySignature();
     }
     else
     {
