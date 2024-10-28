@@ -29,15 +29,15 @@ try
 {
     if (op == "unpack")
     {
-        Pkg.Unpack(srcPath, dstPath);
+        Processor.Unpack(srcPath, dstPath);
     }
     else if(op == "repack")
     {
-        Pkg.Repack(srcPath, dstPath);
+        Processor.Repack(srcPath, dstPath);
     }
     else if(op == "verify")
     {
-        Pkg.VerifySignature(srcPath);
+        Processor.VerifySignature(srcPath);
     }
     else
     {
