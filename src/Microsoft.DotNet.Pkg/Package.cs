@@ -123,18 +123,18 @@ namespace Microsoft.DotNet.Pkg
 
         private static void ProcessBundle(XElement bundleInfo, bool isNested, bool repacking)
         {
-            string extractionPath = isNested ? LocalExtractionPath : Path.Combine(LocalExtractionPath, bundleInfo.Value.Substring(1));
+            string extractionPath = isNested ? Path.Combine(LocalExtractionPath, bundleInfo.Value.Substring(1)) : LocalExtractionPath;
             string version = bundleInfo.Attribute("version")?.Value ?? throw new Exception($"No version found in bundle file {NameWithExtension}");
             string id = GetId(bundleInfo);
             PackageBundle bundle = new PackageBundle(extractionPath, id, version, NameWithExtension, isNested);
 
-            if (repacking)
+            if (!repacking)
             {
-                bundle.Repack();
+                bundle.Unpack();
             }
             else
             {
-                bundle.Unpack();
+                bundle.Repack();
             }
 
             if (isNested)
