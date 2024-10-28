@@ -54,9 +54,7 @@ namespace Microsoft.DotNet.Pkg
             }
 
             Scripts = Processor.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
-            Payload = Processor.FindInPath("Payload", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
-
-            Console.WriteLine($"Unpacking {NameWithExtension} with payload {Payload}...");
+            Payload = Processor.FindInPath("Payload", LocalExtractionPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
 
             if (!string.IsNullOrEmpty(Payload))
             {
