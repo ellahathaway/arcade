@@ -63,12 +63,12 @@ namespace Microsoft.DotNet.Pkg
 
             if (!IsNested)
             {
-                // Unpack nested app bundles
+                // Zip the nested app bundles
                 IEnumerable<string> nestedApps = Processor.GetDirectories(LocalExtractionPath, "*.app", SearchOption.AllDirectories);
                 foreach (string app in nestedApps)
                 {
                     string tempDest = $"{app}.zip";
-                    AppBundle.Unpack(app, tempDest);
+                    AppBundle.Repack(app, tempDest);
                     Directory.Delete(app, true);
 
                     // Rename the zipped file to .app
@@ -96,8 +96,9 @@ namespace Microsoft.DotNet.Pkg
                 IEnumerable<string> zippedNestedApps = Processor.GetFiles(LocalExtractionPath, "*.app", SearchOption.AllDirectories);
                 foreach (string appZip in zippedNestedApps)
                 {
+                    // Unzip the .app directory
                     string tempDest = appZip + ".unzipped";
-                    AppBundle.Repack(appZip, tempDest);
+                    AppBundle.Unpack(appZip, tempDest);
                     File.Delete(appZip);
 
                     // Rename the unzipped directory back to .app
