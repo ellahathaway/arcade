@@ -50,7 +50,7 @@ namespace Microsoft.DotNet.Pkg
                 // The nested bundles get unpacked into a directory with a .pkg extension by `pkgutil --expand`,
                 // so we remove this extension when unpacking the bundle.
                 // Otherwise, there will be problems when repacking the bundle due to the naming conflict
-                Directory.Move(LocalExtractionPath, LocalExtractionPath);
+                Directory.Move(LocalExtractionPath + ".pkg", LocalExtractionPath);
             }
 
             Scripts = Processor.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
