@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
@@ -100,6 +99,8 @@ namespace Microsoft.DotNet.SignTool
 
         private string _tarToolPath;
 
+        private string _pkgToolPath;
+
         public Configuration(
             string tempDir,
             ITaskItem[] itemsToSign,
@@ -108,6 +109,7 @@ namespace Microsoft.DotNet.SignTool
             Dictionary<string, List<SignInfo>> extensionSignInfo,
             ITaskItem[] dualCertificates,
             string tarToolPath,
+            string pkgToolPath,
             TaskLoggingHelper log,
             bool useHashInExtractionPath = false,
             Telemetry telemetry = null)
@@ -136,6 +138,7 @@ namespace Microsoft.DotNet.SignTool
             _hashToCollisionIdMap = new Dictionary<SignedFileContentKey, string>();
             _telemetry = telemetry;
             _tarToolPath = tarToolPath;
+            _pkgToolPath = pkgToolPath;
         }
 
         internal BatchSignInput GenerateListOfFiles()
@@ -396,7 +399,7 @@ namespace Microsoft.DotNet.SignTool
             }
             else if (FileSignInfo.IsPackage(file.FullPath))
             {
-                isAlreadySigned = VerifySignatures.IsSignedContainer(file.FullPath, _pathToContainerUnpackingDirectory, _tarToolPath);
+                isAlreadySigned = VerifySignatures.IsSignedContainer(file.FullPath, _pathToContainerUnpackingDirectory, _tarToolPath, _pkgToolPath);
                 if(!isAlreadySigned)
                 {
                     _log.LogMessage(MessageImportance.Low, $"Container {file.FullPath} does not have a signature marker.");
@@ -674,8 +677,7 @@ namespace Microsoft.DotNet.SignTool
             try
             {
                 var nestedParts = new Dictionary<string, ZipPart>();
-                
-                foreach (var (relativePath, contentStream, contentSize) in ZipData.ReadEntries(archivePath, _pathToContainerUnpackingDirectory, _tarToolPath))
+                foreach (var (relativePath, contentStream, contentSize) in ZipData.ReadEntries(archivePath, _pathToContainerUnpackingDirectory, _tarToolPath, _pkgToolPath))
                 {
                     if (contentStream == null)
                     {
@@ -704,7 +706,6 @@ namespace Microsoft.DotNet.SignTool
                     {
                         string extractPathRoot = _useHashInExtractionPath ? fileUniqueKey.StringHash : _filesByContentKey.Count().ToString();
                         string tempPath = Path.Combine(_pathToContainerUnpackingDirectory, extractPathRoot, relativePath);
-                        _log.LogMessage($"Extracting file '{fileName}' from '{archivePath}' to '{tempPath}'.");
 
                         Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
 
