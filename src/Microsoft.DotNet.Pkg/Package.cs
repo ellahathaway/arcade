@@ -128,8 +128,6 @@ namespace Microsoft.DotNet.Pkg
             string id = GetId(bundleInfo);
             PackageBundle bundle = new PackageBundle(extractionPath, id, version, NameWithExtension, isNested);
 
-            Console.WriteLine($"Processing bundle with {id} {extractionPath} {version} {NameWithExtension} {isNested}...");
-
             if (!repacking)
             {
                 bundle.Unpack();
