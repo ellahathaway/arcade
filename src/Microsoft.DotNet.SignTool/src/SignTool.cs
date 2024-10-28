@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using Microsoft.Build.Framework;
@@ -21,6 +22,7 @@ namespace Microsoft.DotNet.SignTool
 
         internal string WixToolsPath => _args.WixToolsPath;
         internal string TarToolPath => _args.TarToolPath;
+        internal string PkgToolPath => _args.PkgToolPath;
 
         internal SignTool(SignToolArgs args, TaskLoggingHelper log)
         {
@@ -36,6 +38,8 @@ namespace Microsoft.DotNet.SignTool
         public abstract bool VerifySignedPowerShellFile(string filePath);
         public abstract bool VerifySignedNugetFileMarker(string filePath);
         public abstract bool VerifySignedVSIXFileMarker(string filePath);
+        public abstract bool VerifySignedAppBundle(string filePath);
+        public abstract bool VerifySignedPkgFile(string filePath, string pkgToolPath);
 
         public abstract bool VerifyStrongNameSign(string fileFullPath);
 
@@ -61,53 +65,121 @@ namespace Microsoft.DotNet.SignTool
             if (nonOSXFilesToSign.Any())
             {
                 var nonOSXBuildFilePath = Path.Combine(signingDir, $"Round{round}.proj");
-                var nonOSXProjContent = GenerateBuildFileContent(filesToSign);
+                var nonOSXProjContent = GenerateBuildFileContent(nonOSXFilesToSign);
 
                 File.WriteAllText(nonOSXBuildFilePath, nonOSXProjContent);
                 nonOSXSigningStatus = RunMSBuild(buildEngine, nonOSXBuildFilePath, Path.Combine(_args.LogDir, $"Signing{round}.binlog"));
             }
 
             if (osxFilesToSign.Any())
-            {
+                {
                 // The OSX signing target requires all files to be in the same folder.
                 // Also all files on the folder will be signed using the same certificate.
                 // Therefore below we group the files to be signed by certificate.
-                var filesGroupedByCertificate = osxFilesToSign.GroupBy(fsi => fsi.SignInfo.Certificate);
+                    var filesGroupedByCertificate = osxFilesToSign.GroupBy(fsi => fsi.SignInfo.Certificate);
 
-                var osxFilesZippingDir = Path.Combine(_args.TempDir, "OSXFilesZippingDir");
-
-                Directory.CreateDirectory(osxFilesZippingDir);
-
-                foreach (var osxFileGroup in filesGroupedByCertificate)
-                {
-                    var certificate = osxFileGroup.Key;
-                    var osxBuildFilePath = Path.Combine(signingDir, $"Round{round}-OSX-Cert{certificate}.proj");
-                    var osxProjContent = GenerateOSXBuildFileContent(osxFilesZippingDir, certificate);
-
-                    File.WriteAllText(osxBuildFilePath, osxProjContent);
-
-                    foreach (var item in osxFileGroup)
+                    foreach (var osxFileGroup in filesGroupedByCertificate)
                     {
-                        File.Copy(item.FullPath, Path.Combine(osxFilesZippingDir, item.FileName), overwrite: true);
-                    }
+                        // Map of the zip file path to the original file path
+                        // This is necessary because files can have the same name
+                        // so we need to zip them into random directories to avoid conflicts
+                        Dictionary<string, string> zipPaths = new Dictionary<string, string>();
 
-                    osxSigningStatus = RunMSBuild(buildEngine, osxBuildFilePath, Path.Combine(_args.LogDir, $"Signing{round}-OSX.binlog"));
+                        var certificate = osxFileGroup.Key;
+                        var osxBuildFilePath = Path.Combine(signingDir, $"Round{round}-OSX-Cert{certificate}.proj");
 
-                    if (osxSigningStatus)
-                    {
-                        foreach (var item in osxFileGroup)
+                        string osxFilesZippingDir = Path.Combine(signingDir, osxFileGroup.Key);
+                        Directory.CreateDirectory(osxFilesZippingDir);
+
+                        try
                         {
-                            File.Copy(Path.Combine(osxFilesZippingDir, item.FileName), item.FullPath, overwrite: true);
+                            // Zip the files
+                            foreach (FileSignInfo item in osxFileGroup)
+                            {
+                                string zipFilePath = GetZipFilePath(osxFilesZippingDir, item.FileName);
+                                zipPaths.Add(item.FullPath, zipFilePath);
+                                if (item.IsAppBundle())
+                                {
+                                    // This is already a zip file, no need to zip it again.
+                                    // Just rename the file to .zip and
+                                    // move it to the destination path.
+                                    File.Copy(item.FullPath, zipFilePath);
+                                }
+                                else
+                                {
+                                    // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
+                                    var process = Process.Start(new ProcessStartInfo()
+                                    {
+                                        FileName = "ditto",
+                                        Arguments = $"-V -ck --sequesterRsrc \"{item.FullPath}\" \"{zipFilePath}\"",
+                                        UseShellExecute = false,
+                                        WorkingDirectory = TempDir,
+                                    });
+
+                                    process.WaitForExit();
+                                    if (process.ExitCode != 0)
+                                    {
+                                        _log.LogError($"Failed to zip file {item.FullPath} to {zipFilePath}");
+                                        return false;
+                                    }
+                                }
+                            }
+
+                            var osxProjContent = GenerateBuildFileContent(osxFileGroup, zipPaths: zipPaths, isOSX: true);
+
+                            File.WriteAllText(osxBuildFilePath, osxProjContent);
+
+                            osxSigningStatus = RunMSBuild(buildEngine, osxBuildFilePath, Path.Combine(_args.LogDir, $"Signing{round}-OSX.binlog"));
+
+                            // Unzip the files
+                            foreach (KeyValuePair<string, string> zipPath in zipPaths)
+                            {
+                                string originalFilePath = zipPath.Key;
+                                string zipFilePath = zipPath.Value;
+                                if (FileSignInfo.IsAppBundle(originalFilePath))
+                                {
+                                    // This is already a zip file, no need to unzip it.
+                                    // Just rename the file to its original extension
+                                    // and move it to the destination path.
+                                    File.Copy(zipFilePath, originalFilePath, overwrite: true);
+                                }
+                                else
+                                {
+                                    // https://devdiv.visualstudio.com/DevDiv/_wiki/wikis/DevDiv.wiki/19841/Additional-Requirements-for-Signing-or-Notarizing-Mac-Files?anchor=example-of-using-ditto
+                                    var process = Process.Start(new ProcessStartInfo()
+                                    {
+                                        FileName = "ditto",
+                                        Arguments = $"-V -xk \"{zipFilePath}\" \"{Path.GetDirectoryName(originalFilePath)}\"",
+                                        UseShellExecute = false,
+                                        WorkingDirectory = TempDir,
+                                    });
+
+                                    process.WaitForExit();
+                                    if (process.ExitCode != 0)
+                                    {
+                                        _log.LogError($"Failed to unzip file {zipFilePath} to {originalFilePath}");
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            Directory.Delete(osxFilesZippingDir, recursive: true);
                         }
                     }
                 }
-            }
 
             return nonOSXSigningStatus && osxSigningStatus;
         }
 
-        private string GenerateBuildFileContent(IEnumerable<FileSignInfo> filesToSign)
+        private string GenerateBuildFileContent(IEnumerable<FileSignInfo> filesToSign, Dictionary<string, string> zipPaths = null, bool isOSX = false)
         {
+            if (isOSX && zipPaths == null)
+            {
+                throw new ArgumentException("zipPaths must be specified when signing OSX files.");
+            }
+
             var builder = new StringBuilder();
             AppendLine(builder, depth: 0, text: @"<?xml version=""1.0"" encoding=""utf-8""?>");
             AppendLine(builder, depth: 0, text: @"<Project DefaultTargets=""AfterBuild"">");
@@ -115,6 +187,10 @@ namespace Microsoft.DotNet.SignTool
             // Setup the code to get the NuGet package root.
             var signKind = _args.TestSign ? "test" : "real";
             AppendLine(builder, depth: 1, text: @"<PropertyGroup>");
+            if (isOSX)
+            {
+                AppendLine(builder, depth: 2, text: @"<EnableCodeSigning>false</EnableCodeSigning>");
+            }
             AppendLine(builder, depth: 2, text: $@"<OutDir>{_args.EnclosingDir}</OutDir>");
             AppendLine(builder, depth: 2, text: $@"<IntermediateOutputPath>{_args.TempDir}</IntermediateOutputPath>");
             AppendLine(builder, depth: 2, text: $@"<SignType>{signKind}</SignType>");
@@ -122,15 +198,26 @@ namespace Microsoft.DotNet.SignTool
 
             AppendLine(builder, depth: 1, text: $@"<Import Project=""{Path.Combine(MicroBuildCorePath, "build", "MicroBuild.Core.props")}"" />");
 
+            if (isOSX)
+            {
+                AppendLine(builder, depth: 1, text: $@"<ItemGroup Label=""OSXPackageReferences"">");
+                AppendLine(builder, depth: 2, text: $@"<PackageReference Include=""Microsoft.VisualStudioEng.MicroBuild.Core"" version=""0.4.1"" />");
+                AppendLine(builder, depth: 1, text: $@"</ItemGroup>");
+            }
             AppendLine(builder, depth: 1, text: $@"<ItemGroup>");
 
             foreach (var fileToSign in filesToSign)
             {
-                AppendLine(builder, depth: 2, text: $@"<FilesToSign Include=""{Uri.EscapeDataString(fileToSign.FullPath)}"">");
+                string filePath = isOSX ? zipPaths[fileToSign.FullPath] : fileToSign.FullPath;
+                AppendLine(builder, depth: 2, text: $@"<FilesToSign Include=""{Uri.EscapeDataString(filePath)}"">");
                 AppendLine(builder, depth: 3, text: $@"<Authenticode>{fileToSign.SignInfo.Certificate}</Authenticode>");
                 if (fileToSign.SignInfo.StrongName != null && !fileToSign.SignInfo.ShouldLocallyStrongNameSign)
                 {
                     AppendLine(builder, depth: 3, text: $@"<StrongName>{fileToSign.SignInfo.StrongName}</StrongName>");
+                }
+                if(isOSX)
+                {
+                    AppendLine(builder, depth: 3, text: $@"<Zip>true</Zip>");
                 }
                 AppendLine(builder, depth: 2, text: @"</FilesToSign>");
             }
@@ -139,7 +226,7 @@ namespace Microsoft.DotNet.SignTool
 
             // The MicroBuild targets hook AfterBuild to do the signing hence we just make it our no-op default target
             AppendLine(builder, depth: 1, text: @"<Target Name=""AfterBuild"">");
-            AppendLine(builder, depth: 2, text: @"<Message Text=""Running non-OSX files signing process."" />");
+            AppendLine(builder, depth: 2, text: @"<Message Text=""Running signing process."" />");
             AppendLine(builder, depth: 1, text: @"</Target>");
 
             AppendLine(builder, depth: 1, text: $@"<Import Project=""{Path.Combine(MicroBuildCorePath, "build", "MicroBuild.Core.targets")}"" />");
@@ -148,30 +235,11 @@ namespace Microsoft.DotNet.SignTool
             return builder.ToString();
         }
 
-        private string GenerateOSXBuildFileContent(string fullPathOSXFilesFolder, string osxCertificateName)
+        protected virtual string GetZipFilePath(string zipFileDir, string fileName)
         {
-            var builder = new StringBuilder();
-            var signKind = _args.TestSign ? "test" : "real";
-
-            AppendLine(builder, depth: 0, text: @"<?xml version=""1.0"" encoding=""utf-8""?>");
-            AppendLine(builder, depth: 0, text: @"<Project DefaultTargets=""AfterBuild"">");
-
-            AppendLine(builder, depth: 1, text: $@"<Import Project=""{Path.Combine(MicroBuildCorePath, "build", "MicroBuild.Core.props")}"" />");
-
-            AppendLine(builder, depth: 1, text: $@"<PropertyGroup>");
-            AppendLine(builder, depth: 2, text: $@"<MACFilesTarget>{fullPathOSXFilesFolder}</MACFilesTarget>");
-            AppendLine(builder, depth: 2, text: $@"<MACFilesCert>{osxCertificateName}</MACFilesCert>");
-            AppendLine(builder, depth: 2, text: $@"<SignType>{signKind}</SignType>");
-            AppendLine(builder, depth: 1, text: $@"</PropertyGroup>");
-
-            AppendLine(builder, depth: 1, text: @"<Target Name=""AfterBuild"">");
-            AppendLine(builder, depth: 2, text: @"<Message Text=""Running OSX files signing process."" />");
-            AppendLine(builder, depth: 1, text: @"</Target>");
-
-            AppendLine(builder, depth: 1, text: $@"<Import Project=""{Path.Combine(MicroBuildCorePath, "build", "MicroBuild.Core.targets")}"" />");
-            AppendLine(builder, depth: 0, text: @"</Project>");
-
-            return builder.ToString();
+            string tempDir = Path.Combine(zipFileDir, Path.GetRandomFileName());
+            Directory.CreateDirectory(tempDir);
+            return Path.Combine(tempDir, Path.GetFileNameWithoutExtension(fileName) + ".zip");
         }
 
         private static void AppendLine(StringBuilder builder, int depth, string text)
