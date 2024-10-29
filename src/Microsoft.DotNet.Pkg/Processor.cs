@@ -75,6 +75,28 @@ namespace Microsoft.DotNet.Pkg
             }
         }
 
+        public static void VerifySignature()
+        {
+            if (string.IsNullOrEmpty(InputPath))
+            {
+                throw new Exception("Input path must be provided");
+            }
+
+            if (!IsPkg(InputPath) && !IsAppBundle(InputPath))
+            {
+                throw new Exception("Input path must be a .pkg file or .app bundle");
+            }
+
+            if (IsPkg(InputPath))
+            {
+                Package.VerifySignature();
+            }
+            else if (IsAppBundle(InputPath))
+            {
+                AppBundle.VerifySignature();
+            }
+        }
+
         internal static bool IsPkg(string path) =>
             Path.GetExtension(path).Equals(".pkg");
 

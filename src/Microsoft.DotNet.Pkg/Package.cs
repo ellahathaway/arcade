@@ -30,6 +30,16 @@ namespace Microsoft.DotNet.Pkg
         internal static void Repack() =>
             ProcessPackage(repacking: true);
 
+        internal static void VerifySignature()
+        {
+            string full_path = Path.GetFullPath(Processor.InputPath);
+            string output = ExecuteHelper.Run("pkgutil", $"--check-signature {full_path}");
+            if (output.Contains("Status: no signature"))
+            {
+                throw new Exception("No signature found in package");
+            }
+        }
+
         private static void ProcessPackage(bool repacking)
         {
             NameWithExtension = repacking ? Path.GetFileName(Processor.OutputPath) : Path.GetFileName(Processor.InputPath);

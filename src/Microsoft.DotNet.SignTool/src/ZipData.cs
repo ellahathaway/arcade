@@ -11,6 +11,8 @@ using System.IO.Compression;
 using System.Linq;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using NuGet.Packaging;
 
 #if NET472
 using System.IO.Packaging;
@@ -255,9 +257,15 @@ namespace Microsoft.DotNet.SignTool
 
         internal static bool RunPkgProcess(string srcPath, string dstPath, string action, string pkgToolPath)
         {
-            if (action != "unpack" && action != "repack")
+            if (action != "unpack" && action != "repack" && action != "verify")
             {
                 throw new ArgumentException($"Invalid action '{action}' for pkg tool.");
+            }
+
+            if (action == "verify")
+            {
+                // The verify action doesn't take a destination path.
+                dstPath = "no_dst_path";
             }
 
             var process = Process.Start(new ProcessStartInfo()
