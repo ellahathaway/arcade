@@ -37,8 +37,8 @@ namespace Microsoft.DotNet.SignTool.Tests
             {".vsix",  new List<SignInfo>{ new SignInfo("VsixSHA2") } },
             {".zip",  new List<SignInfo>{ SignInfo.Ignore } },
             {".tgz",  new List<SignInfo>{ SignInfo.Ignore } },
-            {".pkg",  new List<SignInfo>{ SignInfo.Ignore } },
-            {".app",  new List<SignInfo>{ SignInfo.Ignore } },
+            {".pkg",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
+            {".app",  new List<SignInfo>{ new SignInfo("Microsoft400") } },
             {".nupkg",  new List<SignInfo>{ new SignInfo("NuGet") } },
             {".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };
@@ -64,8 +64,8 @@ namespace Microsoft.DotNet.SignTool.Tests
             { ".vsix", new List<SignInfo>{ new SignInfo("VsixSHA2", collisionPriorityId: "123") } },
             { ".zip", new List<SignInfo>{ SignInfo.Ignore } },
             { ".tgz", new List<SignInfo>{ SignInfo.Ignore } },
-            { ".pkg", new List<SignInfo>{ SignInfo.Ignore } },
-            { ".app",  new List<SignInfo>{ SignInfo.Ignore } },
+            { ".pkg", new List<SignInfo>{ new SignInfo("Microsoft400", collisionPriorityId:  "123") } },
+            { ".app",  new List<SignInfo>{ new SignInfo("Microsoft400", collisionPriorityId:  "123") } },
             { ".nupkg", new List<SignInfo>{ new SignInfo("NuGet", collisionPriorityId: "123") } },
             { ".symbols.nupkg",  new List<SignInfo>{ SignInfo.Ignore } },
         };
@@ -118,11 +118,11 @@ namespace Microsoft.DotNet.SignTool.Tests
                 { SignToolConstants.CollisionPriorityId, "123" }
             }),
             new TaskItem(".pkg", new Dictionary<string, string> {
-                { "CertificateName", "None" },
+                { "CertificateName", "Microsoft400" },
                 { SignToolConstants.CollisionPriorityId, "123" }
             }),
             new TaskItem(".app", new Dictionary<string, string> {
-                { "CertificateName", "None" },
+                { "CertificateName", "Microsoft400" },
                 { SignToolConstants.CollisionPriorityId, "123" }
             }),
             new TaskItem(".nupkg", new Dictionary<string, string> {
@@ -1088,8 +1088,8 @@ $@"
                 "File 'SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
                 "File 'Nested.NativeLibrary.dll' Certificate='Microsoft400'",
                 "File 'Nested.SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
-                "File 'NestedPkg.pkg' Certificate=''",
-                "File 'test.pkg' Certificate=''",
+                "File 'NestedPkg.pkg' Certificate='Microsoft400'",
+                "File 'test.pkg' Certificate='Microsoft400'",
             });
 
             // OSX files need to be zipped first before being signed
@@ -1109,7 +1109,17 @@ $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "6", "Payload/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll"))}"">
                 <Authenticode>Microsoft400</Authenticode>
                 </FilesToSign>
-                "
+                ",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "temp", "NestedPkg.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "temp", "test.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>",
             });
         }
 
@@ -1137,7 +1147,7 @@ $@"
                 "File 'SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
                 "File 'Nested.SOS.NETCore.dll' TargetFramework='.NETCoreApp,Version=v1.0' Certificate='Microsoft400'",
                 "File 'Nested.NativeLibrary.dll' Certificate='Microsoft400'",
-                "File 'NestedPkg.pkg' Certificate=''",
+                "File 'NestedPkg.pkg' Certificate='Microsoft400'",
             });
 
             // OSX files need to be zipped first before being signed
@@ -1157,7 +1167,12 @@ $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "5", "Payload/this_is_a_big_folder_name_look/this_is_an_even_more_longer_folder_name/but_this_one_is_ever_longer_than_the_previous_other_two/Nested.NativeLibrary.dll"))}"">
                 <Authenticode>Microsoft400</Authenticode>
                 </FilesToSign>
-                "
+                ",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "temp", "NestedPkg.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>"
             });
         }
 
@@ -1183,8 +1198,8 @@ $@"
             ValidateFileSignInfos(itemsToSign, strongNameSignInfo, fileSignInfo, s_fileExtensionSignInfo, new[]
             {
                 "File 'libexample.dylib' Certificate='DylibCertificate'",
-                "File 'test.app' Certificate=''",
-                "File 'WithApp.pkg' Certificate=''",
+                "File 'test.app' Certificate='Microsoft400'",
+                "File 'WithApp.pkg' Certificate='Microsoft400'",
             });
 
             // OSX files need to be zipped first before being signed
@@ -1195,7 +1210,18 @@ $@"
                 <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "ContainerSigning", "4", "Contents/Resources/libexample.dylib"))}"">
                 <Authenticode>DylibCertificate</Authenticode>
                 </FilesToSign>
-                "
+                ",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "temp", "test.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>
+                ",
+                $@"
+                <FilesToSign Include=""{Uri.EscapeDataString(Path.Combine(_tmpDir, "Signing", "Microsoft400", "temp", "WithApp.zip"))}"">
+                <Authenticode>Microsoft400</Authenticode>
+                <Zip>true</Zip>
+                </FilesToSign>"
             });
         }
 
