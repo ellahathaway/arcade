@@ -2,155 +2,178 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
-
-#nullable enable
 
 namespace Microsoft.DotNet.Pkg
 {
     internal static class Package
     {
-        private static string NameWithExtension = string.Empty;
-        private static string LocalExtractionPath = string.Empty;
-        private static string? Identifier = null;
-        private static string? Resources = null;
-        private static string? Distribution = null;
-        private static string? Scripts = null;
-        private static List<PackageBundle> Bundles = new List<PackageBundle>();
-
-        internal static void Unpack() =>
-            ProcessPackage(repacking: false);
-
-        internal static void Repack() =>
-            ProcessPackage(repacking: true);
-
-        private static void ProcessPackage(bool repacking)
+        internal static void Unpack(string srcPath, string dstPath)
         {
-            NameWithExtension = repacking ? Path.GetFileName(Processor.OutputPath) : Path.GetFileName(Processor.InputPath);
-            LocalExtractionPath = repacking ? Processor.InputPath : Processor.OutputPath;
+            ExpandPackage(srcPath, dstPath);
 
-            if (!Processor.IsPkg(NameWithExtension))
+            string? distribution = Utilities.FindInPath("Distribution", dstPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
+            if (!string.IsNullOrEmpty(distribution))
             {
-                throw new Exception($"Package '{NameWithExtension}' is not a .pkg file");
+                UnpackInstallerPackage(dstPath, distribution!);
+                return;
             }
 
-            if (!repacking)
+            string? packageInfo = Utilities.FindInPath("PackageInfo", dstPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
+            if (!string.IsNullOrEmpty(packageInfo))
             {
-                ExpandPkg();
+                UnpackComponentPackage(dstPath);
+                return;
             }
 
-            Resources = Processor.FindInPath("Resources", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
-            Distribution = Processor.FindInPath("Distribution", LocalExtractionPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
-            Scripts = Processor.FindInPath("Scripts", LocalExtractionPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
-            string? packageInfo = Processor.FindInPath("PackageInfo", LocalExtractionPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
+            throw new Exception("Cannot unpack: no 'Distribution' or 'PackageInfo' file found in package");
+        }
 
-            if (!string.IsNullOrEmpty(Distribution))
+        internal static void Pack(string srcPath, string dstPath)
+        {
+            string? distribution = Utilities.FindInPath("Distribution", srcPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
+            if (!string.IsNullOrEmpty(distribution))
             {
-                var xml = XElement.Load(Distribution);
-                List<XElement> pkgBundles = xml.Elements("pkg-ref").Where(e => e.Value.Trim() != "").ToList();
-                if (!pkgBundles.Any())
-                {
-                    throw new Exception("No pkg-ref elements found in Distribution file");
-                }
-                Identifier = GetId(pkgBundles[0]);
-                foreach (var pkgBundle in pkgBundles)
-                {
-                    ProcessBundle(pkgBundle, isNested: true, repacking: repacking);
-                }
-                
-                if (repacking)
-                {
-                    RepackPkg();
-                }
+                PackInstallerPackage(srcPath, dstPath, distribution!);
+                return;
             }
-            else if (!string.IsNullOrEmpty(packageInfo))
+
+            string? packageInfo = Utilities.FindInPath("PackageInfo", srcPath, isDirectory: false, searchOption: SearchOption.TopDirectoryOnly);
+            if (!string.IsNullOrEmpty(packageInfo))
             {
-                // This is a single bundle package
-                XElement pkgBundle = XElement.Load(packageInfo);
-                ProcessBundle(pkgBundle, isNested: false, repacking: repacking);
+                PackComponentPackage(srcPath, dstPath, packageInfo!);
+                return;
             }
-            else if (repacking)
+
+            throw new Exception("Cannot pack: no 'Distribution' or 'PackageInfo' file found in package");
+        }
+
+        private static void UnpackInstallerPackage(string dstPath, string distribution)
+        {
+            var xml = XElement.Load(distribution);
+            List<XElement> componentPackages = xml.Elements("pkg-ref").Where(e => e.Value.Trim() != "").ToList();
+            foreach (var package in componentPackages)
             {
-                throw new Exception("Cannot unpack: no Distribution or PackageInfo file found in package");
+                // Expanding the installer will unpack the nested component packages to a directory with a .pkg extension
+                // so we repack the component packages to a temporary file and then rename the file with the .pkg extension.
+                // Repacking is needed so that the signtool can properly identify and sign the nested component packages.
+                string packageName = Path.Combine(dstPath, package.Value.Substring(1));
+                string tempDest = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                FlattenComponentPackage(packageName, tempDest);
+
+                Directory.Delete(packageName, true);
+                File.Move(tempDest, packageName);
             }
         }
 
-        private static void ExpandPkg()
+        private static void UnpackComponentPackage(string dstPath)
         {
-            if (Directory.Exists(LocalExtractionPath))
-            {
-                Directory.Delete(LocalExtractionPath, true);
-            }
+            UnpackPayload(dstPath);
 
-            ExecuteHelper.Run("pkgutil", $"--expand {Processor.InputPath} {LocalExtractionPath}");
+            // Zip the nested app bundles
+            IEnumerable<string> nestedApps = Directory.GetDirectories(dstPath, "*.app", SearchOption.AllDirectories);
+            foreach (string app in nestedApps)
+            {
+                string tempDest = $"{app}.zip";
+                AppBundle.Pack(app, tempDest);
+                Directory.Delete(app, true);
+
+                // Rename the zipped file to .app
+                // This is needed so that the signtool
+                // can properly identify and sign app bundles
+                File.Move(tempDest, app);
+            }
         }
 
-        private static void RepackPkg()
+        private static void PackInstallerPackage(string srcPath, string dstPath, string distribution)
         {
-            string args = string.Empty;
-            args += $"--distribution {Distribution}";
-            if (Bundles.Any())
+            string args = $"--distribution {distribution}";
+
+            if (Directory.GetFiles(srcPath, "*.pkg", SearchOption.TopDirectoryOnly).Any())
             {
-                args += $" --package-path {LocalExtractionPath}";
-            }
-            if (!string.IsNullOrEmpty(Resources))
-            {
-                args += $" --resources {Resources}";
-            }
-            if (!string.IsNullOrEmpty(Scripts))
-            {
-                args += $" --scripts {Scripts}";
-            }
-            if (args.Length == 0)
-            {
-                args += $" --root {LocalExtractionPath}";
+                args += $" --package-path {srcPath}";
             }
 
-            if (File.Exists(Processor.OutputPath))
+            string? resources = Utilities.FindInPath("Resources", srcPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
+            if (!string.IsNullOrEmpty(resources))
             {
-                File.Delete(Processor.OutputPath);
+                args += $" --resources {resources}";
             }
-            args += $" {Processor.OutputPath}";
+
+            string? scripts = Utilities.FindInPath("Scripts", srcPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
+            if (!string.IsNullOrEmpty(scripts))
+            {
+                args += $" --scripts {scripts}";
+            }
+
+            args += $" {dstPath}";
 
             ExecuteHelper.Run("productbuild", args);
         }
 
-        private static void ProcessBundle(XElement bundleInfo, bool isNested, bool repacking)
+        private static void PackComponentPackage(string srcPath, string dstPath, string packageInfo)
         {
-            string extractionPath = isNested ? Path.Combine(LocalExtractionPath, bundleInfo.Value.Substring(1)) : LocalExtractionPath;
-            string version = bundleInfo.Attribute("version")?.Value ?? throw new Exception($"No version found in bundle file {NameWithExtension}");
-            string id = GetId(bundleInfo);
-            PackageBundle bundle = new PackageBundle(extractionPath, id, version, NameWithExtension, isNested);
+            // Unzip the nested app bundles
+            IEnumerable<string> zippedNestedApps = Directory.GetFiles(srcPath, "*.app", SearchOption.AllDirectories);
+            foreach (string appZip in zippedNestedApps)
+            {
+                // Unzip the .app directory
+                string tempDest = appZip + ".unzipped";
+                AppBundle.Unpack(appZip, tempDest);
+                File.Delete(appZip);
 
-            if (!repacking)
-            {
-                bundle.Unpack();
-            }
-            else
-            {
-                bundle.Repack();
+                // Rename the unzipped directory back to .app
+                // so that it can be packed properly
+                Directory.Move(tempDest, appZip);
             }
 
-            if (isNested)
+            XElement pkgInfo = XElement.Load(packageInfo);
+            
+            string payloadDirectoryPath = GetPayloadPath(srcPath, isDirectory: true);
+            string identifier = GetPackageInfoAttribute(pkgInfo, "identifier");
+            string version = GetPackageInfoAttribute(pkgInfo, "version");
+            string installLocation = GetPackageInfoAttribute(pkgInfo, "install-location");
+
+            string args = $"--root {payloadDirectoryPath} --identifier {identifier} --version {version} --install-location {installLocation}";
+            string? script = Utilities.FindInPath("Scripts", srcPath, isDirectory: true, searchOption: SearchOption.TopDirectoryOnly);
+            if (!string.IsNullOrEmpty(script))
             {
-                Bundles.Add(bundle);
+                args += $" --scripts {script}";
             }
+            args += $" {dstPath}";
+
+            ExecuteHelper.Run("pkgbuild", args);
         }
 
-        private static string GetId(XElement element)
-        {
-            string id = element.Attribute("packageIdentifier")?.Value
-                ?? element.Attribute("id")?.Value
-                ?? element.Attribute("identifier")?.Value
-                ?? throw new Exception("No packageIdentifier or id found in XElement.");
+        private static void FlattenComponentPackage(string sourcePath, string destinationPath)
+            => ExecuteHelper.Run("pkgutil", $"--flatten {sourcePath} {destinationPath}");
 
-            return id;
+        private static void UnpackPayload(string dstPath)
+        {
+            string payloadFilePath = GetPayloadPath(dstPath, isDirectory: false);
+
+            string tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(tempDir);
+
+            ExecuteHelper.Run("cat", $"{payloadFilePath} | gzip -d | cpio -id", tempDir);
+
+            // Remove the payload file and replace it with
+            // a directory of the same name containing the unpacked contents
+            File.Delete(payloadFilePath);
+            Directory.Move(tempDir, payloadFilePath);
         }
+
+        private static string GetPayloadPath(string searchPath, bool isDirectory) =>
+            Path.GetFullPath(Utilities.FindInPath("Payload", searchPath, isDirectory, searchOption: SearchOption.TopDirectoryOnly)
+            ?? throw new Exception("Payload was not found"));
+
+        private static void ExpandPackage(string srcPath, string dstPath) =>
+            ExecuteHelper.Run("pkgutil", $"--expand {srcPath} {dstPath}");
+
+        private static string GetPackageInfoAttribute(XElement pkgInfo, string elementName) =>
+            pkgInfo.Attribute(elementName)?.Value ?? throw new Exception($"{elementName} is required in PackageInfo");
     }
 }
