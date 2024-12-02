@@ -1,43 +1,78 @@
 parameters:
-  # Enable cleanup tasks for MicroBuild
+  # Enable install tasks for MicroBuild
   enableMicrobuild: false
-  # Enable cleanup tasks for MicroBuild on Mac and Linux
+  # Enable install tasks for MicroBuild on Mac and Linux
   # Will be ignored if 'enableMicrobuild' is false or 'Agent.Os' is 'Windows_NT'
   enableMicrobuildForMacAndLinux: false
   continueOnError: false
 
 steps:
   - ${{ if eq(parameters.enableMicrobuild, 'true') }}:
-    # Remove Python downgrade with https://github.com/dotnet/arcade/issues/15151
-    - ${{ if and(eq(parameters.enableMicrobuildForMacAndLinux, 'true'), ne(variables['Agent.Os'], 'Windows_NT')) }}:
+    - ${{ if eq(parameters.enableMicrobuildForMacAndLinux, 'true') }}:
+      # Remove Python downgrade with https://github.com/dotnet/arcade/issues/15151
       - task: UsePythonVersion@0
         displayName: 'Use Python 3.11.x'
         inputs:
           versionSpec: '3.11.x'
+        condition: and(succeeded(), ne(variables['Agent.OS'], 'Windows_NT'))
+
+      # Workaround for plugin install relying on NuGet CLI >= 4.0
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet'
+        inputs:
+          versionSpec: '6.12.1'
+        condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
+      # Workaround for plugin install relying on NuGet CLI >= 4.0
+      # The step below uses the apt package manager to install mono-complete, which does not work on all Linux distros
+      # Additionally, mono is out-of-support, so we should not merge these changes
+      # We need MicroBuild to update their plugin.
+      - bash: |
+          sudo apt-get install -y mono-complete
+          nuget update -self
+        displayName: 'Install Mono and Update NuGet'
+        condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
+      # Pip package uamqp 1.6.10 (latest) is broken for MacOS
+      # https://portal.microsofticm.com/imp/v5/incidents/details/546577650/summary
+      - bash: |
+          pip install uamqp==1.6.9
+        displayName: Set uamqp version for Mac ARM64
+        env:
+          CFLAGS: "-Wno-error=incompatible-function-pointer-types"
+        condition: and(succeeded(), eq(variables['Agent.OS'], 'Darwin'))
+
+      - task: MicroBuildSigningPlugin@4
+        displayName: Install MicroBuild plugin for Mac and Linux
+        inputs:
+          signType: $(_SignType)
+          zipSources: false
+          feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
+          azureSubscription: 'MicroBuild Signing Task (DevDiv)'
+        env:
+          TeamName: $(_TeamName)
+          MicroBuildOutputFolderOverride: '$(Agent.TempDirectory)'
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          CFLAGS: "-Wno-error=incompatible-function-pointer-types" # Set to avoid build error on MacOS
+        continueOnError: ${{ parameters.continueOnError }}
+        condition: and(succeeded(), eq(variables['_SignType'], 'real'), ne(variables['Agent.Os'], 'Windows_NT'))
+
+      # Workaround for azure cli issue, as described in https://github.com/Azure/azure-cli/issues/30102
+      # May be able to remove this once azure-cli is updated as part of the microbuild plugin install
+      - bash: |
+          pip install --force-reinstall -v "azure-mgmt-rdbms==10.2.0b17"
+        displayName: Force reinstall azure-mgmt-rdbms 10.2.0b17
+        condition: and(succeeded(), eq(variables['Agent.OS'], 'Darwin'))
 
     - task: MicroBuildSigningPlugin@4
-      displayName: Install MicroBuild plugin
+      displayName: Install MicroBuild plugin for Windows
       inputs:
         signType: $(_SignType)
         zipSources: false
         feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
-        ${{ if and(eq(parameters.enableMicrobuildForMacAndLinux, 'true'), ne(variables['Agent.Os'], 'Windows_NT')) }}:
-          azureSubscription: 'MicroBuild Signing Task (DevDiv)'
       env:
         TeamName: $(_TeamName)
         MicroBuildOutputFolderOverride: '$(Agent.TempDirectory)'
         SYSTEM_ACCESSTOKEN: $(System.AccessToken)
       continueOnError: ${{ parameters.continueOnError }}
-      condition: and(
-        succeeded(),
-        or(
-          and(
-            eq(variables['Agent.Os'], 'Windows_NT'),
-            in(variables['_SignType'], 'real', 'test')
-          ),
-          and(
-            ${{ eq(parameters.enableMicrobuildForMacAndLinux, true) }},
-            ne(variables['Agent.Os'], 'Windows_NT'),
-            eq(variables['_SignType'], 'real')
-          )
-        ))
+      condition: and(succeeded(), in(variables['_SignType'], 'real', 'test'), eq(variables['Agent.Os'], 'Windows_NT'))
