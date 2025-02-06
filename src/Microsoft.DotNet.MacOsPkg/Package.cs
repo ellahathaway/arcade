@@ -205,7 +205,7 @@ namespace Microsoft.DotNet.MacOsPkg
         {
             Console.WriteLine($"Verifying signature of {inputPath}");
             string full_path = Path.GetFullPath(inputPath);
-            string output = ExecuteHelper.Run("pkgutil", $"--check-signature {full_path}");
+            string output = ExecuteHelper.Run("pkgutil", $"--check-signature {full_path}", throwOnError: false);
             Console.WriteLine(output);
             if (output.Contains("Status: no signature"))
             {

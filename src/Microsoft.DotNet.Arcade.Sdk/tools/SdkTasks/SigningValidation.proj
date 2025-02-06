@@ -21,11 +21,24 @@
   <PropertyGroup>
     <TargetFramework>$(NetToolCurrent)</TargetFramework>
     <NETCORE_ENGINEERING_TELEMETRY>Build</NETCORE_ENGINEERING_TELEMETRY>
+
+    <!--
+      PkgTool supports both netframework and netcore in the target frameworks because
+      Arcade's Tools.proj 'targets' via net472. This causes a warning when restoring
+      the package, but it does not affect the functionality of the tool for SignCheck's purposes.
+    -->
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.SignCheckTask" Version="$(MicrosoftDotNetSignCheckTaskVersion)" />
+    <PackageReference Include="Microsoft.DotNet.MacOsPkg" Version="$(MicrosoftDotNetMacOsPkgVersion)" Condition="$([MSBuild]::IsOSPlatform('OSX'))" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <!-- .pkgs and .app bundle tooling is only available on MacOS -->
+    <PkgToolPath Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(NuGetPackageRoot)microsoft.dotnet.macospkg\$(MicrosoftDotNetMacOsPkgVersion)\tools\$(NetToolCurrent)\any\Microsoft.Dotnet.MacOsPkg.dll</PkgToolPath>
+  </PropertyGroup>
 
   <Target Name="Execute">
     <PropertyGroup>
@@ -50,7 +63,9 @@
       VerifyStrongName="$(EnableStrongNameCheck)"
       LogFile="$(SignCheckLog)"
       ErrorLogFile="$(SignCheckErrorLog)"
-      ArtifactFolder="$(SignCheckInputDir)"/>
+      ArtifactFolder="$(SignCheckInputDir)"
+      DotNetPath="$(DotNetTool)"
+      PkgToolPath="$(PkgToolPath)"/>
 
     <Error 
       Text="Signing validation failed. Check $(SignCheckErrorLog) for more information." 

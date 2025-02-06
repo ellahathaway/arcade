@@ -28,6 +28,18 @@ namespace SignCheckTask
             set;
         }
 
+        internal string DotNetPath
+        {
+            get;
+            set;
+        }
+
+        internal string PkgToolPath
+        {
+            get;
+            set;
+        }
+
         internal bool LoggedResults
         {
             get;
@@ -181,6 +193,9 @@ namespace SignCheckTask
             {
                 Directory.CreateDirectory(_appData);
             }
+
+            DotNetPath = options.DotNetPath;
+            PkgToolPath = options.PkgToolPath;
         }
 
         private void HandleErrors(IEnumerable<Error> errors)
@@ -389,7 +404,7 @@ namespace SignCheckTask
                 options |= Options.EnableJarSignatureVerification ? SignatureVerificationOptions.VerifyJarSignatures : SignatureVerificationOptions.None;
                 options |= !String.IsNullOrEmpty(Options.ExclusionsOutput) ? SignatureVerificationOptions.GenerateExclusion : SignatureVerificationOptions.None;
 
-                var signatureVerificationManager = new SignatureVerificationManager(Exclusions, Log, options);
+                var signatureVerificationManager = new SignatureVerificationManager(Exclusions, Log, options, DotNetPath, PkgToolPath);
 
                 ResultDetails = Options.Verbosity > LogVerbosity.Normal ? DetailKeys.ResultKeysVerbose : DetailKeys.ResultKeysNormal;
 

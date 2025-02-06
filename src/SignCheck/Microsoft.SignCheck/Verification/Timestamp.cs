@@ -46,6 +46,30 @@ namespace Microsoft.SignCheck.Verification
         {
             get;
             set;
-        }       
+        }
+
+        public Timestamp() { }
+
+        /// <summary>
+        /// Constructor that converts string inputs to DateTime objects.
+        /// </summary>
+        public Timestamp(string effectiveDate, string expiryDate, string signedOn, string signatureAlgorithm)
+        {
+            // DateTime.TryParse returns DateTime.MinValue on failure.
+            EffectiveDate = GetDate(effectiveDate);
+            ExpiryDate = GetDate(expiryDate);
+            SignedOn = GetDate(signedOn);
+            if (SignedOn == DateTime.MinValue)
+            {
+                SignedOn = DateTime.MaxValue;
+            }
+            SignatureAlgorithm = signatureAlgorithm ?? SignCheckResources.NA;
+        }
+
+        private DateTime GetDate(string input)
+        {
+            DateTime.TryParse(input, out DateTime date);
+            return date;
+        }
     }
 }
