@@ -42,6 +42,18 @@ namespace SignCheckTask
             set;
         }
 
+        public string DotNetPath
+        {
+            get;
+            set;
+        }
+
+        public string PkgToolPath
+        {
+            get;
+            set;
+        }
+
         public string ExclusionsOutput
         {
             get;
@@ -130,6 +142,8 @@ namespace SignCheckTask
             options.VerifyStrongName = VerifyStrongName;
             options.LogFile = LogFile;
             options.ErrorLogFile = ErrorLogFile;
+            options.DotNetPath = DotNetPath;
+            options.PkgToolPath = PkgToolPath;
 
             List<string> inputFiles = new List<string>();
             if (InputFiles != null)

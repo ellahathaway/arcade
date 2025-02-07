@@ -9,7 +9,7 @@ namespace Microsoft.DotNet.MacOsPkg
 {
     public static class ExecuteHelper
     {
-        public static string Run(string command, string arguments = "", string workingDirectory = "")
+        public static string Run(string command, string arguments = "", string workingDirectory = "", bool throwOnError = true)
         {
             if (string.IsNullOrEmpty(command))
             {
@@ -25,7 +25,7 @@ namespace Microsoft.DotNet.MacOsPkg
                 process.Start();
                 output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit(60000); // 60 seconds
-                if (process.ExitCode != 0)
+                if (process.ExitCode != 0 && throwOnError)
                 {
                     throw new Exception($"Command '{command} {arguments}' failed with exit code {process.ExitCode}: {process.StandardError.ReadToEnd()}");
                 }

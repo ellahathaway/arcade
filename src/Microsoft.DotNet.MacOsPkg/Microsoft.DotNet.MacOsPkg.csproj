@@ -9,7 +9,6 @@
     <IsPackable>true</IsPackable>
     <Description>The MacOsPkg tool is used for unpacking and packing MacOS .pkg files and nested .app bundles.</Description>
     <PackageTags>Arcade Build Tool MacOS Pkg</PackageTags>
-    <DevelopmentDependency>false</DevelopmentDependency>
   </PropertyGroup>
 
   <ItemGroup>

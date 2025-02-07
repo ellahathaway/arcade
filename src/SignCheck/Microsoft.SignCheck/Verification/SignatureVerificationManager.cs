@@ -82,11 +82,31 @@ namespace Microsoft.SignCheck.Verification
             }
         }
 
-        public SignatureVerificationManager(Exclusions exclusions, Log log, SignatureVerificationOptions options)
+        // <summary>
+        /// The path to the dotnet executable.
+        /// </summary>
+        public static string DotNetPath
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// The path to the pkgutil tool on macOS.
+        /// </summary>
+        public static string PkgToolPath
+        {
+            get;
+            private set;
+        }
+
+        public SignatureVerificationManager(Exclusions exclusions, Log log, SignatureVerificationOptions options, string dotnetPath, string pkgToolPath)
         {
             Exclusions = exclusions;
             Log = log;
             Options = options;
+            DotNetPath = dotnetPath ?? "dotnet";
+            PkgToolPath = pkgToolPath;
 
 #if NETFRAMEWORK
             AddFileVerifier(new CabVerifier(log, exclusions, options, ".cab"));
@@ -102,8 +122,10 @@ namespace Microsoft.SignCheck.Verification
             AddFileVerifier(new AuthentiCodeVerifier(log, exclusions, options, ".ps1"));
             AddFileVerifier(new AuthentiCodeVerifier(log, exclusions, options, ".ps1xml"));
             AddFileVerifier(new VsixVerifier(log, exclusions, options));
+#else
+            AddFileVerifier(new PkgVerifier(log, exclusions, options, ".pkg"));
+            AddFileVerifier(new PkgVerifier(log, exclusions, options, ".app"));
 #endif
-
             AddFileVerifier(new LzmaVerifier(log, exclusions, options));
             AddFileVerifier(new NupkgVerifier(log, exclusions, options));
             AddFileVerifier(new XmlVerifier(log, exclusions, options));

@@ -17,6 +17,22 @@ namespace SignCheckTask
             set;
         }
 
+        [Option('d', "dotnet-path",
+        HelpText = "Path to the dotnet executable.")]
+        public string DotNetPath
+        {
+            get;
+            set;
+        }
+
+        [Option('k', "pkg-tool-path",
+            HelpText = "Path to the pkgutil tool on macOS. This is required to verify .pkg and .app files.")]
+        public string PkgToolPath
+        {
+            get;
+            set;
+        }
+
         [Option('f', "file-status",
             Separator = ',',
             HelpText = "Report the status of a specific set of files. Any combination of the following values are allowed. Values are separated by a ','. 'UnsignedFiles', 'SignedFiles', 'SkippedFiles', 'ExcludedFiles', 'AllFiles'. Default is 'UnsignedFiles'")]
