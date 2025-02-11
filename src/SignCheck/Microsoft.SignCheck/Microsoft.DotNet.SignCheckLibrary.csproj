@@ -41,6 +41,9 @@
     <Compile Remove="Interop\**" />
     <EmbeddedResource Remove="Interop\**" />
 
+    <!-- Project references -->
+    <ProjectReference Include="..\..\Microsoft.DotNet.Build.Tasks.Installers\Microsoft.DotNet.Build.Tasks.Installers.csproj" />
+
     <!-- Unsupported file types -->
     <Compile Remove="Verification\AuthentiCode.cs" />
     <Compile Remove="Verification\AuthentiCodeVerifier.cs" />
@@ -58,6 +61,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != '$(NetToolCurrent)'">
+    <!-- Unsupported file types -->
+    <Compile Remove="Verification\DebVerifier.cs" />
     <Compile Remove="Verification\PkgVerifier.cs" />
   </ItemGroup>
 

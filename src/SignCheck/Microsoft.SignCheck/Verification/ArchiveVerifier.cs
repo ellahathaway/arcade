@@ -115,11 +115,7 @@ namespace Microsoft.SignCheck.Verification
             }
 
             CreateDirectory(Path.GetDirectoryName(aliasFullName));
-            using var fileStream = File.OpenWrite(aliasFullName);
-            if (entry.ContentSize > 0)
-            {
-                entry.Content.CopyTo(fileStream);
-            }
+            File.WriteAllBytes(aliasFullName, ((MemoryStream)entry.Content).ToArray());
             return true;
         }
 

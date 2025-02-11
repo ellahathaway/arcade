@@ -123,6 +123,7 @@ namespace Microsoft.SignCheck.Verification
             AddFileVerifier(new AuthentiCodeVerifier(log, exclusions, options, ".ps1xml"));
             AddFileVerifier(new VsixVerifier(log, exclusions, options));
 #else
+            AddFileVerifier(new DebVerifier(log, exclusions, options));
             AddFileVerifier(new PkgVerifier(log, exclusions, options, ".pkg"));
             AddFileVerifier(new PkgVerifier(log, exclusions, options, ".app"));
 #endif
