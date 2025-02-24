@@ -1,7 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using Microsoft.SignCheck.Interop;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -16,54 +15,35 @@ namespace Microsoft.SignCheck.Verification
 {
     public static class AuthentiCode
     {
-        public static uint IsSigned(string path)
+        // https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/ns-wincrypt-crypt_algorithm_identifier
+        private const string OidRsaCounterSign = "1.2.840.113549.1.9.6";
+        private const string OidRsaSigningTime = "1.2.840.113549.1.9.5";
+        private const string OidRfc3161CounterSign = "1.3.6.1.4.1.311.3.3.1";
+        private const string OidNestedSignature = "1.2.840.113549.1.9.16.2.47";
+        private const string OidTimestampToken = "1.2.840.113549.1.9.16.1.4";
+
+        public static bool IsSigned(string path)
         {
-            WinTrustFileInfo fileInfo = new WinTrustFileInfo()
+            try
             {
-                cbStruct = (uint)Marshal.SizeOf(typeof(WinTrustFileInfo)),
-                pcwszFilePath = Path.GetFullPath(path),
-                hFile = IntPtr.Zero,
-                pgKnownSubject = IntPtr.Zero
-            };
-
-            WinTrustData data = new WinTrustData()
+                if (X509Certificate2.GetCertContentType(path) == X509ContentType.Authenticode)
+                {
+    #pragma warning disable SYSLIB0057
+                    return true;
+    #pragma warning restore SYSLIB0057
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (CryptographicException)
             {
-                cbStruct = (uint)Marshal.SizeOf(typeof(WinTrustData)),
-                dwProvFlags = 0,
-                dwStateAction = Convert.ToUInt32(StateAction.WTD_STATEACTION_IGNORE),
-                dwUIChoice = Convert.ToUInt32(UIChoice.WTD_UI_NONE),
-                dwUIContext = 0,
-                dwUnionChoice = Convert.ToUInt32(UnionChoice.WTD_CHOICE_FILE),
-                fdwRevocationChecks = Convert.ToUInt32(RevocationChecks.WTD_REVOKE_NONE),
-                hWVTStateData = IntPtr.Zero,
-                pFile = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(WinTrustFileInfo))),
-                pPolicyCallbackData = IntPtr.Zero,
-                pSIPClientData = IntPtr.Zero,
-                pwszURLReference = IntPtr.Zero
-            };
-
-            // Potential memory leak. Need to investigate
-            Marshal.StructureToPtr(fileInfo, data.pFile, false);
-
-            IntPtr pGuid = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(Guid)));
-            IntPtr pData = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(WinTrustData)));
-            Marshal.StructureToPtr(data, pData, true);
-            Marshal.StructureToPtr(WinTrust.WINTRUST_ACTION_GENERIC_VERIFY_V2, pGuid, true);
-
-            uint result = WinTrust.WinVerifyTrust(IntPtr.Zero, pGuid, pData);
-
-            Marshal.FreeHGlobal(pGuid);
-            Marshal.FreeHGlobal(pData);
-
-            return result;
+                return false;
+            }
         }
 
-        /// <summary>
-        /// Searches the unsigned attributes in the counter signature for a timestamp token.
-        /// </summary>
-        /// <param name="unsignedAttribute"></param>
-        /// <returns></returns>
-        public static IEnumerable<Timestamp> GetTimestampsFromCounterSignature(AsnEncodedData unsignedAttribute)
+        private static IEnumerable<Timestamp> GetTimestampsFromCounterSignature(AsnEncodedData unsignedAttribute)
         {
             var timestamps = new List<Timestamp>();
             var rfc3161CounterSignature = new Pkcs9AttributeObject(unsignedAttribute);
@@ -72,7 +52,7 @@ namespace Microsoft.SignCheck.Verification
 
             foreach (SignerInfo rfc3161SignerInfo in rfc3161Message.SignerInfos)
             {
-                if (String.Equals(rfc3161Message.ContentInfo.ContentType.Value, WinCrypt.szOID_TIMESTAMP_TOKEN, StringComparison.OrdinalIgnoreCase))
+                if (String.Equals(rfc3161Message.ContentInfo.ContentType.Value, OidTimestampToken, StringComparison.OrdinalIgnoreCase))
                 {
                     var timestampToken = NuGet.Packaging.Signing.TstInfo.Read(rfc3161Message.ContentInfo.Content);
 
@@ -95,51 +75,13 @@ namespace Microsoft.SignCheck.Verification
         {
             if (String.IsNullOrEmpty(path))
             {
-                return null;
+                return Enumerable.Empty<Timestamp>();
             }
 
             var timestamps = new List<Timestamp>();
-            int msgAndCertEncodingType;
-            int msgContentType;
-            int formatType;
-
-            // NULL indicates that information is unneeded
-            IntPtr certStore = IntPtr.Zero;
-            IntPtr msg = IntPtr.Zero;
-            IntPtr context = IntPtr.Zero;
-
-            if (!WinCrypt.CryptQueryObject(
-                WinCrypt.CERT_QUERY_OBJECT_FILE,
-                Marshal.StringToHGlobalUni(path),
-                WinCrypt.CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED | WinCrypt.CERT_QUERY_CONTENT_FLAG_PKCS7_UNSIGNED | WinCrypt.CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED,
-                WinCrypt.CERT_QUERY_FORMAT_FLAG_ALL,
-                0,
-                out msgAndCertEncodingType,
-                out msgContentType,
-                out formatType,
-                ref certStore,
-                ref msg,
-                ref context))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-
-            int cbData = 0;
-
-            // Passing in NULL to pvData retrieves the size of the encoded message
-            if (!WinCrypt.CryptMsgGetParam(msg, WinCrypt.CMSG_ENCODED_MESSAGE, 0, IntPtr.Zero, ref cbData))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-
-            byte[] vData = new byte[cbData];
-            if (!WinCrypt.CryptMsgGetParam(msg, WinCrypt.CMSG_ENCODED_MESSAGE, 0, vData, ref cbData))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-
+            byte[] rawData = File.ReadAllBytes(path);
             var signedCms = new SignedCms();
-            signedCms.Decode(vData);
+            signedCms.Decode(rawData);
 
             // Timestamp information can be stored in multiple sections.
             // A single SHA1 stores the timestamp as a counter sign in the unsigned attributes
@@ -150,13 +92,13 @@ namespace Microsoft.SignCheck.Verification
             {
                 foreach (CryptographicAttributeObject unsignedAttribute in signerInfo.UnsignedAttributes)
                 {
-                    if (String.Equals(unsignedAttribute.Oid.Value, WinCrypt.szOID_RSA_counterSign, StringComparison.OrdinalIgnoreCase))
+                    if (String.Equals(unsignedAttribute.Oid.Value, OidRsaCounterSign, StringComparison.OrdinalIgnoreCase))
                     {
                         foreach (SignerInfo counterSign in signerInfo.CounterSignerInfos)
                         {
                             foreach (CryptographicAttributeObject signedAttribute in counterSign.SignedAttributes)
                             {
-                                if (String.Equals(signedAttribute.Oid.Value, WinCrypt.szOID_RSA_signingTime, StringComparison.OrdinalIgnoreCase))
+                                if (String.Equals(signedAttribute.Oid.Value, OidRsaSigningTime, StringComparison.OrdinalIgnoreCase))
                                 {
                                     var st = (Pkcs9SigningTime)signedAttribute.Values[0];
                                     X509Certificate2 cert = counterSign.Certificate;
@@ -174,11 +116,11 @@ namespace Microsoft.SignCheck.Verification
                             }
                         }
                     }
-                    else if (String.Equals(unsignedAttribute.Oid.Value, WinCrypt.szOID_RFC3161_counterSign, StringComparison.OrdinalIgnoreCase))
+                    else if (String.Equals(unsignedAttribute.Oid.Value, OidRfc3161CounterSign, StringComparison.OrdinalIgnoreCase))
                     {
                         timestamps.AddRange(GetTimestampsFromCounterSignature(unsignedAttribute.Values[0]));
                     }
-                    else if (String.Equals(unsignedAttribute.Oid.Value, WinCrypt.szOID_NESTED_SIGNATURE, StringComparison.OrdinalIgnoreCase))
+                    else if (String.Equals(unsignedAttribute.Oid.Value, OidNestedSignature, StringComparison.OrdinalIgnoreCase))
                     {
                         var nestedSignature = new Pkcs9AttributeObject(unsignedAttribute.Values[0]);
                         SignedCms nestedSignatureMessage = new SignedCms();
@@ -188,7 +130,7 @@ namespace Microsoft.SignCheck.Verification
                         {
                             foreach (CryptographicAttributeObject nestedUnsignedAttribute in nestedSignerInfo.UnsignedAttributes)
                             {
-                                if (String.Equals(nestedUnsignedAttribute.Oid.Value, WinCrypt.szOID_RFC3161_counterSign, StringComparison.OrdinalIgnoreCase))
+                                if (String.Equals(nestedUnsignedAttribute.Oid.Value, OidRfc3161CounterSign, StringComparison.OrdinalIgnoreCase))
                                 {
                                     timestamps.AddRange(GetTimestampsFromCounterSignature(nestedUnsignedAttribute.Values[0]));
                                 }
@@ -200,6 +142,5 @@ namespace Microsoft.SignCheck.Verification
 
             return timestamps;
         }
-
     }
 }

@@ -1,7 +1,9 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+#if NETFRAMEWORK
 using Microsoft.SignCheck.Interop.PortableExecutable;
+#endif
 using Microsoft.SignCheck.Logging;
 
 namespace Microsoft.SignCheck.Verification
@@ -11,11 +13,13 @@ namespace Microsoft.SignCheck.Verification
     /// </summary>
     public class PortableExecutableVerifier : AuthentiCodeVerifier
     {
+#if NETFRAMEWORK
         protected PortableExecutableHeader PEHeader
         {
             get;
             private set;
         }
+#endif
 
         public PortableExecutableVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options, string fileExtension) :
             base(log, exclusions, options, fileExtension)
@@ -34,6 +38,7 @@ namespace Microsoft.SignCheck.Verification
         {
             // Defer to the base implementation to check the AuthentiCode signature.
             SignatureVerificationResult svr = base.VerifySignature(path, parent, virtualPath);
+#if NETFRAMEWORK
             PEHeader = new PortableExecutableHeader(svr.FullPath);
 
             if (VerifyStrongNameSignature)
@@ -42,11 +47,15 @@ namespace Microsoft.SignCheck.Verification
             }
 
             svr.IsSigned = svr.IsAuthentiCodeSigned & ((svr.IsStrongNameSigned) || (!VerifyStrongNameSignature) || svr.IsNativeImage);
+#else
+            svr.IsSigned = svr.IsAuthentiCodeSigned;
+#endif
             svr.AddDetail(DetailKeys.File, SignCheckResources.DetailSigned, svr.IsSigned);
 
             return svr;
         }
 
+#if NETFRAMEWORK
         public void VerifyStrongName(SignatureVerificationResult svr, PortableExecutableHeader portableExecutableHeader)
         {
             if (portableExecutableHeader.IsManagedCode)
@@ -84,5 +93,6 @@ namespace Microsoft.SignCheck.Verification
                 svr.IsNativeImage = true;
             }
         }
+#endif
     }
 }

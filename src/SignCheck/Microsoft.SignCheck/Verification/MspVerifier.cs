@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.IO;
+#if NETFRAMEWORK
 using Microsoft.SignCheck.Interop;
+#endif
 using Microsoft.SignCheck.Logging;
 
 namespace Microsoft.SignCheck.Verification
@@ -22,6 +24,7 @@ namespace Microsoft.SignCheck.Verification
 
             if (VerifyRecursive)
             {
+#if NETFRAMEWORK
                 StructuredStorage.OpenAndExtractStorages(path, svr.TempPath);
 
                 foreach (string file in Directory.EnumerateFiles(svr.TempPath))
@@ -30,6 +33,9 @@ namespace Microsoft.SignCheck.Verification
                 }
 
                 DeleteDirectory(svr.TempPath);
+#else
+                Log.WriteMessage(LogVerbosity.Normal, $"Extracting files from {svr.FullPath} is only supported on framework.");
+#endif
             }
 
             return svr;
