@@ -98,8 +98,8 @@ namespace Microsoft.DotNet.SignTool
 
         private Telemetry _telemetry;
 
+        private string _dotNetToolingPath;
         private string _tarToolPath;
-
         private string _pkgToolPath;
         private string _snPath;
 
@@ -115,6 +115,7 @@ namespace Microsoft.DotNet.SignTool
             Dictionary<string, List<SignInfo>> extensionSignInfo,
             Dictionary<string, List<AdditionalCertificateInformation>> additionalCertificateInformation,
             HashSet<string> itemsToSkip3rdPartyCheck,
+            string dotNetToolingPath,
             string tarToolPath,
             string pkgToolPath,
             string snPath,
@@ -145,6 +146,7 @@ namespace Microsoft.DotNet.SignTool
             _wixPacks = _itemsToSign.Where(w => WixPackInfo.IsWixPack(w.FullPath))?.Select(s => new WixPackInfo(s.FullPath)).ToList();
             _hashToCollisionIdMap = new Dictionary<SignedFileContentKey, string>();
             _telemetry = telemetry;
+            _dotNetToolingPath = dotNetToolingPath;
             _tarToolPath = tarToolPath;
             _pkgToolPath = pkgToolPath;
             _snPath = snPath;
@@ -791,7 +793,7 @@ namespace Microsoft.DotNet.SignTool
             {
                 var nestedParts = new Dictionary<string, ZipPart>();
 
-                foreach (var entry in ZipData.ReadEntries(archivePath, _pathToContainerUnpackingDirectory, _tarToolPath, _pkgToolPath))
+                foreach (var entry in ZipData.ReadEntries(archivePath, _pathToContainerUnpackingDirectory, _dotNetToolingPath, _tarToolPath, _pkgToolPath))
                 {
                     using (entry)
                     {

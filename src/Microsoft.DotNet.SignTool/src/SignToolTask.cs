@@ -130,9 +130,17 @@ namespace Microsoft.DotNet.SignTool
         public ITaskItem[] CertificatesSignInfo { get; set; }
 
         /// <summary>
-        /// Path to dotnet executable. Required if <see cref="DryRun"/> is <c>false</c>.
+        /// Path to dotnet executable used for running MicroBuild.
+        /// Must match the version of .NET required by MicroBuild.
+        /// Required if <see cref="DryRun"/> is <c>false</c>.
         /// </summary>
-        public string DotNetPath { get; set; }
+        public string DotNetMicroBuildPath { get; set; }
+
+        /// <summary>
+        /// Path to dotnet executable used for running tooling.
+        /// Required if <see cref="DryRun"/> is <c>false</c>.
+        /// </summary>
+        public string DotNetToolingPath { get; set; }
 
         /// <summary>
         /// Verbosity level for MSBuild.
@@ -215,9 +223,15 @@ namespace Microsoft.DotNet.SignTool
 
             if (!DryRun)
             {
-                if (!File.Exists(DotNetPath))
+                if (!File.Exists(DotNetToolingPath))
                 {
-                    Log.LogError($"DotNet was not found at this path: '{DotNetPath}'.");
+                    Log.LogError($"DotNet for tooling was not found at this path: '{DotNetToolingPath}'.");
+                    return;
+                }
+
+                if (!File.Exists(DotNetMicroBuildPath))
+                {
+                    Log.LogError($"DotNet for MicroBuild was not found at this path: '{DotNetMicroBuildPath}'.");
                     return;
                 }
 
@@ -253,7 +267,21 @@ namespace Microsoft.DotNet.SignTool
 
             if (Log.HasLoggedErrors) return;
 
-            var signToolArgs = new SignToolArgs(TempDir, MicroBuildCorePath, TestSign, DotNetPath, MSBuildVerbosity, LogDir, enclosingDir, SNBinaryPath, Wix3ToolsPath, WixToolsPath, TarToolPath, PkgToolPath, DotNetTimeout);
+            var signToolArgs = new SignToolArgs(
+                TempDir,
+                MicroBuildCorePath,
+                TestSign,
+                DotNetToolingPath,
+                DotNetMicroBuildPath,
+                MSBuildVerbosity,
+                LogDir,
+                enclosingDir,
+                SNBinaryPath,
+                Wix3ToolsPath,
+                WixToolsPath,
+                TarToolPath,
+                PkgToolPath,
+                DotNetTimeout);
             var signTool = DryRun ? new ValidationOnlySignTool(signToolArgs, Log) : (SignTool)new RealSignTool(signToolArgs, Log);
 
             var itemsToSign = ItemsToSign.Select(i => new ItemToSign(i.ItemSpec, i.GetMetadata(SignToolConstants.CollisionPriorityId))).OrderBy(i => i.CollisionPriorityId).ToList();
@@ -269,6 +297,7 @@ namespace Microsoft.DotNet.SignTool
                     extensionSignInfo,
                     dualCertificates,
                     filesToSkip3rdPartyCheck,
+                    dotNetToolingPath: DotNetToolingPath,
                     tarToolPath: TarToolPath,
                     pkgToolPath: PkgToolPath,
                     snPath: SNBinaryPath,

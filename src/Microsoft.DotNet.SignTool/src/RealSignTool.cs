@@ -19,7 +19,7 @@ namespace Microsoft.DotNet.SignTool
     /// </summary>
     internal sealed class RealSignTool : SignTool
     {
-        private readonly string _dotnetPath;
+        private readonly string _dotnetMicroBuildPath;
         private readonly string _logDir;
         private readonly string _msbuildVerbosity;
         private readonly string _snPath;
@@ -39,7 +39,7 @@ namespace Microsoft.DotNet.SignTool
         internal RealSignTool(SignToolArgs args, TaskLoggingHelper log) : base(args, log)
         {
             TestSign = args.TestSign;
-            _dotnetPath = args.DotNetPath;
+            _dotnetMicroBuildPath = args.DotNetMicroBuildPath;
             _msbuildVerbosity = args.MSBuildVerbosity;
             _snPath = args.SNBinaryPath;
             _logDir = args.LogDir;
@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.SignTool
 
         public override bool RunMSBuild(IBuildEngine buildEngine, string projectFilePath, string binLogPath, string logPath, string errorLogPath)
         {
-            if (_dotnetPath == null)
+            if (_dotnetMicroBuildPath == null)
             {
                 return buildEngine.BuildProjectFile(projectFilePath, null, null, null);
             }
@@ -59,7 +59,7 @@ namespace Microsoft.DotNet.SignTool
             {
                 process.StartInfo = new ProcessStartInfo()
                 {
-                    FileName = _dotnetPath,
+                    FileName = _dotnetMicroBuildPath,
                     Arguments = $@"build ""{projectFilePath}"" -v:""{_msbuildVerbosity}"" -bl:""{binLogPath}""",
                     UseShellExecute = false,
                     WorkingDirectory = TempDir,
