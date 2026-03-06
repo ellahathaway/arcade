@@ -36,9 +36,9 @@ namespace Microsoft.SignCheck.Verification
             }
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
-            SignatureVerificationResult svr = VerifyAuthentiCode(path, parent, virtualPath);
+            SignatureVerificationResult svr = VerifyAuthentiCode(context);
 
             if (FinalizeResult)
             {
@@ -50,10 +50,10 @@ namespace Microsoft.SignCheck.Verification
             return svr;
         }
 
-        protected SignatureVerificationResult VerifyAuthentiCode(string path, string parent, string virtualPath)
+        protected SignatureVerificationResult VerifyAuthentiCode(FileVerificationContext context)
         {
-            var svr = new SignatureVerificationResult(path, parent, virtualPath);
-            svr.IsAuthentiCodeSigned = AuthentiCode.IsSigned(path, svr, _securityInfoProvider);
+            var svr = new SignatureVerificationResult(context);
+            svr.IsAuthentiCodeSigned = AuthentiCode.IsSigned(context.Path, svr, _securityInfoProvider);
             svr.IsSigned = svr.IsAuthentiCodeSigned;
 
             // TODO: Should only check if there is a signature, even if it's invalid
@@ -61,7 +61,7 @@ namespace Microsoft.SignCheck.Verification
             {
                 try
                 {
-                    svr.Timestamps = AuthentiCode.GetTimestamps(path, _securityInfoProvider).ToList();
+                    svr.Timestamps = AuthentiCode.GetTimestamps(context.Path, _securityInfoProvider).ToList();
 
                     foreach (Timestamp timestamp in svr.Timestamps)
                     {

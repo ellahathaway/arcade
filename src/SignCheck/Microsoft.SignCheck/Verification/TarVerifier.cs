@@ -20,8 +20,8 @@ namespace Microsoft.SignCheck.Verification
             }
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
-            => VerifyUnsupportedFileType(path, parent, virtualPath);
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
+            => VerifyUnsupportedFileType(context);
 
         protected override IEnumerable<ArchiveEntry> ReadArchiveEntries(string archivePath)
         {

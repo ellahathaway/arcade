@@ -216,6 +216,11 @@ namespace Microsoft.SignCheck.Verification
             AddDetail(DetailKeys.File, Filename);
         }
 
+        public SignatureVerificationResult(FileVerificationContext context)
+            : this(context?.Path, context?.Parent, context?.VirtualPath)
+        {
+        }
+
         /// <summary>
         /// Add detail to the result, classified under the <paramref name="key"/>.
         /// </summary>
@@ -307,6 +312,9 @@ namespace Microsoft.SignCheck.Verification
 
             return signatureVerificationResult;
         }
+
+        public static SignatureVerificationResult UnsupportedFileTypeResult(FileVerificationContext context)
+            => UnsupportedFileTypeResult(context.Path, context.Parent, context.VirtualPath);
 
         /// <summary>
         /// Creates a SignatureVerificationResult for an excluded file type or file extension.

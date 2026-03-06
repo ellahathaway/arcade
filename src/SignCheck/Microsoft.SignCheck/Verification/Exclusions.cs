@@ -79,7 +79,7 @@ namespace Microsoft.SignCheck.Verification
             return _exclusions.Contains(exclusion);
         }
 
-        private bool IsExcluded(string path, string parent, string virtualPath, string containerPath, string exclusionClassification, IEnumerable<Exclusion> exclusions)
+        private bool IsExcluded(FileVerificationContext context, string exclusionClassification, IEnumerable<Exclusion> exclusions)
         {
             foreach (var exclusion in exclusions)
             {
@@ -87,15 +87,15 @@ namespace Microsoft.SignCheck.Verification
                 //    Example: bar.dll;*.zip --> Exclude any occurence of bar.dll that is in a zip file
                 //             bar.dll;foo.zip --> Exclude bar.dll only if it is contained inside foo.zip
                 //             foo.exe;; --> Exclude any occurance of foo.exe and ignore the parent
-                if (IsFileExcluded(exclusion, path, containerPath, virtualPath, exclusionClassification) &&
-                    (!exclusion.HasParentFiles || IsParentExcluded(exclusion, parent, exclusionClassification)))
+                if (IsFileExcluded(exclusion, context, exclusionClassification) &&
+                    (!exclusion.HasParentFiles || IsParentExcluded(exclusion, context.Parent, exclusionClassification)))
                 {
                     return true;
                 }
 
                 // 2. There is no file exclusion, but a parent exclusion matches.
                 //    Example: ;foo.zip; --> Exclude any file in foo.zip. This is similar to using *;foo.zip;
-                if (!exclusion.HasFilePatterns && IsParentExcluded(exclusion, parent, exclusionClassification))
+                if (!exclusion.HasFilePatterns && IsParentExcluded(exclusion, context.Parent, exclusionClassification))
                 {
                     return true;
                 }
@@ -107,45 +107,54 @@ namespace Microsoft.SignCheck.Verification
         /// <summary>
         /// Return true if an exclusion matches the file path, parent file container or the path in the container
         /// </summary>
-        /// <param name="path">The path of the file on disk.</param>
-        /// <param name="parent">The parent (container) of the file.</param>
-        /// <param name="virtualPath">The full path of the parent (container).</param>
-        /// <param name="containerPath">The path of the file in the container. May be null if the file is not embedded in a container.</param>
+        /// <param name="context">The file verification input context.</param>
         /// <returns></returns>
-        public bool IsExcluded(string path, string parent, string virtualPath, string containerPath)
+        public bool IsExcluded(FileVerificationContext context)
         {
             IEnumerable<Exclusion> exclusions = _exclusions.Where(e => !e.Comment.Contains(IgnoreStrongName) && !e.Comment.Contains(DoNotUnpack));
-            return IsExcluded(path, parent, virtualPath, containerPath, General, exclusions);
+            return IsExcluded(context, General, exclusions);
         }
+
+        public bool IsExcluded(string path, string parent, string virtualPath, string containerPath)
+            => IsExcluded(new FileVerificationContext(path, parent, virtualPath, containerPath));
 
         /// <summary>
         /// Returns true if the file pattern matches the file and the exclusion comment contains DO-NOT-SIGN.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        public bool IsDoNotSign(string path, string parent, string virtualPath, string containerPath)
+        public bool IsDoNotSign(FileVerificationContext context)
         {
             // Get all the exclusions with DO-NOT-SIGN markers and check only against those
             IEnumerable<Exclusion> doNotSignExclusions = _exclusions.Where(e => e.Comment.Contains(DoNotSign)).ToArray();
 
-            return (doNotSignExclusions.Count() > 0) && (IsExcluded(path, parent, virtualPath, containerPath, DoNotSign, doNotSignExclusions));
+            return (doNotSignExclusions.Count() > 0) && (IsExcluded(context, DoNotSign, doNotSignExclusions));
         }
 
-        public bool IsIgnoreStrongName(string path, string parent, string virtualPath, string containerPath)
+        public bool IsDoNotSign(string path, string parent, string virtualPath, string containerPath)
+            => IsDoNotSign(new FileVerificationContext(path, parent, virtualPath, containerPath));
+
+        public bool IsIgnoreStrongName(FileVerificationContext context)
         {
             // Get all the exclusions with NO-STRONG-NAME markers and check only against those
             IEnumerable<Exclusion> noStrongNameExclusions = _exclusions.Where(e => e.Comment.Contains(IgnoreStrongName));
 
-            return (noStrongNameExclusions.Count() > 0) && (IsExcluded(path, parent, virtualPath, containerPath, IgnoreStrongName, noStrongNameExclusions));
+            return (noStrongNameExclusions.Count() > 0) && (IsExcluded(context, IgnoreStrongName, noStrongNameExclusions));
         }
 
-        public bool IsDoNotUnpack(string path, string parent, string virtualPath, string containerPath)
+        public bool IsIgnoreStrongName(string path, string parent, string virtualPath, string containerPath)
+            => IsIgnoreStrongName(new FileVerificationContext(path, parent, virtualPath, containerPath));
+
+        public bool IsDoNotUnpack(FileVerificationContext context)
         {
             // Get all the exclusions with DO-NOT-UNPACK markers and check only against those
             IEnumerable<Exclusion> doNotUnpackExclusions = _exclusions.Where(e => e.Comment.Contains(DoNotUnpack));
 
-            return (doNotUnpackExclusions.Count() > 0) && (IsExcluded(path, parent, virtualPath, containerPath, DoNotUnpack, doNotUnpackExclusions));
+            return (doNotUnpackExclusions.Count() > 0) && (IsExcluded(context, DoNotUnpack, doNotUnpackExclusions));
         }
+
+        public bool IsDoNotUnpack(string path, string parent, string virtualPath, string containerPath)
+            => IsDoNotUnpack(new FileVerificationContext(path, parent, virtualPath, containerPath));
 
         /// <summary>
         /// Returns true if any <see cref="Exclusion.FilePatterns"/> matches the value of
@@ -155,9 +164,17 @@ namespace Microsoft.SignCheck.Verification
         /// <param name="containerPath">The value to match against <see cref="Exclusion.FilePatterns"/>.</param>
         /// <param name="virtualPath">The value to match against <see cref="Exclusion.FilePatterns"/>.</param>
         /// <returns></returns>
-        public bool IsFileExcluded(Exclusion exclusion, string path, string containerPath, string virtualPath, string exclusionsClassification)
+        public bool IsFileExcluded(Exclusion exclusion, FileVerificationContext context, string exclusionsClassification)
         {
-            var values = new[] { path, containerPath, virtualPath, Path.GetFileName(path), Path.GetFileName(containerPath), Path.GetFileName(virtualPath) };
+            var values = new[]
+            {
+                context.Path,
+                context.ContainerPath,
+                context.VirtualPath,
+                Path.GetFileName(context.Path),
+                Path.GetFileName(context.ContainerPath),
+                Path.GetFileName(context.VirtualPath)
+            };
 
             if(!exclusion.TryGetIsFileExcluded(exclusionsClassification, values, out bool isExcluded))
             {

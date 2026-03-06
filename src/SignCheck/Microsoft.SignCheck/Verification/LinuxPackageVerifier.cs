@@ -14,8 +14,8 @@ namespace Microsoft.SignCheck.Verification
     {
         protected LinuxPackageVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options, string fileExtension) : base(log, exclusions, options, fileExtension) { }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
-            => VerifySupportedFileType(path, parent, virtualPath);
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
+            => VerifySupportedFileType(context);
 
         /// <summary>
         /// Returns the paths to the signature document and the signable content.

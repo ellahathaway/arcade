@@ -122,23 +122,23 @@ namespace Microsoft.SignCheck.Verification
         /// <summary>
         /// Verify the signatures of a set of files.
         /// </summary>
-        /// <param name="files">A set of files to verify.</param>
+        /// <param name="files">A set of file verification contexts to verify.</param>
         /// <returns>An IEnumerable containing the verification results of each file.</returns>
-        public IEnumerable<SignatureVerificationResult> VerifyFiles(IEnumerable<string> files)
+        public IEnumerable<SignatureVerificationResult> VerifyFiles(IEnumerable<FileVerificationContext> files)
         {
-            foreach (string file in files)
+            foreach (FileVerificationContext file in files)
             {
-                FileVerifier fileVerifier = GetFileVerifier(file);
+                FileVerifier fileVerifier = GetFileVerifier(file.Path);
                 SignatureVerificationResult result;
-                result = fileVerifier.VerifySignature(file, parent: null, virtualPath: Path.GetFileName(file));
+                result = fileVerifier.VerifySignature(file);
 
                 if ((Options & SignatureVerificationOptions.GenerateExclusion) == SignatureVerificationOptions.GenerateExclusion)
                 {
-                    result.ExclusionEntry = String.Join(";", String.Join("|", file, String.Empty), String.Empty, String.Empty);
+                    result.ExclusionEntry = String.Join(";", String.Join("|", file.Path, String.Empty), String.Empty, String.Empty);
                     Log.WriteMessage(LogVerbosity.Diagnostic, SignCheckResources.DiagGenerateExclusion, result.Filename, result.ExclusionEntry);
                 }
 
-                result.IsDoNotSign = Exclusions.IsDoNotSign(file, parent: null, virtualPath: null, containerPath: null);
+                result.IsDoNotSign = Exclusions.IsDoNotSign(file);
 
                 if ((result.IsDoNotSign) && (result.IsSigned))
                 {
@@ -148,7 +148,7 @@ namespace Microsoft.SignCheck.Verification
 
                 if ((!result.IsDoNotSign) && (!result.IsSigned))
                 {
-                    result.IsExcluded = Exclusions.IsExcluded(file, parent: null, virtualPath: null, containerPath: null);
+                    result.IsExcluded = Exclusions.IsExcluded(file);
 
                     if ((result.IsExcluded))
                     {

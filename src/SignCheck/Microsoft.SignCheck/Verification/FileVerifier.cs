@@ -144,29 +144,29 @@ namespace Microsoft.SignCheck.Verification
         /// <summary>
         /// Verifies the signature of a file.
         /// </summary>
-        /// <param name="path">The path of the file to verify</param>
-        /// <param name="parent">The parent file of the file to verify or null if this is a top-level file.</param>
+        /// <param name="context">The file verification input context.</param>
         /// <returns>A SignatureVerificationResult containing detail about the verification result.</returns>
-        public virtual SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public virtual SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
-            return SignatureVerificationResult.UnsupportedFileTypeResult(path, parent, virtualPath);
+            return SignatureVerificationResult.UnsupportedFileTypeResult(context);
         }
+
+        public SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+            => VerifySignature(new FileVerificationContext(path, parent, virtualPath, containerPath: null));
 
         /// <summary>
         /// Verify the signature of a single file.
         /// </summary>
-        /// <param name="path">The path of the file on disk to verify.</param>
-        /// <param name="parent">The name of parent container, e.g. an MSI or VSIX. Can be null when there is no parent container.</param>
-        /// <param name="containerPath">The path of the file in the container. This may differ from the path on disk as containers are flattened. It's
+        /// <param name="context">The file verification input context. This may differ from the path on disk as containers are flattened. It's
         /// primarily intended to help with exclusions and report more readable names.</param>
         /// <returns>The verification result.</returns>
-        public SignatureVerificationResult VerifyFile(string path, string parent, string virtualPath, string containerPath)
+        public SignatureVerificationResult VerifyFile(FileVerificationContext context)
         {
-            Log.WriteMessage(LogVerbosity.Detailed, String.Format(SignCheckResources.ProcessingFile, Path.GetFileName(path), String.IsNullOrEmpty(parent) ? SignCheckResources.NA : parent));
+            Log.WriteMessage(LogVerbosity.Detailed, String.Format(SignCheckResources.ProcessingFile, Path.GetFileName(context.Path), String.IsNullOrEmpty(context.Parent) ? SignCheckResources.NA : context.Parent));
 
-            FileVerifier fileVerifier = GetFileVerifier(path);
-            SignatureVerificationResult svr = fileVerifier.VerifySignature(path, parent, virtualPath);
-            svr.IsDoNotSign = Exclusions.IsDoNotSign(path, parent, virtualPath, containerPath);
+            FileVerifier fileVerifier = GetFileVerifier(context.Path);
+            SignatureVerificationResult svr = fileVerifier.VerifySignature(context);
+            svr.IsDoNotSign = Exclusions.IsDoNotSign(context);
 
             if ((svr.IsDoNotSign) && (svr.IsSigned))
             {
@@ -176,7 +176,7 @@ namespace Microsoft.SignCheck.Verification
 
             if ((!svr.IsDoNotSign) && (!svr.IsSigned))
             {
-                svr.IsExcluded = Exclusions.IsExcluded(path, parent, svr.VirtualPath, containerPath);
+                svr.IsExcluded = Exclusions.IsExcluded(new FileVerificationContext(context.Path, context.Parent, svr.VirtualPath, context.ContainerPath));
 
                 if ((svr.IsExcluded))
                 {
@@ -186,23 +186,26 @@ namespace Microsoft.SignCheck.Verification
 
             if (GenerateExclusion)
             {
-                svr.ExclusionEntry = String.Join(";", String.Join("|", path, containerPath), parent, String.Empty);
+                svr.ExclusionEntry = String.Join(";", String.Join("|", context.Path, context.ContainerPath), context.Parent, String.Empty);
                 Log.WriteMessage(LogVerbosity.Diagnostic, SignCheckResources.DiagGenerateExclusion, svr.Filename, svr.ExclusionEntry);
             }
 
             // Include the full path for top-level files
-            if (String.IsNullOrEmpty(parent))
+            if (String.IsNullOrEmpty(context.Parent))
             {
                 svr.AddDetail(DetailKeys.File, SignCheckResources.DetailFullName, svr.FullPath);
             }
 
-            if (!String.IsNullOrEmpty(virtualPath))
+            if (!String.IsNullOrEmpty(context.VirtualPath))
             {
                 svr.AddDetail(DetailKeys.File, SignCheckResources.DetailVirtualPath, svr.VirtualPath);
             }
 
             return svr;
         }
+
+        public SignatureVerificationResult VerifyFile(string path, string parent, string virtualPath, string containerPath)
+            => VerifyFile(new FileVerificationContext(path, parent, virtualPath, containerPath));
 
         /// <summary>
         /// Create a directory using the specified path.

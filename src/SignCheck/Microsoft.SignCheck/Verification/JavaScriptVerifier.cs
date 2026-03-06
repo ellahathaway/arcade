@@ -15,8 +15,8 @@ namespace Microsoft.SignCheck.Verification
         public JavaScriptVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options)
             : base(log, exclusions, options, ".js", new JavaScriptSecurityInfoProvider() ) { }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
-            => base.VerifySignature(path, parent, virtualPath);
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
+            => base.VerifySignature(context);
 
         public class JavaScriptSecurityInfoProvider : ISecurityInfoProvider
         {

@@ -16,16 +16,16 @@ namespace Microsoft.SignCheck.Verification
 
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
             if (VerifyJarSignatures)
             {
-                var svr = new SignatureVerificationResult(path, parent, virtualPath);
+            var svr = new SignatureVerificationResult(context);
 
                 try
                 {
                     JarError.ClearErrors();
-                    var jarFile = new JarFile(path);
+                    var jarFile = new JarFile(context.Path);
                     svr.IsSigned = jarFile.IsSigned();
 
                     if (!svr.IsSigned && JarError.HasErrors())
@@ -60,7 +60,7 @@ namespace Microsoft.SignCheck.Verification
                 return svr;
             }
 
-            return SignatureVerificationResult.UnsupportedFileTypeResult(path, parent, virtualPath);
+            return SignatureVerificationResult.UnsupportedFileTypeResult(context);
         }
     }
 }

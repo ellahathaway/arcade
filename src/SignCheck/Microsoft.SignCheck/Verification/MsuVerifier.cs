@@ -19,21 +19,21 @@ namespace Microsoft.SignCheck.Verification
 
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
-            SignatureVerificationResult svr = base.VerifySignature(path, parent, virtualPath);
+            SignatureVerificationResult svr = base.VerifySignature(context);
 
             if (VerifyRecursive)
             {
                 // MSU is just a CAB file really
                 Log.WriteMessage(LogVerbosity.Diagnostic, SignCheckResources.DiagExtractingFileContents, svr.TempPath);
-                CabInfo cabInfo = new CabInfo(path);
+                CabInfo cabInfo = new CabInfo(context.Path);
                 cabInfo.Unpack(svr.TempPath);
 
                 foreach (string cabFile in Directory.EnumerateFiles(svr.TempPath))
                 {
                     string cabFileFullName = Path.GetFullPath(cabFile);
-                    SignatureVerificationResult cabEntryResult = VerifyFile(cabFile, svr.Filename, Path.Combine(svr.VirtualPath, cabFile), cabFileFullName);
+                    SignatureVerificationResult cabEntryResult = VerifyFile(new FileVerificationContext(cabFile, svr.Filename, Path.Combine(svr.VirtualPath, cabFile), cabFileFullName));
 
                     // Tag the full path into the result detail
                     cabEntryResult.AddDetail(DetailKeys.File, SignCheckResources.DetailFullName, cabFileFullName);

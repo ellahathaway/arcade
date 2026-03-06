@@ -17,7 +17,7 @@ namespace Microsoft.SignCheck.Verification
     {
         public MachOVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options, string fileExtension) : base(log, exclusions, options, fileExtension) { }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
             try
             {
@@ -26,18 +26,18 @@ namespace Microsoft.SignCheck.Verification
                     throw new PlatformNotSupportedException($"Mach-O signature verification is only supported on macOS.");
                 }
 
-                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                using (FileStream fs = new FileStream(context.Path, FileMode.Open, FileAccess.Read))
                 using (BinaryReader reader = new BinaryReader(fs))
                 {
                     uint magic = reader.ReadUInt32();
                     if (magic != FileHeaders.MachO32 && magic != FileHeaders.MachO64)
                     {
-                        throw new InvalidDataException($"File {path} is not a valid Mach-O file.");
+                        throw new InvalidDataException($"File {context.Path} is not a valid Mach-O file.");
                     }
                 }
 
-                var svr = new SignatureVerificationResult(path, parent, virtualPath);
-                svr.FullPath = path;
+                var svr = new SignatureVerificationResult(context);
+                svr.FullPath = context.Path;
 
                 svr.IsSigned = IsSigned(svr);
 
@@ -46,7 +46,7 @@ namespace Microsoft.SignCheck.Verification
             }
             catch (Exception ex) when (ex is PlatformNotSupportedException || ex is InvalidDataException)
             {
-                var svr = SignatureVerificationResult.UnsupportedFileTypeResult(path, parent, virtualPath);
+                var svr = SignatureVerificationResult.UnsupportedFileTypeResult(context);
                 svr.AddDetail(DetailKeys.File, SignCheckResources.DetailSigned, SignCheckResources.NA);
                 return svr;
             }

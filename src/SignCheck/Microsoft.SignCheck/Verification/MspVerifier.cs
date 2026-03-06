@@ -15,18 +15,18 @@ namespace Microsoft.SignCheck.Verification
 
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
             // Defer to the base class to check the AuthentiCode signature
-            SignatureVerificationResult svr = base.VerifySignature(path, parent, virtualPath);
+            SignatureVerificationResult svr = base.VerifySignature(context);
 
             if (VerifyRecursive)
             {
-                StructuredStorage.OpenAndExtractStorages(path, svr.TempPath);
+                StructuredStorage.OpenAndExtractStorages(context.Path, svr.TempPath);
 
                 foreach (string file in Directory.EnumerateFiles(svr.TempPath))
                 {
-                    svr.NestedResults.Add(VerifyFile(file, svr.Filename, Path.Combine(svr.VirtualPath, file), containerPath: null));
+                    svr.NestedResults.Add(VerifyFile(new FileVerificationContext(file, svr.Filename, Path.Combine(svr.VirtualPath, file), containerPath: null)));
                 }
 
                 DeleteDirectory(svr.TempPath);

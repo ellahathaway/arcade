@@ -21,8 +21,8 @@ namespace Microsoft.SignCheck.Verification
 
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
-            => VerifySupportedFileType(path, parent, virtualPath);
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
+            => VerifySupportedFileType(context);
 
         private bool TryGetTimestamp(PackageDigitalSignature packageSignature, out Timestamp timestamp)
         {

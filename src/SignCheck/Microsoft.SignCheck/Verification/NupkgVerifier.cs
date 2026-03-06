@@ -19,8 +19,8 @@ namespace Microsoft.SignCheck.Verification
 
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath) 
-            => VerifySupportedFileType(path, parent, virtualPath);
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
+            => VerifySupportedFileType(context);
 
         protected override bool IsSigned(string path, SignatureVerificationResult svr)
             => IsSignedAsync(path, svr).GetAwaiter().GetResult();

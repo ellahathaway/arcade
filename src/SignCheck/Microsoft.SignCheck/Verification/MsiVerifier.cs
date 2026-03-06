@@ -18,9 +18,9 @@ namespace Microsoft.SignCheck.Verification
 
         }
 
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
-            SignatureVerificationResult svr = base.VerifySignature(path, parent, virtualPath);
+            SignatureVerificationResult svr = base.VerifySignature(context);
 
             if (VerifyRecursive)
             {
@@ -52,7 +52,7 @@ namespace Microsoft.SignCheck.Verification
 
                         foreach (string key in installPackage.Files.Keys)
                         {
-                            SignatureVerificationResult packageFileResult = VerifyFile(installPackage.Files[key].TargetPath, svr.Filename, Path.Combine(svr.VirtualPath, originalFiles[key]), containerPath: null);
+                            SignatureVerificationResult packageFileResult = VerifyFile(new FileVerificationContext(installPackage.Files[key].TargetPath, svr.Filename, Path.Combine(svr.VirtualPath, originalFiles[key]), containerPath: null));
                             packageFileResult.AddDetail(DetailKeys.File, SignCheckResources.DetailFullName, originalFiles[key]);
                             svr.NestedResults.Add(packageFileResult);
                         }
@@ -80,7 +80,7 @@ namespace Microsoft.SignCheck.Verification
                                     string binaryFile = (string)record["Name"];
                                     string binaryFilePath = Path.Combine(svr.TempPath, binaryFile);
                                     StructuredStorage.SaveStream(record, svr.TempPath);
-                                    SignatureVerificationResult binaryStreamResult = VerifyFile(binaryFilePath, svr.Filename, Path.Combine(svr.VirtualPath, binaryFile), containerPath: null);
+                                    SignatureVerificationResult binaryStreamResult = VerifyFile(new FileVerificationContext(binaryFilePath, svr.Filename, Path.Combine(svr.VirtualPath, binaryFile), containerPath: null));
                                     binaryStreamResult.AddDetail(DetailKeys.Misc, SignCheckResources.FileExtractedFromBinaryTable);
                                     svr.NestedResults.Add(binaryStreamResult);
                                     record.Close();

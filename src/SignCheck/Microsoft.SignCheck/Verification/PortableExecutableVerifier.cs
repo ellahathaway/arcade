@@ -30,20 +30,19 @@ namespace Microsoft.SignCheck.Verification
         /// Verify whether the portable executable contains an AuthentiCode signature and optionally check the
         /// StrongName signature if it is enabled and the file represents a managed code executable.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="parent"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        public override SignatureVerificationResult VerifySignature(string path, string parent, string virtualPath)
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
         {
             // Defer to the base implementation to check the AuthentiCode signature.
-            SignatureVerificationResult svr = base.VerifySignature(path, parent, virtualPath);
+            SignatureVerificationResult svr = base.VerifySignature(context);
             PEHeader = new PortableExecutableHeader(svr.FullPath);
 
             if (VerifyStrongNameSignature)
             {
                 VerifyStrongName(svr);
 
-                svr.IsIgnoreStrongName = Exclusions.IsIgnoreStrongName(Path.GetFileName(svr.VirtualPath), parent, svr.VirtualPath, null);
+                svr.IsIgnoreStrongName = Exclusions.IsIgnoreStrongName(new FileVerificationContext(Path.GetFileName(svr.VirtualPath), context.Parent, svr.VirtualPath, containerPath: null));
                 if (svr.IsIgnoreStrongName)
                 {
                     svr.AddDetail(DetailKeys.StrongName, $"Ignoring strong-name result because file is IGNORE-STRONG-NAME.");

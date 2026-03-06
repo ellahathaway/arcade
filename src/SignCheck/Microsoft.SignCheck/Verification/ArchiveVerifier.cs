@@ -25,14 +25,12 @@ namespace Microsoft.SignCheck.Verification
         /// <summary>
         /// Verifies the signature of a supported file type.
         /// </summary>
-        /// <param name="path">The path of the file to verify.</param>
-        /// <param name="parent">The parent directory of the file.</param>
-        /// <param name="virtualPath">The virtual path of the file.</param>
-        protected SignatureVerificationResult VerifySupportedFileType(string path, string parent, string virtualPath) 
+        /// <param name="context">The file verification input context.</param>
+        protected SignatureVerificationResult VerifySupportedFileType(FileVerificationContext context)
         {
             try
             {
-                SignatureVerificationResult svr = new SignatureVerificationResult(path, parent, virtualPath);
+            SignatureVerificationResult svr = new SignatureVerificationResult(context);
                 string fullPath = svr.FullPath;
 
                 svr.IsSigned = IsSigned(fullPath, svr);
@@ -44,16 +42,16 @@ namespace Microsoft.SignCheck.Verification
             catch (PlatformNotSupportedException)
             {
                 // Verification is not supported on all platforms for all file types
-                return VerifyUnsupportedFileType(path, parent, virtualPath);
+                return VerifyUnsupportedFileType(context);
             }
         }
 
         /// <summary>
         /// Verifies the signature of an unsupported file type.
         /// </summary>
-        protected SignatureVerificationResult VerifyUnsupportedFileType(string path, string parent, string virtualPath)
+        protected SignatureVerificationResult VerifyUnsupportedFileType(FileVerificationContext context)
         {
-            var svr = SignatureVerificationResult.UnsupportedFileTypeResult(path, parent, virtualPath);
+            var svr = SignatureVerificationResult.UnsupportedFileTypeResult(context);
             string fullPath = svr.FullPath;
             svr.AddDetail(DetailKeys.File, SignCheckResources.DetailSigned, SignCheckResources.NA);
 
@@ -79,11 +77,11 @@ namespace Microsoft.SignCheck.Verification
         {
             if (VerifyRecursive)
             {
-                svr.IsDoNotUnpack = Exclusions.IsDoNotUnpack(
+                svr.IsDoNotUnpack = Exclusions.IsDoNotUnpack(new FileVerificationContext(
                     svr.FullPath,
                     Path.GetDirectoryName(svr.FullPath) ?? SignCheckResources.NA,
                     svr.VirtualPath,
-                    svr.VirtualPath);
+                    svr.VirtualPath));
 
                 if (svr.IsDoNotUnpack)
                 {
@@ -102,10 +100,11 @@ namespace Microsoft.SignCheck.Verification
                     {
                         if (archiveEntry.IsEmptyOrInvalid())
                         {
-                            var result = SignatureVerificationResult.UnsupportedFileTypeResult(
+                            var result = SignatureVerificationResult.UnsupportedFileTypeResult(new FileVerificationContext(
                                 archiveEntry.RelativePath,
                                 svr.VirtualPath,
-                                Path.Combine(svr.VirtualPath, archiveEntry.RelativePath));
+                                Path.Combine(svr.VirtualPath, archiveEntry.RelativePath),
+                                containerPath: null));
 
                             result.AddDetail(DetailKeys.Misc, "Empty or invalid archive entry");
                             svr.NestedResults.Add(result);
@@ -129,8 +128,11 @@ namespace Microsoft.SignCheck.Verification
                     // and we need to ensure they are extracted before we verify the MSIs.
                     foreach (string fullName in archiveMap.Keys)
                     {
-                        SignatureVerificationResult result = VerifyFile(archiveMap[fullName], svr.VirtualPath,
-                            Path.Combine(svr.VirtualPath, fullName), fullName);
+                        SignatureVerificationResult result = VerifyFile(new FileVerificationContext(
+                            archiveMap[fullName],
+                            svr.VirtualPath,
+                            Path.Combine(svr.VirtualPath, fullName),
+                            fullName));
 
                         // Tag the full path into the result detail
                         result.AddDetail(DetailKeys.File, SignCheckResources.DetailFullName, fullName);
@@ -142,7 +144,7 @@ namespace Microsoft.SignCheck.Verification
                     // Log the error and return an unsupported file type result
                     // because some archive types are not supported on all platforms
                     string parent = Path.GetDirectoryName(svr.FullPath) ?? SignCheckResources.NA;
-                    svr = SignatureVerificationResult.UnsupportedFileTypeResult(svr.FullPath, parent, svr.VirtualPath);
+                    svr = SignatureVerificationResult.UnsupportedFileTypeResult(new FileVerificationContext(svr.FullPath, parent, svr.VirtualPath, containerPath: null));
                     svr.AddDetail(DetailKeys.File, SignCheckResources.DetailSigned, SignCheckResources.NA);
                 }
                 finally

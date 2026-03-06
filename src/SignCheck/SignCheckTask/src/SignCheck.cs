@@ -20,7 +20,7 @@ namespace SignCheckTask
         // Location where files can be downloaded
         private static readonly string _appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SignCheck");
 
-        internal List<string> _inputFiles;
+        internal List<FileVerificationContext> _inputFiles;
 
         internal Exclusions Exclusions
         {
@@ -40,7 +40,7 @@ namespace SignCheckTask
             set;
         }
 
-        internal IEnumerable<string> InputFiles
+        internal IEnumerable<FileVerificationContext> InputFiles
         {
             get
             {
@@ -194,9 +194,9 @@ namespace SignCheckTask
             HasArgErrors = true;
         }
 
-        private List<string> GetInputFilesFromOptions()
+        private List<FileVerificationContext> GetInputFilesFromOptions()
         {
-            var inputFiles = new List<string>();
+            var inputFiles = new List<FileVerificationContext>();
             var downloadFiles = new List<Uri>();
             if (Options.InputFiles == null)
             {
@@ -209,7 +209,7 @@ namespace SignCheckTask
                 if ((Uri.TryCreate(inputFile, UriKind.Absolute, out uriResult)) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                 {
                     string downloadPath = Path.Combine(_appData, Path.GetFileName(uriResult.LocalPath));
-                    inputFiles.Add(downloadPath);
+                    inputFiles.Add(FileVerificationContext.CreateTopLevel(downloadPath));
                     downloadFiles.Add(uriResult);
                 }
                 else if (inputFile.IndexOfAny(_wildcards) > -1)
@@ -259,7 +259,7 @@ namespace SignCheckTask
                     {
                         foreach (string file in matchedFiles)
                         {
-                            inputFiles.Add(file);
+                            inputFiles.Add(FileVerificationContext.CreateTopLevel(file));
                         }
                     }
                 }
@@ -271,12 +271,12 @@ namespace SignCheckTask
 
                         foreach (string dirFile in Directory.GetFiles(inputFile, "*.*", searchOption))
                         {
-                            inputFiles.Add(dirFile);
+                            inputFiles.Add(FileVerificationContext.CreateTopLevel(dirFile));
                         }
                     }
                     else if (File.Exists(Path.GetFullPath(inputFile)))
                     {
-                        inputFiles.Add(inputFile);
+                        inputFiles.Add(FileVerificationContext.CreateTopLevel(inputFile));
                     }
                     else
                     {
@@ -293,13 +293,16 @@ namespace SignCheckTask
             // Exclude log files in case they are created in the folder being scanned.
             if (!String.IsNullOrEmpty(Options.ErrorLogFile))
             {
-                inputFiles.Remove(Path.GetFullPath(Options.ErrorLogFile));
+                string errorLogPath = Path.GetFullPath(Options.ErrorLogFile);
+                inputFiles.RemoveAll(context => String.Equals(Path.GetFullPath(context.Path), errorLogPath, StringComparison.OrdinalIgnoreCase));
             }
 
             if (!String.IsNullOrEmpty(Options.LogFile))
             {
-                inputFiles.Remove(Path.GetFullPath(Options.LogFile));
+                string logFilePath = Path.GetFullPath(Options.LogFile);
+                inputFiles.RemoveAll(context => String.Equals(Path.GetFullPath(context.Path), logFilePath, StringComparison.OrdinalIgnoreCase));
             }
+
             return inputFiles;
         }
 
