@@ -35,7 +35,7 @@ namespace SignCheckTask
         }
 
         [Option('i', "input-files",
-            HelpText = "A list of files to scan. Wildcards (* and ?) are supported. You can specify groups of files, e.g. C:\\Dir1\\Dir*\\File?.EXE or a URL (http or https).")]
+            HelpText = "A list of files to scan. Wildcards (* and ?) are supported. You can specify groups of files, e.g. C:\\Dir1\\Dir*\\File?.EXE or a URL (http or https). Optionally append '|HasDetachedSignature=true' to mark detached signature inputs.")]
         public IEnumerable<string> InputFiles
         {
             get;

@@ -143,11 +143,14 @@ namespace SignCheckTask
                 ArtifactFolder = ArtifactFolder ?? Environment.CurrentDirectory;
                 SearchOption fileSearchOptions = Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
-                foreach (var checkFile in InputFiles.Select(s => s.ItemSpec).ToArray())
+                foreach (var inputItem in InputFiles)
                 {
+                    string checkFile = inputItem.ItemSpec;
+                    bool hasDetachedSignature = bool.TryParse(inputItem.GetMetadata("HasDetachedSignature"), out bool metadataValue) && metadataValue;
+
                     if (Path.IsPathRooted(checkFile))
                     {
-                        inputFiles.Add(checkFile);
+                        inputFiles.Add(hasDetachedSignature ? $"{checkFile}|HasDetachedSignature=true" : checkFile);
                     }
                     else
                     {
@@ -155,7 +158,7 @@ namespace SignCheckTask
 
                         if(matchedFiles.Length == 1)
                         {
-                            inputFiles.Add(matchedFiles[0]);
+                            inputFiles.Add(hasDetachedSignature ? $"{matchedFiles[0]}|HasDetachedSignature=true" : matchedFiles[0]);
                         }
                         else if(matchedFiles.Length == 0)
                         {

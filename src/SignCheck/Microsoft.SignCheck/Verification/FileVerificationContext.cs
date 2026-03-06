@@ -12,8 +12,9 @@ namespace Microsoft.SignCheck.Verification
         public string Parent { get; }
         public string VirtualPath { get; }
         public string ContainerPath { get; }
+        public bool HasDetachedSignature { get; }
 
-        public FileVerificationContext(string path, string parent, string virtualPath, string containerPath)
+        public FileVerificationContext(string path, string parent, string virtualPath, string containerPath, bool hasDetachedSignature = false)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -24,9 +25,10 @@ namespace Microsoft.SignCheck.Verification
             Parent = parent;
             VirtualPath = virtualPath;
             ContainerPath = containerPath;
+            HasDetachedSignature = hasDetachedSignature;
         }
 
-        public static FileVerificationContext CreateTopLevel(string path)
-            => new FileVerificationContext(path, parent: null, virtualPath: System.IO.Path.GetFileName(path), containerPath: null);
+        public static FileVerificationContext CreateTopLevel(string path, bool hasDetachedSignature = false)
+            => new FileVerificationContext(path, parent: null, virtualPath: System.IO.Path.GetFileName(path), containerPath: null, hasDetachedSignature);
     }
 }

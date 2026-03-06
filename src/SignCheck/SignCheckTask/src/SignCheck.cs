@@ -198,18 +198,40 @@ namespace SignCheckTask
         {
             var inputFiles = new List<FileVerificationContext>();
             var downloadFiles = new List<Uri>();
+
             if (Options.InputFiles == null)
             {
                 return inputFiles;
             }
-            foreach (string inputFile in Options.InputFiles)
+            foreach (string inputValue in Options.InputFiles)
             {
+                bool inputHasDetachedSignature = false;
+                string inputFile = inputValue;
+
+                if (!String.IsNullOrEmpty(inputValue))
+                {
+                    string[] inputParts = inputValue.Split('|');
+                    if (inputParts.Length > 1)
+                    {
+                        inputFile = inputParts[0];
+
+                        foreach (string part in inputParts.Skip(1))
+                        {
+                            string[] metadataPair = part.Split(new[] { '=' }, 2);
+                            if (metadataPair.Length == 2 && String.Equals(metadataPair[0], "HasDetachedSignature", StringComparison.OrdinalIgnoreCase))
+                            {
+                                inputHasDetachedSignature = bool.TryParse(metadataPair[1], out bool hasDetachedSignature) && hasDetachedSignature;
+                            }
+                        }
+                    }
+                }
+
                 Uri uriResult;
 
                 if ((Uri.TryCreate(inputFile, UriKind.Absolute, out uriResult)) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                 {
                     string downloadPath = Path.Combine(_appData, Path.GetFileName(uriResult.LocalPath));
-                    inputFiles.Add(FileVerificationContext.CreateTopLevel(downloadPath));
+                    inputFiles.Add(FileVerificationContext.CreateTopLevel(downloadPath, inputHasDetachedSignature));
                     downloadFiles.Add(uriResult);
                 }
                 else if (inputFile.IndexOfAny(_wildcards) > -1)
@@ -259,7 +281,7 @@ namespace SignCheckTask
                     {
                         foreach (string file in matchedFiles)
                         {
-                            inputFiles.Add(FileVerificationContext.CreateTopLevel(file));
+                            inputFiles.Add(FileVerificationContext.CreateTopLevel(file, inputHasDetachedSignature));
                         }
                     }
                 }
@@ -271,12 +293,12 @@ namespace SignCheckTask
 
                         foreach (string dirFile in Directory.GetFiles(inputFile, "*.*", searchOption))
                         {
-                            inputFiles.Add(FileVerificationContext.CreateTopLevel(dirFile));
+                            inputFiles.Add(FileVerificationContext.CreateTopLevel(dirFile, inputHasDetachedSignature));
                         }
                     }
                     else if (File.Exists(Path.GetFullPath(inputFile)))
                     {
-                        inputFiles.Add(FileVerificationContext.CreateTopLevel(inputFile));
+                        inputFiles.Add(FileVerificationContext.CreateTopLevel(inputFile, inputHasDetachedSignature));
                     }
                     else
                     {
