@@ -33,9 +33,19 @@
       <SignCheckLog Condition="'$(SignCheckLog)' == ''">$(ArtifactsLogDir)\signcheck.log</SignCheckLog>
       <SignCheckErrorLog Condition="'$(SignCheckErrorLog)' == ''">$(ArtifactsLogDir)\signcheck.errors.log</SignCheckErrorLog>
       <SignCheckResultsXmlFile Condition="'$(SignCheckResultsXmlFile)' == ''">$(ArtifactsLogDir)\signcheck.xml</SignCheckResultsXmlFile>
-      <InputFiles Condition="'$(BuildManifestFile)' == ''">$(SignCheckInputDir)</InputFiles>
-      <InputFiles Condition="'$(BuildManifestFile)' != ''">@(ItemsToSign)</InputFiles>
     </PropertyGroup>
+
+    <ItemGroup Condition="'@(ItemsToValidate)' != ''">
+      <InputFiles Include="@(ItemsToValidate)" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(BuildManifestFile)' == '' and '@(InputFiles)' == ''">
+      <InputFiles Include="$(SignCheckInputDir)" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(BuildManifestFile)' != '' and '@(InputFiles)' == ''">
+      <InputFiles Include="@(ItemsToSign)" />
+    </ItemGroup>
 
     <Message Text="Using build manifest file '$(BuildManifestFile)'" Condition="Exists('$(BuildManifestFile)')" />
       <!--
@@ -45,7 +55,7 @@
     <Microsoft.DotNet.SignCheckTask.SignCheckTask 
       Recursive="true"
       FileStatus="UnsignedFiles"
-      InputFiles="$(InputFiles)"
+      InputFiles="@(InputFiles)"
       ExclusionsFile="$(SignCheckExclusionsFile)"
       EnableJarSignatureVerification="$(EnableJarSigningCheck)"
       VerifyStrongName="$(EnableStrongNameCheck)"

@@ -12,7 +12,7 @@ namespace Microsoft.SignCheck.Verification
 {
     public class TarVerifier : ArchiveVerifier
     {
-        public TarVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options, string fileExtension) : base(log, exclusions, options, fileExtension)
+        public TarVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options, string fileExtension) : base(log, exclusions, options, fileExtension, supportsDetachedSignatureVerification: true)
         {
             if (fileExtension != ".tar" && fileExtension != ".gz" && fileExtension != ".tgz")
             {
@@ -21,7 +21,13 @@ namespace Microsoft.SignCheck.Verification
         }
 
         public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
-            => VerifyUnsupportedFileType(context);
+        {
+            if (context.HasDetachedSignature)
+            {
+                return VerifySupportedFileType(context);
+            }
+            return VerifyUnsupportedFileType(context);
+        }
 
         protected override IEnumerable<ArchiveEntry> ReadArchiveEntries(string archivePath)
         {

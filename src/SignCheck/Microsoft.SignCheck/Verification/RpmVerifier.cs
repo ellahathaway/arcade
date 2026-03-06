@@ -11,9 +11,15 @@ using Microsoft.SignCheck.Logging;
 
 namespace Microsoft.SignCheck.Verification
 {
-    public class RpmVerifier : LinuxPackageVerifier
+    public class RpmVerifier : ArchiveVerifier
     {
         public RpmVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options) : base(log, exclusions, options, ".rpm") { }
+
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
+            => VerifySupportedFileType(context);
+
+        protected override bool IsSigned(string path, SignatureVerificationResult svr)
+            => IsDetachedSignatureSigned(path, svr);
 
         protected override IEnumerable<ArchiveEntry> ReadArchiveEntries(string archivePath)
         {

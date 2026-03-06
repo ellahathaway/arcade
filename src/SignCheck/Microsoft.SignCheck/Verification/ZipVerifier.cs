@@ -10,13 +10,20 @@ namespace Microsoft.SignCheck.Verification
 {
     public class ZipVerifier : ArchiveVerifier
     {
-        public ZipVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options, string fileExtension = ".zip") : base(log, exclusions, options, fileExtension)
+        public ZipVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options, string fileExtension = ".zip", bool supportsDetachedSignatureVerification = false)
+            : base(log, exclusions, options, fileExtension, supportsDetachedSignatureVerification)
         {
 
         }
 
         public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
-            => VerifyUnsupportedFileType(context);
+        {
+            if (context.HasDetachedSignature)
+            {
+                return VerifySupportedFileType(context);
+            }
+            return VerifyUnsupportedFileType(context);
+        }
 
         protected override IEnumerable<ArchiveEntry> ReadArchiveEntries(string archivePath)
         {

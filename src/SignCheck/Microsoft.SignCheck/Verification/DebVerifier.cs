@@ -9,9 +9,12 @@ using Microsoft.SignCheck.Logging;
 
 namespace Microsoft.SignCheck.Verification
 {
-    public class DebVerifier : LinuxPackageVerifier
+    public class DebVerifier : ArchiveVerifier
     {
-        public DebVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options) : base(log, exclusions, options, ".deb") { }
+        public DebVerifier(Log log, Exclusions exclusions, SignatureVerificationOptions options) : base(log, exclusions, options, ".deb", supportsDetachedSignatureVerification: true) { }
+
+        public override SignatureVerificationResult VerifySignature(FileVerificationContext context)
+            => VerifySupportedFileType(context);
 
         protected override IEnumerable<ArchiveEntry> ReadArchiveEntries(string archivePath)
             => ReadDebContainerEntries(archivePath, "data.tar");
